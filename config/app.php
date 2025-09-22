@@ -65,20 +65,14 @@ return [
     |
     */
 
-    'timezone' => 'UTC',
-
-    /*
-    |--------------------------------------------------------------------------
-    | Application Locale Configuration
-    |--------------------------------------------------------------------------
-    |
-    | The application locale determines the default locale that will be used
-    | by Laravel's translation / localization methods. This option can be
-    | set to any locale for which you plan to have translation strings.
-    |
-    */
-
-    'locale' => env('APP_LOCALE', 'en'),
+        'timezone' => env('APP_TIMEZONE', 'UTC'),
+    
+        'locale' => env('APP_LOCALE', 'en'),
+    
+        // Custom application settings
+        'logo' => env('APP_LOGO', null), // relative path under storage/public or public
+        'currency' => env('APP_CURRENCY', 'USD'),
+        'date_format' => env('APP_DATE_FORMAT', 'Y-m-d'),
 
     'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
 

@@ -78,6 +78,20 @@
         <span>Users</span>
       </a>
     </li>
++
++    <li class="nav-item">
++      <a class="nav-link collapsed" href="{{ route('settings.index') }}">
++        <i class="bi bi-gear"></i>
++        <span>Settings</span>
++      </a>
++    </li>
++
++    <li class="nav-item">
++      <a class="nav-link collapsed" href="{{ route('profile.index') }}">
++        <i class="bi bi-person-circle"></i>
++        <span>Profile</span>
++      </a>
++    </li>
   </ul>
 </aside>
 <!-- End Sidebar -->
