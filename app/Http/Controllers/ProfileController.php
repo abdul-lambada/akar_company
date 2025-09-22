@@ -5,17 +5,20 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use App\Models\User;
 
 class ProfileController extends Controller
 {
     public function index()
     {
+        /** @var User $user */
         $user = Auth::user();
         return view('profile.index', compact('user'));
     }
 
     public function updateProfile(Request $request)
     {
+        /** @var User $user */
         $user = Auth::user();
         $data = $request->validate([
             'full_name' => 'required|string|max:255',
@@ -39,6 +42,7 @@ class ProfileController extends Controller
 
     public function updatePassword(Request $request)
     {
+        /** @var User $user */
         $user = Auth::user();
         $data = $request->validate([
             'current_password' => 'required|string',
