@@ -24,6 +24,13 @@
       </a>
     </li>
 
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="{{ route('clients.index') }}">
+        <i class="bi bi-people"></i>
+        <span>Clients</span>
+      </a>
+    </li>
+
     <li class="nav-heading">Content</li>
 
     <li class="nav-item">
@@ -56,26 +63,19 @@
       </a>
     </li>
 
-    <li class="nav-heading">Pages</li>
-
     <li class="nav-item">
-      <a class="nav-link collapsed" href="#">
-        <i class="bi bi-person"></i>
-        <span>Profile</span>
+      <a class="nav-link collapsed" href="{{ route('invoices.index') }}">
+        <i class="bi bi-file-earmark-text"></i>
+        <span>Invoices</span>
       </a>
     </li>
 
-    <li class="nav-item">
-      <a class="nav-link collapsed" href="#">
-        <i class="bi bi-question-circle"></i>
-        <span>F.A.Q</span>
-      </a>
-    </li>
+    <li class="nav-heading">Administration</li>
 
     <li class="nav-item">
-      <a class="nav-link collapsed" href="#">
-        <i class="bi bi-envelope"></i>
-        <span>Contact</span>
+      <a class="nav-link collapsed" href="{{ route('users.index') }}">
+        <i class="bi bi-person-gear"></i>
+        <span>Users</span>
       </a>
     </li>
   </ul>

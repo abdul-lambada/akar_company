@@ -7,6 +7,9 @@ use App\Http\Controllers\PortfolioController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\ServiceController;
 use App\Http\Controllers\TestimonialController;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\InvoiceController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -44,5 +47,20 @@ Route::middleware('auth')->group(function () {
     // CRUD Sales
     Route::resource('orders', OrderController::class)->parameters([
         'orders' => 'order'
+    ])->except(['show']);
+
+    // CRM
+    Route::resource('clients', ClientController::class)->parameters([
+        'clients' => 'client'
+    ])->except(['show']);
+
+    // Billing
+    Route::resource('invoices', InvoiceController::class)->parameters([
+        'invoices' => 'invoice'
+    ])->except(['show']);
+
+    // Users management
+    Route::resource('users', UserController::class)->parameters([
+        'users' => 'user'
     ])->except(['show']);
 });
