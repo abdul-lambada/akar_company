@@ -22,7 +22,13 @@ Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
-        return view('dashboard');
+        $todaySalesCount = \App\Models\Order::whereDate('created_at', now()->toDateString())->count();
+        $monthRevenue = \App\Models\Order::whereYear('created_at', now()->year)
+            ->whereMonth('created_at', now()->month)
+            ->sum('total_amount');
+        $yearCustomers = \App\Models\Client::whereYear('created_at', now()->year)->count();
+
+        return view('dashboard', compact('todaySalesCount', 'monthRevenue', 'yearCustomers'));
     })->name('dashboard');
 
     // CRUD Master Data

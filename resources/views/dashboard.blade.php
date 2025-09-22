@@ -24,8 +24,8 @@
               <i class="bi bi-cart"></i>
             </div>
             <div class="ps-3">
-              <h6>145</h6>
-              <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+              <h6>{{ number_format($todaySalesCount ?? 0) }}</h6>
+              <span class="text-muted small pt-2 ps-1">orders created today</span>
             </div>
           </div>
         </div>
@@ -41,8 +41,8 @@
               <i class="bi bi-currency-dollar"></i>
             </div>
             <div class="ps-3">
-              <h6>$3,264</h6>
-              <span class="text-success small pt-1 fw-bold">8%</span> <span class="text-muted small pt-2 ps-1">increase</span>
+              <h6>Rp {{ number_format($monthRevenue ?? 0, 0, ',', '.') }}</h6>
+              <span class="text-muted small pt-2 ps-1">total order amount this month</span>
             </div>
           </div>
         </div>
@@ -58,8 +58,8 @@
               <i class="bi bi-people"></i>
             </div>
             <div class="ps-3">
-              <h6>1,245</h6>
-              <span class="text-danger small pt-1 fw-bold">-2%</span> <span class="text-muted small pt-2 ps-1">decrease</span>
+              <h6>{{ number_format($yearCustomers ?? 0) }}</h6>
+              <span class="text-muted small pt-2 ps-1">new clients registered this year</span>
             </div>
           </div>
         </div>
