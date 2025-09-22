@@ -50,6 +50,7 @@
                   @endif
                 </td>
                 <td class="text-end">
+                  <a href="{{ route('portfolio.show', $project) }}" class="btn btn-sm btn-info">View</a>
                   <a href="{{ route('portfolio.edit', $project) }}" class="btn btn-sm btn-warning">Edit</a>
                   <form action="{{ route('portfolio.destroy', $project) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this project?');">
                     @csrf

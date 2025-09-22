@@ -75,4 +75,10 @@ class PortfolioController extends Controller
         $portfolio->delete();
         return redirect()->route('portfolio.index')->with('success', 'Portfolio deleted successfully.');
     }
+
+    public function show(Portfolio $portfolio)
+    {
+        $portfolio->load(['services', 'testimonials']);
+        return view('portfolio.show', compact('portfolio'));
+    }
 }

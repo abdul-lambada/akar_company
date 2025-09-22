@@ -28,26 +28,26 @@ Route::middleware('auth')->group(function () {
     // CRUD Master Data
     Route::resource('categories', CategoryController::class)->parameters([
         'categories' => 'category'
-    ])->except(['show']);
+    ]);
     Route::resource('services', ServiceController::class)->parameters([
         'services' => 'service'
-    ])->except(['show']);
+    ]);
 
     // CRUD Content
     Route::resource('posts', PostController::class)->parameters([
         'posts' => 'post'
-    ])->except(['show']);
+    ]);
     Route::resource('portfolio', PortfolioController::class)->parameters([
         'portfolio' => 'portfolio'
-    ])->except(['show']);
+    ]);
     Route::resource('testimonials', TestimonialController::class)->parameters([
         'testimonials' => 'testimonial'
-    ])->except(['show']);
+    ]);
 
     // CRUD Sales
     Route::resource('orders', OrderController::class)->parameters([
         'orders' => 'order'
-    ])->except(['show']);
+    ]);
 
     // CRM
     Route::resource('clients', ClientController::class)->parameters([

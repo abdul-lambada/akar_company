@@ -94,4 +94,10 @@ class OrderController extends Controller
         $order->delete();
         return redirect()->route('orders.index')->with('success', 'Order deleted');
     }
+
+    public function show(Order $order)
+    {
+        $order->load(['items.service', 'invoices']);
+        return view('orders.show', compact('order'));
+    }
 }

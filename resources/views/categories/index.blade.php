@@ -39,6 +39,7 @@
                 <td>{{ $cat->category_name }}</td>
                 <td>{{ $cat->slug }}</td>
                 <td>
+                  <a class="btn btn-sm btn-info" href="{{ route('categories.show', $cat) }}"><i class="bi bi-eye"></i></a>
                   <a class="btn btn-sm btn-warning" href="{{ route('categories.edit', $cat) }}"><i class="bi bi-pencil"></i></a>
                   <form action="{{ route('categories.destroy', $cat) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this category?')">
                     @csrf

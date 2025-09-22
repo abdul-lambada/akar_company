@@ -50,6 +50,7 @@
                 <td class="text-end">Rp {{ number_format($o->total_amount ?? 0, 2) }}</td>
                 <td><span class="badge bg-secondary">{{ ucfirst($o->status) }}</span></td>
                 <td class="text-end">
+                  <a href="{{ route('orders.show', $o) }}" class="btn btn-sm btn-info">View</a>
                   <a href="{{ route('orders.edit', $o) }}" class="btn btn-sm btn-warning">Edit</a>
                   <form action="{{ route('orders.destroy', $o) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this order?');">
                     @csrf

@@ -71,4 +71,10 @@ class ServiceController extends Controller
         $service->delete();
         return redirect()->route('services.index')->with('success', 'Service deleted');
     }
+
+    public function show(Service $service)
+    {
+        $service->loadCount(['portfolios']);
+        return view('services.show', compact('service'));
+    }
 }

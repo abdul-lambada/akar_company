@@ -22,6 +22,12 @@ class PostController extends Controller
         return view('posts.create', compact('categories'));
     }
 
+    public function show(Post $post)
+    {
+        $post->load(['user', 'categories']);
+        return view('posts.show', compact('post'));
+    }
+
     public function store(Request $request)
     {
         $data = $request->validate([

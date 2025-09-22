@@ -70,4 +70,11 @@ class CategoryController extends Controller
         $category->delete();
         return redirect()->route('categories.index')->with('success', 'Category deleted');
     }
+
+    public function show(Category $category)
+    {
+        // optionally load posts count
+        $category->loadCount('posts');
+        return view('categories.show', compact('category'));
+    }
 }

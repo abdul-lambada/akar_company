@@ -44,6 +44,7 @@
                 <td>{{ optional($t->portfolio)->project_title }}</td>
                 <td>{{ \Illuminate\Support\Str::limit($t->testimonial_text, 60) }}</td>
                 <td class="text-end">
+                  <a href="{{ route('testimonials.show', $t) }}" class="btn btn-sm btn-info">View</a>
                   <a href="{{ route('testimonials.edit', $t) }}" class="btn btn-sm btn-warning">Edit</a>
                   <form action="{{ route('testimonials.destroy', $t) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this testimonial?');">
                     @csrf

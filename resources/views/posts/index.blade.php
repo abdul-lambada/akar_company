@@ -47,6 +47,7 @@
                   @endforeach
                 </td>
                 <td>
+                  <a class="btn btn-sm btn-info" href="{{ route('posts.show', $post) }}"><i class="bi bi-eye"></i></a>
                   <a class="btn btn-sm btn-warning" href="{{ route('posts.edit', $post) }}"><i class="bi bi-pencil"></i></a>
                   <form action="{{ route('posts.destroy', $post) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this post?')">
                     @csrf

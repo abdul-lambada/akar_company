@@ -55,4 +55,10 @@ class TestimonialController extends Controller
         $testimonial->delete();
         return redirect()->route('testimonials.index')->with('success', 'Testimonial deleted');
     }
+
+    public function show(Testimonial $testimonial)
+    {
+        $testimonial->load('portfolio');
+        return view('testimonials.show', compact('testimonial'));
+    }
 }

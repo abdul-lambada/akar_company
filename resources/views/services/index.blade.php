@@ -44,6 +44,7 @@
                 <td>{{ $service->slug }}</td>
                 <td class="text-end">{{ number_format($service->price, 2) }}</td>
                 <td class="text-end">
+                  <a href="{{ route('services.show', $service) }}" class="btn btn-sm btn-info">View</a>
                   <a href="{{ route('services.edit', $service) }}" class="btn btn-sm btn-warning">Edit</a>
                   <form action="{{ route('services.destroy', $service) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this service?');">
                     @csrf
