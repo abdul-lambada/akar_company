@@ -57,9 +57,11 @@
             <label for="app_logo" class="form-label">App Logo</label>
             <input type="file" name="app_logo" id="app_logo" class="form-control @error('app_logo') is-invalid @enderror" accept="image/*">
             @error('app_logo')<div class="invalid-feedback">{{ $message }}</div>@enderror
-            @if(!empty($settings['app_logo']))
+            @php($appLogo = $settings['app_logo'] ?? null)
+            @php($hasLogo = !empty($appLogo) && \Illuminate\Support\Facades\Storage::disk('public')->exists($appLogo))
+            @if($hasLogo)
               <div class="mt-2">
-                <img src="{{ asset('storage/'.$settings['app_logo']) }}" alt="Logo" style="height:48px">
+                <img src="{{ asset('storage/'.$appLogo) }}" alt="Logo" style="height:48px">
               </div>
             @endif
           </div>

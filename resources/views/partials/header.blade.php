@@ -3,7 +3,8 @@
   <div class="d-flex align-items-center justify-content-between">
     <a href="{{ url('/') }}" class="logo d-flex align-items-center">
       @php($appLogo = config('app.logo'))
-      @if(!empty($appLogo))
+      @php($hasLogo = !empty($appLogo) && \Illuminate\Support\Facades\Storage::disk('public')->exists($appLogo))
+      @if($hasLogo)
         <img src="{{ asset('storage/'.$appLogo) }}" alt="Logo">
       @else
         <img src="{{ asset('NiceAdmin/assets/img/logo.png') }}" alt="Logo">
