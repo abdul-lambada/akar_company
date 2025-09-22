@@ -8,6 +8,54 @@
       </a>
     </li>
 
+    <li class="nav-heading">Master Data</li>
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="{{ route('categories.index') }}">
+        <i class="bi bi-tags"></i>
+        <span>Categories</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="{{ route('services.index') }}">
+        <i class="bi bi-briefcase"></i>
+        <span>Services</span>
+      </a>
+    </li>
+
+    <li class="nav-heading">Content</li>
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="{{ route('posts.index') }}">
+        <i class="bi bi-journal-text"></i>
+        <span>Posts</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="{{ route('portfolio.index') }}">
+        <i class="bi bi-collection"></i>
+        <span>Portfolio</span>
+      </a>
+    </li>
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="{{ route('testimonials.index') }}">
+        <i class="bi bi-chat-quote"></i>
+        <span>Testimonials</span>
+      </a>
+    </li>
+
+    <li class="nav-heading">Sales</li>
+
+    <li class="nav-item">
+      <a class="nav-link collapsed" href="{{ route('orders.index') }}">
+        <i class="bi bi-receipt"></i>
+        <span>Orders</span>
+      </a>
+    </li>
+
     <li class="nav-heading">Pages</li>
 
     <li class="nav-item">
