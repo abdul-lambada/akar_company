@@ -28,4 +28,10 @@ class Testimonial extends Model
     {
         return $this->belongsTo(Portfolio::class, 'project_id', 'project_id');
     }
+
+    // Alias relation agar konsisten dengan penggunaan di controller & view
+    public function portfolio()
+    {
+        return $this->belongsTo(Portfolio::class, 'project_id', 'project_id');
+    }
 }
