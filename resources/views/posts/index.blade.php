@@ -27,17 +27,26 @@
           <thead>
             <tr>
               <th>#</th>
+              <th>Photo</th>
               <th>Title</th>
               <th>Slug</th>
               <th>Author</th>
               <th>Categories</th>
-              <th>Actions</th>
+              <th class="text-end">Actions</th>
             </tr>
           </thead>
           <tbody>
             @forelse($posts as $post)
               <tr>
                 <td>{{ $post->post_id }}</td>
+                <td>
+                  @php $thumb = optional($post->images->first())->image_path; @endphp
+                  @if($thumb)
+                    <img src="{{ asset('storage/'.$thumb) }}" alt="thumb" class="rounded" style="width:64px;height:64px;object-fit:cover;">
+                  @else
+                    <div class="bg-light border rounded d-inline-flex align-items-center justify-content-center" style="width:64px;height:64px;">-</div>
+                  @endif
+                </td>
                 <td>{{ $post->title }}</td>
                 <td>{{ $post->slug }}</td>
                 <td>{{ $post->user->full_name ?? $post->user->username ?? '-' }}</td>
@@ -46,18 +55,17 @@
                     <span class="badge bg-secondary">{{ $cat->category_name }}</span>
                   @endforeach
                 </td>
-                <td>
-                  <a class="btn btn-sm btn-info" href="{{ route('posts.show', $post) }}"><i class="bi bi-eye"></i></a>
-                  <a class="btn btn-sm btn-warning" href="{{ route('posts.edit', $post) }}"><i class="bi bi-pencil"></i></a>
-                  <form action="{{ route('posts.destroy', $post) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this post?')">
-                    @csrf
-                    @method('DELETE')
-                    <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
-                  </form>
+                <td class="text-end">
+                  @include('components.action-buttons', [
+                    'viewUrl' => route('posts.show', $post),
+                    'editUrl' => route('posts.edit', $post),
+                    'deleteUrl' => route('posts.destroy', $post),
+                    'confirm' => 'Delete this post?'
+                  ])
                 </td>
               </tr>
             @empty
-              <tr><td colspan="6" class="text-center">No data</td></tr>
+              <tr><td colspan="7" class="text-center">No data</td></tr>
             @endforelse
           </tbody>
         </table>

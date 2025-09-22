@@ -23,4 +23,10 @@
     </select>
     @error('categories')<div class="invalid-feedback">{{ $message }}</div>@enderror
   </div>
+  <div class="col-12">
+    <label class="form-label">Images (multiple)</label>
+    <input type="file" name="images[]" class="form-control @error('images.*') is-invalid @enderror" accept="image/*" multiple>
+    @error('images')<div class="invalid-feedback">{{ $message }}</div>@enderror
+    @error('images.*')<div class="invalid-feedback">{{ $message }}</div>@enderror
+  </div>
 </div>

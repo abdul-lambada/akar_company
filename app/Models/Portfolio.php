@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\PortfolioImage;
 
 class Portfolio extends Model
 {
@@ -31,5 +32,10 @@ class Portfolio extends Model
     public function testimonials()
     {
         return $this->hasMany(Testimonial::class, 'project_id', 'project_id');
+    }
+
+    public function images()
+    {
+        return $this->hasMany(PortfolioImage::class, 'project_id', 'project_id');
     }
 }

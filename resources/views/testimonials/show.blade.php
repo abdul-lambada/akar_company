@@ -17,14 +17,25 @@
   <div class="card">
     <div class="card-body">
       <h5 class="card-title">Testimonial #{{ $testimonial->testimonial_id }}</h5>
-      <dl class="row mb-0">
-        <dt class="col-sm-3">Client Name</dt>
-        <dd class="col-sm-9">{{ $testimonial->client_name }}</dd>
-        <dt class="col-sm-3">Project</dt>
-        <dd class="col-sm-9">{{ optional($testimonial->portfolio)->project_title ?? '-' }}</dd>
-        <dt class="col-sm-3">Testimonial</dt>
-        <dd class="col-sm-9">{!! nl2br(e($testimonial->testimonial_text)) !!}</dd>
-      </dl>
+      <div class="row">
+        <div class="col-md-3">
+          @if($testimonial->image_path)
+            <img src="{{ asset('storage/'.$testimonial->image_path) }}" alt="{{ $testimonial->client_name }}" class="img-fluid rounded border">
+          @else
+            <div class="text-muted small">No photo</div>
+          @endif
+        </div>
+        <div class="col-md-9">
+          <dl class="row mb-0">
+            <dt class="col-sm-3">Client Name</dt>
+            <dd class="col-sm-9">{{ $testimonial->client_name }}</dd>
+            <dt class="col-sm-3">Project</dt>
+            <dd class="col-sm-9">{{ optional($testimonial->portfolio)->project_title ?? '-' }}</dd>
+            <dt class="col-sm-3">Testimonial</dt>
+            <dd class="col-sm-9">{!! nl2br(e($testimonial->testimonial_text)) !!}</dd>
+          </dl>
+        </div>
+      </div>
       <div class="mt-3">
         <a href="{{ route('testimonials.index') }}" class="btn btn-secondary">Back</a>
         <a href="{{ route('testimonials.edit', $testimonial) }}" class="btn btn-primary">Edit</a>

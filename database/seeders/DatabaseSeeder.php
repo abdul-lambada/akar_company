@@ -12,9 +12,15 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // panggil seeder pengguna default
+        // panggil semua seeder (data Indonesia)
         $this->call([
             UserSeeder::class,
+            CategorySeeder::class,
+            ServiceSeeder::class,
+            ClientSeeder::class,
+            PortfolioSeeder::class,
+            TestimonialSeeder::class,
+            PostSeeder::class,
         ]);
     }
 }

@@ -7,7 +7,7 @@
   <h1>Portfolio</h1>
   <nav>
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
+      <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
       <li class="breadcrumb-item active">Portfolio</li>
     </ol>
   </nav>
@@ -16,20 +16,21 @@
 <section class="section">
   <div class="card">
     <div class="card-body">
-      <div class="d-flex justify-content-between align-items-center mt-3">
-        <h5 class="card-title mb-0">Projects</h5>
-        <a href="{{ route('portfolio.create') }}" class="btn btn-primary">Add Project</a>
+      <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
+        <h5 class="card-title mb-0">List</h5>
+        <a href="{{ route('portfolio.create') }}" class="btn btn-primary"><i class="bi bi-plus"></i> Add Project</a>
       </div>
 
       @if(session('success'))
-        <div class="alert alert-success mt-3">{{ session('success') }}</div>
+        <div class="alert alert-success">{{ session('success') }}</div>
       @endif
 
-      <div class="table-responsive mt-3">
+      <div class="table-responsive">
         <table class="table table-striped">
           <thead>
             <tr>
-              <th>ID</th>
+              <th>#</th>
+              <th>Photo</th>
               <th>Title</th>
               <th>Client</th>
               <th>Services</th>
@@ -40,6 +41,14 @@
             @forelse($projects as $project)
               <tr>
                 <td>{{ $project->project_id }}</td>
+                <td>
+                  @php $thumb = optional($project->images->first())->image_path ?? null; @endphp
+                  @if($thumb)
+                    <img src="{{ asset('storage/'.$thumb) }}" alt="thumb" class="rounded" style="width:64px;height:64px;object-fit:cover;">
+                  @else
+                    <div class="bg-light border rounded d-inline-flex align-items-center justify-content-center" style="width:64px;height:64px;">-</div>
+                  @endif
+                </td>
                 <td>{{ $project->project_title }}</td>
                 <td>{{ $project->client_name }}</td>
                 <td>
@@ -50,27 +59,24 @@
                   @endif
                 </td>
                 <td class="text-end">
-                  <a href="{{ route('portfolio.show', $project) }}" class="btn btn-sm btn-info">View</a>
-                  <a href="{{ route('portfolio.edit', $project) }}" class="btn btn-sm btn-warning">Edit</a>
-                  <form action="{{ route('portfolio.destroy', $project) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this project?');">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                  </form>
+                  @include('components.action-buttons', [
+                    'viewUrl' => route('portfolio.show', $project),
+                    'editUrl' => route('portfolio.edit', $project),
+                    'deleteUrl' => route('portfolio.destroy', $project),
+                    'confirm' => 'Delete this project?'
+                  ])
                 </td>
               </tr>
             @empty
               <tr>
-                <td colspan="5" class="text-center text-muted">No projects yet.</td>
+                <td colspan="6" class="text-center">No data</td>
               </tr>
             @endforelse
           </tbody>
         </table>
       </div>
 
-      <div class="mt-3">
-        {{ $projects->links() }}
-      </div>
+      {{ $projects->links() }}
     </div>
   </div>
 </section>

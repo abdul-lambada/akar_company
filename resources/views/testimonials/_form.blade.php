@@ -19,4 +19,9 @@
     <textarea name="testimonial_text" rows="4" class="form-control @error('testimonial_text') is-invalid @enderror" required>{{ old('testimonial_text', $testimonial->testimonial_text ?? '') }}</textarea>
     @error('testimonial_text')<div class="invalid-feedback">{{ $message }}</div>@enderror
   </div>
+  <div class="col-12">
+    <label class="form-label">Client Photo (single)</label>
+    <input type="file" name="image" class="form-control @error('image') is-invalid @enderror" accept="image/*">
+    @error('image')<div class="invalid-feedback">{{ $message }}</div>@enderror
+  </div>
 </div>

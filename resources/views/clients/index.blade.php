@@ -47,15 +47,14 @@
               <td>{{ $c->whatsapp ?? '-' }}</td>
               <td>{{ $c->address ?? '-' }}</td>
               <td class="text-center">{{ $c->invoices_count ?? '-' }}</td>
-              <td>
-                <a href="{{ route('clients.show', $c) }}" class="btn btn-sm btn-outline-secondary" title="View"><i class="bi bi-eye"></i></a>
-                <a href="{{ route('clients.edit', $c) }}" class="btn btn-sm btn-outline-primary" title="Edit"><i class="bi bi-pencil"></i></a>
-                <form action="{{ route('clients.destroy', $c) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this client?')">
-                  @csrf
-                  @method('DELETE')
-                  <button class="btn btn-sm btn-outline-danger" title="Delete"><i class="bi bi-trash"></i></button>
-                </form>
-              </td>
+              <td class="text-end">
+                  @include('components.action-buttons', [
+                    'viewUrl' => route('portofolio.show', $portofolio),
+                    'editUrl' => route('portofolio.edit', $portofolio),
+                    'deleteUrl' => route('portofolio.destroy', $portofolio),
+                    'confirm' => 'Delete this portofolio?'
+                  ])
+                </td>
             </tr>
             @empty
             <tr>

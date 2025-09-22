@@ -17,7 +17,7 @@
   <div class="card">
     <div class="card-body">
       <h5 class="card-title">Edit Post</h5>
-      <form method="POST" action="{{ route('posts.update', $post) }}">
+      <form method="POST" action="{{ route('posts.update', $post) }}" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         @include('posts._form', ['post' => $post, 'selectedCategories' => $selectedCategories])

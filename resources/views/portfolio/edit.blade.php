@@ -19,7 +19,7 @@
     <div class="card-body">
       <h5 class="card-title">Edit Project</h5>
 
-      <form action="{{ route('portfolio.update', $portfolio) }}" method="POST" class="row g-3">
+      <form action="{{ route('portfolio.update', $portfolio) }}" method="POST" class="row g-3" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         @include('portfolio._form', ['portfolio' => $portfolio, 'services' => $services, 'selectedServices' => $selectedServices])

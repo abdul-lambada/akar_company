@@ -4,15 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\PostImage;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
     public function index()
     {
-        $posts = Post::with(['user', 'categories'])->orderByDesc('post_id')->paginate(10);
+        $posts = Post::with(['user', 'categories', 'images'])->orderByDesc('post_id')->paginate(10);
         return view('posts.index', compact('posts'));
     }
 
@@ -24,7 +26,7 @@ class PostController extends Controller
 
     public function show(Post $post)
     {
-        $post->load(['user', 'categories']);
+        $post->load(['user', 'categories', 'images']);
         return view('posts.show', compact('post'));
     }
 
@@ -36,6 +38,8 @@ class PostController extends Controller
             'content' => 'required|string',
             'categories' => 'array',
             'categories.*' => 'integer|exists:categories,category_id',
+            'images' => 'nullable|array',
+            'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
         ]);
 
         if (empty($data['slug'])) {
@@ -52,6 +56,17 @@ class PostController extends Controller
 
         if ($request->filled('categories')) {
             $post->categories()->sync($request->input('categories'));
+        }
+
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
+                if (!$file) continue;
+                $path = $file->store('uploads/posts', 'public');
+                PostImage::create([
+                    'post_id' => $post->post_id,
+                    'image_path' => $path,
+                ]);
+            }
         }
 
         return redirect()->route('posts.index')->with('success', 'Post created');
@@ -73,6 +88,8 @@ class PostController extends Controller
             'content' => 'required|string',
             'categories' => 'array',
             'categories.*' => 'integer|exists:categories,category_id',
+            'images' => 'nullable|array',
+            'images.*' => 'nullable|image|mimes:jpg,jpeg,png,webp|max:4096',
         ]);
 
         if (empty($data['slug'])) {
@@ -87,11 +104,31 @@ class PostController extends Controller
         $post->update($data);
         $post->categories()->sync($request->input('categories', []));
 
+        if ($request->hasFile('images')) {
+            foreach ($request->file('images') as $file) {
+                if (!$file) continue;
+                $path = $file->store('uploads/posts', 'public');
+                PostImage::create([
+                    'post_id' => $post->post_id,
+                    'image_path' => $path,
+                ]);
+            }
+        }
+
         return redirect()->route('posts.index')->with('success', 'Post updated');
     }
 
     public function destroy(Post $post)
     {
+        // Hapus file fisik untuk semua gambar terkait, lalu hapus record-nya
+        $post->loadMissing('images');
+        foreach ($post->images as $img) {
+            if (!empty($img->image_path) && Storage::disk('public')->exists($img->image_path)) {
+                Storage::disk('public')->delete($img->image_path);
+            }
+        }
+        $post->images()->delete();
+
         $post->delete();
         return redirect()->route('posts.index')->with('success', 'Post deleted');
     }

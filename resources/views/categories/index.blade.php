@@ -29,7 +29,7 @@
               <th>#</th>
               <th>Name</th>
               <th>Slug</th>
-              <th>Actions</th>
+             <th>Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -39,13 +39,12 @@
                 <td>{{ $cat->category_name }}</td>
                 <td>{{ $cat->slug }}</td>
                 <td>
-                  <a class="btn btn-sm btn-info" href="{{ route('categories.show', $cat) }}"><i class="bi bi-eye"></i></a>
-                  <a class="btn btn-sm btn-warning" href="{{ route('categories.edit', $cat) }}"><i class="bi bi-pencil"></i></a>
-                  <form action="{{ route('categories.destroy', $cat) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this category?')">
-                    @csrf
-                    @method('DELETE')
-                    <button class="btn btn-sm btn-danger"><i class="bi bi-trash"></i></button>
-                  </form>
+                  @include('components.action-buttons', [
+                    'viewUrl' => route('categories.show', $cat),
+                    'editUrl' => route('categories.edit', $cat),
+                    'deleteUrl' => route('categories.destroy', $cat),
+                    'confirm' => 'Delete this category?'
+                  ])
                 </td>
               </tr>
             @empty

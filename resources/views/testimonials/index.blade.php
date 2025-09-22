@@ -7,64 +7,55 @@
   <h1>Testimonials</h1>
   <nav>
     <ol class="breadcrumb">
-      <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Home</a></li>
+      <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
       <li class="breadcrumb-item active">Testimonials</li>
     </ol>
   </nav>
 </div>
-
 <section class="section">
   <div class="card">
     <div class="card-body">
-      <div class="d-flex justify-content-between align-items-center mt-3">
-        <h5 class="card-title mb-0">Testimonials</h5>
-        <a href="{{ route('testimonials.create') }}" class="btn btn-primary">Add Testimonial</a>
+      <div class="d-flex justify-content-between align-items-center mt-3 mb-3">
+        <h5 class="card-title mb-0">List</h5>
+        <a href="{{ route('testimonials.create') }}" class="btn btn-primary"><i class="bi bi-plus"></i> Add Testimonial</a>
       </div>
-
       @if(session('success'))
-        <div class="alert alert-success mt-3">{{ session('success') }}</div>
+        <div class="alert alert-success">{{ session('success') }}</div>
       @endif
-
-      <div class="table-responsive mt-3">
+      <div class="table-responsive">
         <table class="table table-striped">
           <thead>
             <tr>
-              <th>ID</th>
-              <th>Client</th>
-              <th>Project</th>
+              <th>#</th>
+              <th>Name</th>
               <th>Testimonial</th>
+              <th>Project</th>
               <th class="text-end">Actions</th>
             </tr>
           </thead>
           <tbody>
-            @forelse($testimonials as $t)
+            @forelse($testimonials as $testimonial)
               <tr>
-                <td>{{ $t->testimonial_id }}</td>
-                <td>{{ $t->client_name }}</td>
-                <td>{{ optional($t->portfolio)->project_title }}</td>
-                <td>{{ \Illuminate\Support\Str::limit($t->testimonial_text, 60) }}</td>
+                <td>{{ $testimonial->testimonial_id }}</td>
+                <td>{{ $testimonial->client_name }}</td>
+                <td>{{ $testimonial->testimonial_text }}</td>
+                <td>{{ ($testimonial->portfolio)->project_title ?? '-' }}</td>
                 <td class="text-end">
-                  <a href="{{ route('testimonials.show', $t) }}" class="btn btn-sm btn-info">View</a>
-                  <a href="{{ route('testimonials.edit', $t) }}" class="btn btn-sm btn-warning">Edit</a>
-                  <form action="{{ route('testimonials.destroy', $t) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this testimonial?');">
-                    @csrf
-                    @method('DELETE')
-                    <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                  </form>
+                  @include('components.action-buttons', [
+                    'viewUrl' => route('testimonials.show', $testimonial),
+                    'editUrl' => route('testimonials.edit', $testimonial),
+                    'deleteUrl' => route('testimonials.destroy', $testimonial),
+                    'confirm' => 'Delete this testimonial?'
+                  ])
                 </td>
               </tr>
             @empty
-              <tr>
-                <td colspan="5" class="text-center text-muted">No testimonials yet.</td>
-              </tr>
+              <tr><td colspan="5" class="text-center">No data</td></tr>
             @endforelse
           </tbody>
         </table>
       </div>
-
-      <div class="mt-3">
-        {{ $testimonials->links() }}
-      </div>
+      {{ $testimonials->links() }}
     </div>
   </div>
 </section>

@@ -19,7 +19,7 @@
     <div class="card-body">
       <h5 class="card-title">New Project</h5>
 
-      <form action="{{ route('portfolio.store') }}" method="POST" class="row g-3">
+      <form action="{{ route('portfolio.store') }}" method="POST" class="row g-3" enctype="multipart/form-data">
         @include('portfolio._form', ['portfolio' => null, 'services' => $services, 'selectedServices' => []])
         <div class="col-12">
           <a href="{{ route('portfolio.index') }}" class="btn btn-secondary">Cancel</a>

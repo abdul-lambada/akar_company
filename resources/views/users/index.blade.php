@@ -34,7 +34,7 @@
               <th>Username</th>
               <th>Email</th>
               <th>Role</th>
-              <th>Actions</th>
+              <th class="text-end">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -45,14 +45,13 @@
               <td>{{ $usr->username }}</td>
               <td>{{ $usr->email }}</td>
               <td><span class="badge bg-info">{{ $usr->role ?? '-' }}</span></td>
-              <td>
-                <a href="{{ route('users.show', $usr) }}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-eye"></i></a>
-                <a href="{{ route('users.edit', $usr) }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
-                <form action="{{ route('users.destroy', $usr) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this user?')">
-                  @csrf
-                  @method('DELETE')
-                  <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
-                </form>
+              <td class="text-end">
+                <x-action-buttons 
+                  :view-url="route('users.show', $usr)"
+                  :edit-url="route('users.edit', $usr)"
+                  :delete-url="route('users.destroy', $usr)"
+                  confirm="Delete this user?"
+                />
               </td>
             </tr>
             @empty

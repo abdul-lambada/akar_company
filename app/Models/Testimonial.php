@@ -17,6 +17,7 @@ class Testimonial extends Model
         'client_name',
         'testimonial_text',
         'project_id',
+        'image_path',
     ];
 
     public function getRouteKeyName()

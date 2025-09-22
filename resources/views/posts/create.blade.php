@@ -17,7 +17,7 @@
   <div class="card">
     <div class="card-body">
       <h5 class="card-title">Create Post</h5>
-      <form method="POST" action="{{ route('posts.store') }}">
+      <form method="POST" action="{{ route('posts.store') }}" enctype="multipart/form-data">
         @csrf
         @include('posts._form')
         <div class="mt-3">

@@ -35,6 +35,23 @@
         <dt class="col-sm-3">Content</dt>
         <dd class="col-sm-9">{!! nl2br(e($post->content)) !!}</dd>
       </dl>
+
+      <hr>
+      <h6>Images</h6>
+      @if($post->images->isEmpty())
+        <p class="text-muted">No images.</p>
+      @else
+        <div class="row g-2">
+          @foreach($post->images as $img)
+            <div class="col-6 col-md-3">
+              <a href="{{ asset('storage/'.$img->image_path) }}" target="_blank">
+                <img src="{{ asset('storage/'.$img->image_path) }}" class="img-fluid rounded" style="aspect-ratio:1/1;object-fit:cover;" alt="image">
+              </a>
+            </div>
+          @endforeach
+        </div>
+      @endif
+
       <div class="mt-3">
         <a href="{{ route('posts.index') }}" class="btn btn-secondary">Back</a>
         <a href="{{ route('posts.edit', $post) }}" class="btn btn-primary">Edit</a>

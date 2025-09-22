@@ -17,7 +17,7 @@
   <div class="card">
     <div class="card-body">
       <h5 class="card-title">Create Testimonial</h5>
-      <form method="POST" action="{{ route('testimonials.store') }}">
+      <form method="POST" action="{{ route('testimonials.store') }}" enctype="multipart/form-data">
         @csrf
         @include('testimonials._form', ['projects' => $projects])
         <div class="mt-3">

@@ -10,6 +10,7 @@
     <input type="text" class="form-control" name="client_name" value="{{ old('client_name', $portfolio->client_name ?? '') }}" required>
     @error('client_name')<div class="text-danger small">{{ $message }}</div>@enderror
   </div>
+  
   <div class="col-12">
     <label class="form-label">Services</label>
     <select class="form-select" name="service_ids[]" multiple size="6">
@@ -20,5 +21,12 @@
       @endforeach
     </select>
     @error('service_ids')<div class="text-danger small">{{ $message }}</div>@enderror
+  </div>
+
+  <div class="col-12">
+    <label class="form-label">Project Images (multiple)</label>
+    <input type="file" name="images[]" class="form-control @error('images.*') is-invalid @enderror" accept="image/*" multiple>
+    @error('images')<div class="text-danger small">{{ $message }}</div>@enderror
+    @error('images.*')<div class="text-danger small">{{ $message }}</div>@enderror
   </div>
 </div>

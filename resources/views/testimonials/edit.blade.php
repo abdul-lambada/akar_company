@@ -17,7 +17,7 @@
   <div class="card">
     <div class="card-body">
       <h5 class="card-title">Edit Testimonial</h5>
-      <form method="POST" action="{{ route('testimonials.update', $testimonial) }}">
+      <form method="POST" action="{{ route('testimonials.update', $testimonial) }}" enctype="multipart/form-data">
         @csrf
         @method('PUT')
         @include('testimonials._form', ['projects' => $projects, 'testimonial' => $testimonial])
