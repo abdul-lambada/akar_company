@@ -23,12 +23,12 @@
       <li class="nav-item dropdown pe-3">
         <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
           <img src="{{ asset('NiceAdmin/assets/img/profile-img.jpg') }}" alt="Profile" class="rounded-circle">
-          <span class="d-none d-md-block dropdown-toggle ps-2">Admin</span>
+          <span class="d-none d-md-block dropdown-toggle ps-2">{{ auth()->check() ? (auth()->user()->full_name ?? auth()->user()->username ?? 'User') : 'Guest' }}</span>
         </a>
         <ul class="dropdown-menu dropdown-menu-end dropdown-menu-arrow profile">
           <li class="dropdown-header">
-            <h6>Admin</h6>
-            <span>Administrator</span>
+            <h6>{{ auth()->check() ? (auth()->user()->full_name ?? auth()->user()->username ?? 'User') : 'Guest' }}</h6>
+            <span>{{ auth()->check() ? (auth()->user()->role ?? 'User') : 'Unauthenticated' }}</span>
           </li>
           <li><hr class="dropdown-divider"></li>
           <li>
@@ -45,12 +45,24 @@
             </a>
           </li>
           <li><hr class="dropdown-divider"></li>
+          @auth
           <li>
-            <a class="dropdown-item d-flex align-items-center" href="#">
-              <i class="bi bi-box-arrow-right"></i>
-              <span>Sign Out</span>
+            <form method="POST" action="{{ route('logout') }}" class="w-100 d-flex align-items-center px-3 py-2">
+              @csrf
+              <button type="submit" class="dropdown-item d-flex align-items-center p-0 border-0 bg-transparent w-100">
+                <i class="bi bi-box-arrow-right me-2"></i>
+                <span>Sign Out</span>
+              </button>
+            </form>
+          </li>
+          @else
+          <li>
+            <a class="dropdown-item d-flex align-items-center" href="{{ route('login') }}">
+              <i class="bi bi-box-arrow-in-right"></i>
+              <span>Sign In</span>
             </a>
           </li>
+          @endauth
         </ul>
       </li>
     </ul>

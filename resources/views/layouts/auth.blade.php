@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>@yield('title', 'Dashboard') - {{ config('app.name', 'Akar Company') }}</title>
+  <title>@yield('title', 'Auth') - {{ config('app.name', 'Akar Company') }}</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
   <link href="{{ asset('NiceAdmin/assets/img/favicon.png') }}" rel="icon">
@@ -21,30 +21,19 @@
   @stack('styles')
 </head>
 <body>
-@include('partials.header')
-
-@if(auth()->check())
-  @include('partials.sidebar')
-@endif
-
-<main id="main" class="main">
   @yield('content')
-</main>
 
-@includeWhen(auth()->check(), 'partials.footer')
+  <a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
 
-<a href="#" class="back-to-top d-flex align-items-center justify-content-center"><i class="bi bi-arrow-up-short"></i></a>
-
-<script src="{{ asset('NiceAdmin/assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
-<script src="{{ asset('NiceAdmin/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
-<script src="{{ asset('NiceAdmin/assets/vendor/chart.js/chart.umd.js') }}"></script>
-<script src="{{ asset('NiceAdmin/assets/vendor/echarts/echarts.min.js') }}"></script>
-<script src="{{ asset('NiceAdmin/assets/vendor/quill/quill.js') }}"></script>
-<script src="{{ asset('NiceAdmin/assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
-<script src="{{ asset('NiceAdmin/assets/vendor/tinymce/tinymce.min.js') }}"></script>
-<script src="{{ asset('NiceAdmin/assets/vendor/php-email-form/validate.js') }}"></script>
-<script src="{{ asset('NiceAdmin/assets/js/main.js') }}"></script>
-
-@stack('scripts')
+  <script src="{{ asset('NiceAdmin/assets/vendor/apexcharts/apexcharts.min.js') }}"></script>
+  <script src="{{ asset('NiceAdmin/assets/vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
+  <script src="{{ asset('NiceAdmin/assets/vendor/chart.js/chart.umd.js') }}"></script>
+  <script src="{{ asset('NiceAdmin/assets/vendor/echarts/echarts.min.js') }}"></script>
+  <script src="{{ asset('NiceAdmin/assets/vendor/quill/quill.js') }}"></script>
+  <script src="{{ asset('NiceAdmin/assets/vendor/simple-datatables/simple-datatables.js') }}"></script>
+  <script src="{{ asset('NiceAdmin/assets/vendor/tinymce/tinymce.min.js') }}"></script>
+  <script src="{{ asset('NiceAdmin/assets/vendor/php-email-form/validate.js') }}"></script>
+  <script src="{{ asset('NiceAdmin/assets/js/main.js') }}"></script>
+  @stack('scripts')
 </body>
 </html>
