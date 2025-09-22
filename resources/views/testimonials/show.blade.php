@@ -21,7 +21,7 @@
         <dt class="col-sm-3">Client Name</dt>
         <dd class="col-sm-9">{{ $testimonial->client_name }}</dd>
         <dt class="col-sm-3">Project</dt>
-        <dd class="col-sm-9">{{ optional($testimonial->project)->project_title ?? '-' }}</dd>
+        <dd class="col-sm-9">{{ optional($testimonial->portfolio)->project_title ?? '-' }}</dd>
         <dt class="col-sm-3">Testimonial</dt>
         <dd class="col-sm-9">{!! nl2br(e($testimonial->testimonial_text)) !!}</dd>
       </dl>

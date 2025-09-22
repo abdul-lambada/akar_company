@@ -9,7 +9,7 @@ class ClientController extends Controller
 {
     public function index()
     {
-        $clients = Client::orderByDesc('client_id')->paginate(10);
+        $clients = Client::withCount('invoices')->orderByDesc('client_id')->paginate(10);
         return view('clients.index', compact('clients'));
     }
 
