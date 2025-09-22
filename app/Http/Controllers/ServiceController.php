@@ -24,6 +24,7 @@ class ServiceController extends Controller
         $data = $request->validate([
             'service_name' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:services,slug',
+            'price' => 'required|numeric|min:0',
         ]);
 
         if (empty($data['slug'])) {
@@ -49,6 +50,7 @@ class ServiceController extends Controller
         $data = $request->validate([
             'service_name' => 'required|string|max:255',
             'slug' => 'nullable|string|max:255|unique:services,slug,'.$service->service_id.',service_id',
+            'price' => 'required|numeric|min:0',
         ]);
 
         if (empty($data['slug'])) {
