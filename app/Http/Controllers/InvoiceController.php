@@ -63,4 +63,10 @@ class InvoiceController extends Controller
         $invoice->delete();
         return redirect()->route('invoices.index')->with('success', 'Invoice deleted');
     }
+
+    public function show(Invoice $invoice)
+    {
+        $invoice->load(['client','order']);
+        return view('invoices.show', compact('invoice'));
+    }
 }

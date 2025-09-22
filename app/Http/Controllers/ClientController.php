@@ -54,4 +54,10 @@ class ClientController extends Controller
         $client->delete();
         return redirect()->route('clients.index')->with('success', 'Client deleted');
     }
+
+    public function show(Client $client)
+    {
+        $client->load('invoices');
+        return view('clients.show', compact('client'));
+    }
 }

@@ -52,15 +52,15 @@ Route::middleware('auth')->group(function () {
     // CRM
     Route::resource('clients', ClientController::class)->parameters([
         'clients' => 'client'
-    ])->except(['show']);
+    ]);
 
     // Billing
     Route::resource('invoices', InvoiceController::class)->parameters([
         'invoices' => 'invoice'
-    ])->except(['show']);
+    ]);
 
     // Users management
     Route::resource('users', UserController::class)->parameters([
         'users' => 'user'
-    ])->except(['show']);
+    ]);
 });

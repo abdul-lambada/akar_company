@@ -54,4 +54,9 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    public function getRouteKeyName()
+    {
+        return 'user_id';
+    }
 }

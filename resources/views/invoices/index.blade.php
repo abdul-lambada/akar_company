@@ -52,6 +52,7 @@
               </td>
               <td class="text-end">{{ number_format($inv->total_amount,2,',','.') }}</td>
               <td>
+                <a href="{{ route('invoices.show', $inv) }}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-eye"></i></a>
                 <a href="{{ route('invoices.edit', $inv) }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
                 <form action="{{ route('invoices.destroy', $inv) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this invoice?')">
                   @csrf

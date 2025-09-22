@@ -46,6 +46,7 @@
               <td>{{ $usr->email }}</td>
               <td><span class="badge bg-info">{{ $usr->role ?? '-' }}</span></td>
               <td>
+                <a href="{{ route('users.show', $usr) }}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-eye"></i></a>
                 <a href="{{ route('users.edit', $usr) }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
                 <form action="{{ route('users.destroy', $usr) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this user?')">
                   @csrf
