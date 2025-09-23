@@ -28,9 +28,9 @@
           @foreach($projects as $project)
           @php
             $cover = optional($project->images->first())->image_path;
-            $cats = $project->services->pluck('slug')->map(fn($s) => 'filter-' . $s)->implode(' ');
-          @endphp
-          <div class="col-xl-4 col-md-6 portfolio-item isotope-item {{ $cats }}">
+             $cats = $project->services->pluck('slug')->map(fn($s) => 'filter-' . $s)->implode(' ');
+           @endphp
+           <div class="col-xl-4 col-md-6 portfolio-item isotope-item {{ $cats }}">
             <div class="portfolio-content h-100">
               <a href="{{ route('public.portfolio-details', $project->getKey()) }}" class="d-block">
                 <img src="{{ $cover ? asset('storage/'.$cover) : asset('Strategy/assets/img/portfolio/portfolio-1.jpg') }}" class="img-fluid" alt="{{ $project->project_title }}">
@@ -43,8 +43,9 @@
                 @endif
               </div>
             </div>
-          </div>
-          @endforeach
+            <x-portfolio-card :project="$project" :gallery="'portfolio-grid'" />
+           </div>
+           @endforeach
         </div>
       </div>
 

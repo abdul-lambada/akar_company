@@ -50,8 +50,8 @@
       <nav id="navmenu" class="navmenu">
         <ul>
           <li><a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">Home</a></li>
-          <li><a href="{{ route('public.services') }}" class="{{ request()->routeIs('public.services') ? 'active' : '' }}">Services</a></li>
-          <li><a href="{{ route('public.portfolio') }}" class="{{ request()->routeIs('public.portfolio') ? 'active' : '' }}">Portfolio</a></li>
+          <li><a href="{{ route('public.services') }}" class="{{ request()->routeIs('public.services') || request()->routeIs('public.service-details') ? 'active' : '' }}">Services</a></li>
+          <li><a href="{{ route('public.portfolio') }}" class="{{ request()->routeIs('public.portfolio') || request()->routeIs('public.portfolio-details') ? 'active' : '' }}">Portfolio</a></li>
           <li><a href="{{ route('public.contact') }}" class="{{ request()->routeIs('public.contact') ? 'active' : '' }}">Contact</a></li>
           <li>
             <a class="btn btn-sm btn-success ms-lg-3" target="_blank" href="https://wa.me/{{ preg_replace('/\D/', '', config('app.company_whatsapp', '')) }}">

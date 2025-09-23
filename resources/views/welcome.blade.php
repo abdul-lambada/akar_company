@@ -50,15 +50,7 @@
       <div class="row gy-4">
         @foreach($services as $service)
         <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
-          <div class="service-item position-relative">
-            <div class="icon">
-              <i class="bi bi-stack"></i>
-            </div>
-            <a href="{{ route('public.service-details', $service->slug) }}" class="stretched-link">
-              <h3>{{ $service->service_name }}</h3>
-            </a>
-            <p>Mulai dari Rp {{ number_format($service->price ?? 0, 0, ',', '.') }}</p>
-          </div>
+          <x-service-card :service="$service" />
         </div>
         @endforeach
       </div>
@@ -75,19 +67,7 @@
       <div class="row gy-4 portfolio-container" data-aos="fade-up" data-aos-delay="200">
         @foreach($projects as $project)
         <div class="col-xl-4 col-md-6 portfolio-item">
-          <div class="portfolio-content h-100">
-            @php $cover = optional($project->images->first())->image_path; @endphp
-            <a href="{{ route('public.portfolio-details', $project->getKey()) }}">
-              <img src="{{ $cover ? asset('storage/'.$cover) : asset('Strategy/assets/img/portfolio/portfolio-1.jpg') }}" class="img-fluid" alt="">
-            </a>
-            <div class="portfolio-info">
-              <h4>{{ $project->project_title }}</h4>
-              <p>Client: {{ $project->client_name }}</p>
-              @if($cover)
-                <a href="{{ asset('storage/'.$cover) }}" title="{{ $project->project_title }}" data-gallery="portfolio-gallery" class="glightbox preview-link"><i class="bi bi-zoom-in"></i></a>
-              @endif
-            </div>
-          </div>
+          <x-portfolio-card :project="$project" :gallery="'portfolio-gallery'" />
         </div>
         @endforeach
       </div>
