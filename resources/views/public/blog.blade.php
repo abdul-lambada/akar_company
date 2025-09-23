@@ -1,47 +1,65 @@
 @extends('layouts.public')
 
 @section('title', 'Blog')
-@section('meta_description', 'Blog ' . config('app.name') . ' — artikel, berita, dan insight seputar desain, teknologi, dan pengembangan produk.')
 
 @section('content')
-<section class="section-gap wow fadeInUp" id="blog">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-8">
-        <div class="product-area-title text-center">
-          <p class="text-uppercase">Artikel</p>
-          <h2 class="h1">Blog</h2>
+    <!-- Page Header -->
+    <section class="page-header d-flex align-items-center" style="background:url('{{ asset('public_template/img/header-bg.jpg') }}') center/cover no-repeat; min-height:300px">
+        <div class="container text-center">
+            <h1 class="display-4 fw-bold text-white">Blog & Insights</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-center mb-0">
+                    <li class="breadcrumb-item"><a href="{{ url('/') }}" class="text-white-50">Home</a></li>
+                    <li class="breadcrumb-item active text-white" aria-current="page">Blog</li>
+                </ol>
+            </nav>
         </div>
-      </div>
-    </div>
-    <div class="row">
-      @forelse($posts as $post)
-        @php
-          $thumb = optional($post->images->first())->image_path;
-          $img = $thumb ? asset('storage/'.$thumb) : asset('public_template/img/s2.jpg');
-        @endphp
-        <div class="col-lg-4 col-md-6">
-          <div class="single-blog border rounded h-100 d-flex flex-column overflow-hidden">
-            <a href="{{ route('public.blog-detail', $post->slug) }}" class="d-block">
-              <img src="{{ $img }}" class="img-fluid w-100" alt="{{ $post->title }}">
-            </a>
-            <div class="p-3 d-flex flex-column flex-grow-1">
-              <h5 class="mb-1"><a href="{{ route('public.blog-detail', $post->slug) }}" class="text-dark">{{ $post->title }}</a></h5>
-              <p class="small text-muted mb-2">oleh {{ optional($post->user)->name ?? 'Admin' }} · {{ $post->created_at?->format('d M Y') }}</p>
-              <p class="text-muted flex-grow-1">{{ \Illuminate\Support\Str::limit(strip_tags($post->content), 120) }}</p>
-              <div class="mt-2">
-                <a href="{{ route('public.blog-detail', $post->slug) }}" class="primary-btn d-inline-flex align-items-center">Baca Selengkapnya <span class="lnr lnr-arrow-right ml-2"></span></a>
-              </div>
+    </section>
+
+    <!-- Blog Posts -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row mb-5 justify-content-center">
+                <div class="col-lg-8 text-center">
+                    <h2 class="fw-bold">Latest Articles</h2>
+                    <p class="text-muted">Stay updated with our latest news, tips, and insights.</p>
+                </div>
             </div>
-          </div>
+            <div class="row g-4">
+                @forelse($posts as $post)
+                    <div class="col-md-6 col-lg-4">
+                        <div class="card h-100 shadow-sm border-0 blog-card">
+                            <div class="ratio ratio-4x3">
+                                <img src="{{ $post->cover_image ? asset('storage/'.$post->cover_image) : asset('public_template/img/blog-placeholder.jpg') }}" class="img-fluid object-fit-cover" alt="{{ $post->title }} cover">
+                            </div>
+                            <div class="card-body d-flex flex-column">
+                                <span class="badge bg-primary mb-2">{{ $post->category->name ?? 'General' }}</span>
+                                <h5 class="card-title fw-semibold">{{ $post->title }}</h5>
+                                <p class="card-text text-muted small mb-2">{{ $post->published_at->format('M d, Y') }}</p>
+                                <p class="card-text flex-grow-1">{{ Str::limit($post->excerpt, 100) }}</p>
+                                <a href="{{ route('blog.show', $post->slug) }}" class="mt-3 text-decoration-none fw-semibold">Read More &rarr;</a>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-12 text-center">
+                        <p class="text-muted">No posts found.</p>
+                    </div>
+                @endforelse
+            </div>
+
+            @if($posts instanceof \Illuminate\Pagination\LengthAwarePaginator)
+                <div class="d-flex justify-content-center mt-5">
+                    {{ $posts->links() }}
+                </div>
+            @endif
         </div>
-      @empty
-        <div class="col-12"><p class="text-center">Belum ada artikel.</p></div>
-      @endforelse
-    </div>
-    <div class="d-flex justify-content-center mt-4">
-      {{ $posts->links() }}
-    </div>
-  </div>
-</section>
+    </section>
 @endsection
+
+@push('styles')
+<style>
+    .blog-card img {transition: transform .3s ease;}
+    .blog-card:hover img {transform: scale(1.05);}    
+</style>
+@endpush

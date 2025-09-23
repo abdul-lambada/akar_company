@@ -1,69 +1,70 @@
 @extends('layouts.public')
 
-@section('title', 'About')
-@section('meta_description', 'Tentang ' . config('app.name') . ' — tim, visi, dan nilai yang mendorong kami dalam membantu klien.')
+@section('title', 'Tentang Kami - '.config('app.name'))
 
 @section('content')
-<section class="about-area section-gap wow fadeInUp" id="about">
-  <div class="container">
-    <div class="row align-items-center">
-      <div class="col-lg-6">
-        <img class="img-fluid" src="{{ asset('public_template/img/about.jpg') }}" alt="About">
-      </div>
-      <div class="col-lg-6">
-        <h3>{{ config('app.about_heading', 'About Us') }}</h3>
-        <p>{{ config('app.about_description', 'Kami adalah tim profesional yang berfokus pada solusi digital end-to-end.') }}</p>
-        <div class="row mt-4">
-          <div class="col-4 text-center">
-            <h2>{{ $counters['years'] }}</h2>
-            <p>Years</p>
-          </div>
-          <div class="col-4 text-center">
-            <h2>{{ $counters['projects'] }}</h2>
-            <p>Projects</p>
-          </div>
-          <div class="col-4 text-center">
-            <h2>{{ $counters['clients'] }}</h2>
-            <p>Clients</p>
-          </div>
+  <!-- Page Header -->
+  <section class="banner-area relative small-banner">
+    <div class="overlay overlay-bg"></div>
+    <div class="container">
+      <div class="row d-flex align-items-center justify-content-center">
+        <div class="about-content col-lg-12">
+          <h1 class="text-white">Tentang Kami</h1>
+          <p class="text-white link-nav"><a href="/">Beranda </a>  <span class="lnr lnr-arrow-right"></span>  <a href="#"> Tentang Kami</a></p>
         </div>
       </div>
     </div>
+  </section>
+  <!-- /Page Header -->
 
-    <div class="row wow fadeInUp">
-      <div class="col-12">
-        <h4 class="mb-2">{{ config('app.clients_heading', 'Our Clients') }}</h4>
-      </div>
-      @forelse($clients as $client)
-        <div class="col-6 col-md-3">
-          <div class="p-3 border rounded h-100 d-flex align-items-center justify-content-center text-center">
-            <div>
-              <div class="fw-bold">{{ $client->client_name }}</div>
-              @if($client->email)<div class="text-muted small">{{ $client->email }}</div>@endif
-            </div>
-          </div>
+  <!-- About Details -->
+  <section class="section-full gray-bg" id="about-details">
+    <div class="container">
+      <div class="row align-items-center">
+        <div class="col-lg-6 mb-4 mb-lg-0">
+          <img class="img-fluid rounded shadow" src="{{ asset('public_template/img/about-img.jpg') }}" alt="About image" loading="lazy">
         </div>
-      @empty
-        <div class="col-12"><p class="text-muted">Belum ada data klien.</p></div>
-      @endforelse
+        <div class="col-lg-6">
+          <h2 class="mb-4">Kami Menciptakan Pengalaman Digital yang Menginspirasi</h2>
+          <p>{{ config('app.name') }} merupakan agensi digital yang berfokus pada strategi, desain, dan teknologi untuk membantu merek bertumbuh.
+          Kami percaya bahwa setiap ide hebat membutuhkan eksekusi sempurna untuk memberikan dampak maksimal.</p>
+          <ul class="list mt-4">
+            <li><span class="lnr lnr-checkmark-circle"></span> Tim ahli multidisiplin dengan pengalaman luas.</li>
+            <li><span class="lnr lnr-checkmark-circle"></span> Pendekatan kolaboratif dan berorientasi hasil.</li>
+            <li><span class="lnr lnr-checkmark-circle"></span> Teknologi mutakhir & praktik terbaik industri.</li>
+          </ul>
+        </div>
+      </div>
     </div>
+  </section>
+  <!-- /About Details -->
 
-    <div class="row wow fadeInUp" id="team">
-      <div class="col-12">
-        <h4 class="mb-2">{{ config('app.team_heading', 'Team') }}</h4>
+  <!-- Mission & Vision -->
+  <section class="section-full" id="mission-vision">
+    <div class="container">
+      <div class="row text-center mb-5">
+        <div class="col-lg-8 mx-auto">
+          <h2>Visi & Misi</h2>
+          <p>Kami hadir untuk mendorong kesuksesan bisnis melalui solusi digital inovatif.</p>
+        </div>
       </div>
-      @forelse($team as $member)
-        <div class="col-6 col-md-4 col-lg-3">
-          <div class="p-3 border rounded h-100 text-center">
-            <img src="{{ $member->avatar ? asset('storage/'.$member->avatar) : asset('NiceAdmin/assets/img/profile-img.jpg') }}" alt="{{ $member->full_name }}" class="img-fluid rounded-circle mb-2" style="width:96px;height:96px;object-fit:cover;">
-            <div class="fw-bold">{{ $member->full_name }}</div>
-            <div class="text-muted small">{{ $member->email }}</div>
+      <div class="row">
+        <div class="col-md-6 mb-4">
+          <div class="single-product p-4 h-100 text-center border rounded">
+            <span class="lnr lnr-eye display-4 text-primary"></span>
+            <h4 class="mt-3">Visi</h4>
+            <p>Menjadi mitra terpercaya bagi perusahaan dalam transformasi digital di Asia Tenggara.</p>
           </div>
         </div>
-      @empty
-        <div class="col-12"><p class="text-muted">Belum ada anggota tim.</p></div>
-      @endforelse
+        <div class="col-md-6 mb-4">
+          <div class="single-product p-4 h-100 text-center border rounded">
+            <span class="lnr lnr-chart-bars display-4 text-primary"></span>
+            <h4 class="mt-3">Misi</h4>
+            <p>Menyediakan layanan kreatif dan teknologi yang memaksimalkan nilai dan pertumbuhan klien.</p>
+          </div>
+        </div>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
+  <!-- /Mission & Vision -->
 @endsection

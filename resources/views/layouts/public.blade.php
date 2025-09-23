@@ -66,6 +66,9 @@
       /* Utilities */
       .mt-section{ margin-top: var(--section-py-sm); }
       .mb-section{ margin-bottom: var(--section-py-sm); }
+      /* Logo tweaks */
+      .logo-img{ width:48px; height:48px; object-fit:cover; border-radius:50%; }
+      .logo-text{ margin-left:10px; }
     </style>
 
     @stack('styles')

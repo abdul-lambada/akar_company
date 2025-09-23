@@ -1,58 +1,65 @@
 @extends('layouts.public')
 
-@section('title', 'Portfolio')
-@section('meta_description', 'Portfolio ' . config('app.name') . ' — kumpulan proyek pilihan dan studi kasus untuk berbagai klien.')
+@section('title', 'Our Portfolio')
 
 @section('content')
-<section class="section-gap wow fadeInUp" id="portfolio">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-8">
-        <div class="product-area-title text-center">
-          <p class="text-uppercase">{{ config('app.portfolio_description', 'Recent Projects') }}</p>
-          <h2 class="h1">{{ config('app.portfolio_heading', 'Portfolio') }}</h2>
+    <!-- Page Header -->
+    <section class="page-header d-flex align-items-center" style="background:url('{{ asset('public_template/img/header-bg.jpg') }}') center/cover no-repeat; min-height:300px">
+        <div class="container text-center">
+            <h1 class="display-4 fw-bold text-white">Portfolio</h1>
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb justify-content-center mb-0">
+                    <li class="breadcrumb-item"><a href="{{ url('/') }}" class="text-white-50">Home</a></li>
+                    <li class="breadcrumb-item active text-white" aria-current="page">Portfolio</li>
+                </ol>
+            </nav>
         </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-12 d-flex justify-content-center controls">
-        @php $activeIds = $activeServiceIds ?? []; @endphp
-        <a href="{{ route('public.portfolio') }}" class="btn btn-outline-primary {{ empty($activeIds) ? 'active' : '' }}">All</a>
-        @foreach($filters as $f)
-          <a href="{{ route('public.portfolio', ['service' => $f->service_id]) }}" class="btn btn-outline-primary ms-2 {{ in_array($f->service_id, $activeIds, true) ? 'active' : '' }}">{{ $f->service_name }}</a>
-        @endforeach
-      </div>
-    </div>
-    <div id="filter-content" class="row wow fadeInUp">
-      @forelse($projects as $project)
-        @php $thumb = optional($project->images->first())->image_path; @endphp
-        <div class="col-lg-4 col-md-6">
-          <div class="single-portfolio d-flex flex-column p-2 border rounded h-100">
-            <a href="{{ route('public.portfolio-details', $project) }}" class="d-block mb-2">
-              @if($thumb)
-                <img src="{{ asset('storage/'.$thumb) }}" alt="{{ $project->project_title }}" class="img-fluid rounded">
-              @else
-                <img src="{{ asset('public_template/img/p4.jpg') }}" alt="{{ $project->project_title }}" class="img-fluid rounded">
-              @endif
-            </a>
-            <div class="content mt-auto">
-              <h4 class="mb-1">{{ $project->project_title }}</h4>
-              <p class="text-muted mb-2">Client: {{ $project->client_name }}</p>
-              <div>
-                @foreach($project->services as $srv)
-                  <span class="badge bg-secondary me-1">{{ $srv->service_name }}</span>
-                @endforeach
-              </div>
+    </section>
+
+    <!-- Portfolio Grid -->
+    <section class="py-5">
+        <div class="container">
+            <div class="row mb-4">
+                <div class="col-lg-8 text-center mx-auto">
+                    <h2 class="fw-bold">Recent Projects</h2>
+                    <p class="text-muted">Take a look at some of our most impactful work across various industries.</p>
+                </div>
             </div>
-          </div>
+
+            <div class="row g-4" id="portfolio-grid">
+                @forelse($portfolios as $project)
+                    <div class="col-sm-6 col-lg-4 portfolio-item" data-category="{{ $project->category->slug ?? 'general' }}">
+                        <div class="card border-0 shadow-sm h-100">
+                            <div class="ratio ratio-4x3">
+                                <img src="{{ $project->cover_image ? asset('storage/'.$project->cover_image) : asset('public_template/img/portfolio-placeholder.jpg') }}" class="img-fluid object-fit-cover" alt="{{ $project->title }} cover">
+                            </div>
+                            <div class="card-body">
+                                <h5 class="card-title fw-semibold">{{ $project->title }}</h5>
+                                <p class="card-text small text-muted mb-2">{{ $project->category->name ?? '' }}</p>
+                                <p class="card-text">{{ Str::limit($project->excerpt, 90) }}</p>
+                                <a href="{{ route('portfolio.show', $project->slug) }}" class="stretched-link"></a>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-12 text-center">
+                        <p class="text-muted">No portfolio items found at the moment.</p>
+                    </div>
+                @endforelse
+            </div>
+
+            @if($portfolios instanceof \Illuminate\Pagination\LengthAwarePaginator)
+                <div class="d-flex justify-content-center mt-4">
+                    {{ $portfolios->links() }}
+                </div>
+            @endif
         </div>
-      @empty
-        <div class="col-12"><p class="text-center">Tidak ada project untuk filter ini.</p></div>
-      @endforelse
-    </div>
-    <div class="d-flex justify-content-center mt-4">
-      {{ $projects->links() }}
-    </div>
-  </div>
-</section>
+    </section>
 @endsection
+
+@push('styles')
+<style>
+    #portfolio-grid .portfolio-item img {transition: transform .3s ease;}
+    #portfolio-grid .portfolio-item:hover img {transform: scale(1.05);}    
+</style>
+@endpush
