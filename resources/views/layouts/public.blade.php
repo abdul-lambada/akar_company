@@ -13,6 +13,48 @@
     <link rel="stylesheet" href="{{ asset('public_template/css/animate.css') }}">
     <link rel="stylesheet" href="{{ asset('public_template/css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('public_template/css/main.css') }}">
+    
+    <!-- UI Consistency: container + spacing -->
+    <style>
+      :root{
+        --section-py-sm: 3rem;
+        --section-py-md: 4.5rem;
+        --section-py-lg: 6rem;
+      }
+      /* Container width refinement on very large screens */
+      @media (min-width: 1400px){
+        .container{ max-width: 1200px; }
+      }
+      /* Unify vertical rhythm across sections */
+      .section-gap,
+      .section-full{ padding-top: var(--section-py-sm); padding-bottom: var(--section-py-sm); }
+      @media (min-width: 768px){
+        .section-gap, .section-full{ padding-top: var(--section-py-md); padding-bottom: var(--section-py-md); }
+      }
+      @media (min-width: 1200px){
+        .section-gap, .section-full{ padding-top: var(--section-py-lg); padding-bottom: var(--section-py-lg); }
+      }
+      /* Section headers */
+      .section-title, .product-area-title{ margin-bottom: 2rem; }
+      .section-title p, .product-area-title p{ letter-spacing: .08em; font-weight: 600; opacity: .85; margin-bottom: .5rem; }
+      .section-title h2, .product-area-title h2,
+      .section-title .h1, .product-area-title .h1{ margin-bottom: 0; line-height: 1.2; }
+      /* Grid item default gap to reduce repetitive mb-* in cols */
+      .row > [class*='col-']{ margin-bottom: 1.5rem; }
+      @media (min-width: 768px){ .row > [class*='col-']{ margin-bottom: 2rem; } }
+      /* Button alignment */
+      .primary-btn{ display: inline-flex; align-items: center; gap: .5rem; }
+      /* Narrow section head helper (centered titles) */
+      .product-area-title.text-center, .section-title.text-center{ max-width: 760px; margin-left: auto; margin-right: auto; }
+      /* Footer spacing alignment */
+      footer.section-full{ padding-top: var(--section-py-sm); padding-bottom: var(--section-py-sm); }
+      @media (min-width: 768px){ footer.section-full{ padding-top: var(--section-py-md); padding-bottom: var(--section-py-md); } }
+      @media (min-width: 1200px){ footer.section-full{ padding-top: var(--section-py-lg); padding-bottom: var(--section-py-lg); } }
+      /* Utilities */
+      .mt-section{ margin-top: var(--section-py-sm); }
+      .mb-section{ margin-bottom: var(--section-py-sm); }
+    </style>
+
     @stack('styles')
 </head>
 <body class="has-fixed-header">

@@ -5,7 +5,7 @@
 @section('content')
 <section class="section-gap" id="blog">
   <div class="container">
-    <div class="row justify-content-center mb-4">
+    <div class="row justify-content-center">
       <div class="col-lg-8">
         <div class="product-area-title text-center">
           <p class="text-uppercase">Artikel</p>
@@ -19,7 +19,7 @@
           $thumb = optional($post->images->first())->image_path;
           $img = $thumb ? asset('storage/'.$thumb) : asset('public_template/img/s2.jpg');
         @endphp
-        <div class="col-lg-4 col-md-6 mb-4">
+        <div class="col-lg-4 col-md-6">
           <div class="single-blog border rounded h-100 d-flex flex-column overflow-hidden">
             <a href="{{ route('public.blog-detail', $post->slug) }}" class="d-block">
               <img src="{{ $img }}" class="img-fluid w-100" alt="{{ $post->title }}">

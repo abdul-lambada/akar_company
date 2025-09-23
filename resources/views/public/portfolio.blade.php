@@ -5,7 +5,7 @@
 @section('content')
 <section class="section-gap" id="portfolio">
   <div class="container">
-    <div class="row justify-content-center mb-4">
+    <div class="row justify-content-center">
       <div class="col-lg-8">
         <div class="product-area-title text-center">
           <p class="text-uppercase">{{ config('app.portfolio_description', 'Recent Projects') }}</p>
@@ -13,7 +13,7 @@
         </div>
       </div>
     </div>
-    <div class="row mb-4">
+    <div class="row">
       <div class="col-12 d-flex justify-content-center controls">
         <a href="{{ route('public.portfolio') }}" class="btn btn-outline-primary {{ !$activeServiceId ? 'active' : '' }}">All</a>
         @foreach($filters as $f)
@@ -24,7 +24,7 @@
     <div id="filter-content" class="row">
       @forelse($projects as $project)
         @php $thumb = optional($project->images->first())->image_path; @endphp
-        <div class="col-lg-4 col-md-6 mb-4">
+        <div class="col-lg-4 col-md-6">
           <div class="single-portfolio d-flex flex-column p-2 border rounded h-100">
             <a href="{{ route('public.portfolio-details', $project) }}" class="d-block mb-2">
               @if($thumb)

@@ -5,9 +5,17 @@
 @section('content')
 <section class="section-gap" id="contact">
   <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="product-area-title text-center">
+          <p class="text-uppercase">{{ config('app.contact_cta_title', 'Butuh Bantuan?') }}</p>
+          <h2 class="h1">{{ config('app.contact_heading', 'Contact Us') }}</h2>
+        </div>
+      </div>
+    </div>
     <div class="row">
-      <div class="col-lg-6 mb-4">
-        <h3>{{ config('app.contact_cta_title', 'Butuh Bantuan?') }}</h3>
+      <div class="col-lg-6">
+        <h3 class="h4">{{ config('app.contact_cta_title', 'Butuh Bantuan?') }}</h3>
         <p class="text-muted">{{ config('app.contact_cta_description', 'Hubungi kami untuk konsultasi gratis dan penawaran terbaik.') }}</p>
         <div class="alert" style="display:none;"></div>
         <form id="myForm" class="form-area">
@@ -26,13 +34,13 @@
               <textarea class="common-textarea form-control" name="message" placeholder="Message" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Message'" required=""></textarea>
             </div>
             <div class="col-lg-12">
-              <button class="primary-btn submit-btn mt-20" style="float: right;">Send Message</button>
+              <button class="primary-btn submit-btn mt-2" type="submit">Send Message</button>
             </div>
           </div>
         </form>
       </div>
       <div class="col-lg-6">
-        <h3>Our Office</h3>
+        <h3 class="h4">Our Office</h3>
         <ul class="list-unstyled">
           @if(config('mail.from.address'))
             <li><i class="fa fa-envelope-o me-2"></i> {{ config('mail.from.address') }}</li>

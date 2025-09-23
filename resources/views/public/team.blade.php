@@ -5,7 +5,7 @@
 @section('content')
 <section class="section-gap" id="team">
   <div class="container">
-    <div class="row justify-content-center mb-4">
+    <div class="row justify-content-center">
       <div class="col-lg-8">
         <div class="product-area-title text-center">
           <p class="text-uppercase">{{ config('app.team_description', 'Meet our professionals') }}</p>
@@ -15,7 +15,7 @@
     </div>
     <div class="row">
       @forelse($team as $member)
-        <div class="col-6 col-md-4 col-lg-3 mb-4">
+        <div class="col-6 col-md-4 col-lg-3">
           <div class="p-3 border rounded text-center h-100">
             <img src="{{ $member->avatar ? asset('storage/'.$member->avatar) : asset('NiceAdmin/assets/img/profile-img.jpg') }}" alt="{{ $member->name }}" class="img-fluid rounded-circle mb-2" style="width:96px;height:96px;object-fit:cover;">
             <div class="fw-bold">{{ $member->name }}</div>
