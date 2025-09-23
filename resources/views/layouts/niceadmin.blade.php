@@ -7,7 +7,11 @@
   <meta content="" name="description">
   <meta content="" name="keywords">
   <link href="{{ asset('images/favicon.png') }}" rel="icon">
-  <link href="{{ asset(config('settings.site_logo')) }}" rel="apple-touch-icon">
+  @if(config('app.logo'))
+    @php($logo = config('app.logo'))
+    @php($logoUrl = \Illuminate\Support\Str::startsWith($logo, ['http://','https://','storage/','/']) ? $logo : 'storage/'.$logo)
+    <link href="{{ asset($logoUrl) }}" rel="apple-touch-icon">
+  @endif
   <link href="https://fonts.gstatic.com" rel="preconnect">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
   <link href="{{ asset('NiceAdmin/assets/vendor/bootstrap/css/bootstrap.min.css') }}" rel="stylesheet">

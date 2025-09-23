@@ -11,7 +11,9 @@
 
   <!-- Favicons -->
   @if(config('app.logo'))
-    <link href="{{ asset(config('app.logo')) }}" rel="icon">
+    @php($logo = config('app.logo'))
+    @php($logoUrl = \Illuminate\Support\Str::startsWith($logo, ['http://','https://','storage/','/']) ? $logo : 'storage/'.$logo)
+    <link href="{{ asset($logoUrl) }}" rel="icon">
   @endif
 
   <!-- Google Fonts -->
@@ -37,7 +39,9 @@
     <div class="container position-relative d-flex align-items-center justify-content-between">
       <a href="{{ route('home') }}" class="logo d-flex align-items-center me-auto me-xl-0">
         @if(config('app.logo'))
-          <img src="{{ asset(config('app.logo')) }}" alt="Logo">
+          @php($logo = config('app.logo'))
+          @php($logoUrl = \Illuminate\Support\Str::startsWith($logo, ['http://','https://','storage/','/']) ? $logo : 'storage/'.$logo)
+          <img src="{{ asset($logoUrl) }}" alt="Logo">
         @else
           <h1 class="sitename">{{ config('app.name') }}</h1>
         @endif
@@ -70,7 +74,9 @@
         <div class="col-lg-6 col-md-12 footer-info">
           <a href="{{ route('home') }}" class="logo d-flex align-items-center">
             @if(config('app.logo'))
-              <img src="{{ asset(config('app.logo')) }}" alt="Logo">
+              @php($logo = config('app.logo'))
+              @php($logoUrl = \Illuminate\Support\Str::startsWith($logo, ['http://','https://','storage/','/']) ? $logo : 'storage/'.$logo)
+              <img src="{{ asset($logoUrl) }}" alt="Logo">
             @else
               <span>{{ config('app.name') }}</span>
             @endif
