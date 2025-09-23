@@ -38,22 +38,25 @@ $(document).ready(function(){
     // $(function(){
     //     $('#Container').mixItUp();
     // });
-    var mixer = mixitup('#filter-content');
-    $(".controls .filter").on('click', function(event){
-        $(".controls .filter").removeClass('active');
-        $(this).addClass('active');
-    });
+    if (document.querySelector('#filter-content')) {
+        var mixer = mixitup('#filter-content');
+        $(".controls .filter").on('click', function(event){
+            $(".controls .filter").removeClass('active');
+            $(this).addClass('active');
+        });
+    }
     // Add smooth scrolling to Menu links
          $(".main-menu li a, .smooth").on('click', function(event) {
                 if (this.hash !== "") {
-                  event.preventDefault();
                   var hash = this.hash;
-                  $('html, body').animate({
-                    scrollTop: $(hash).offset().top - (-10)
-                }, 600, function(){
-                 
-                    window.location.hash = hash;
-                });
+                  if ($(hash).length) {
+                    event.preventDefault();
+                    $('html, body').animate({
+                      scrollTop: $(hash).offset().top - (-10)
+                    }, 600, function(){
+                      window.location.hash = hash;
+                    });
+                  }
             } 
         });
 
