@@ -938,6 +938,12 @@ td, th {
   color: #00ff8c;
 }
 
+/* Active menu item */
+.default-header nav .main-menu li.active > a,
+.default-header nav .main-menu a.active {
+  color: #00ff8c !important;
+}
+
 .default-header nav .mobile-btn {
   display: none;
   font-size: 36px;
