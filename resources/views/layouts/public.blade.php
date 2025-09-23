@@ -81,6 +81,8 @@
 
     @include('public.partials.footer')
 
+    <a href="#top" id="back-to-top"><i class="fa fa-angle-up"></i></a>
+
     <script src="{{ asset('public_template/js/vendor/jquery-2.2.4.min.js') }}"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
     <script src="{{ asset('public_template/js/vendor/bootstrap.min.js') }}"></script>
@@ -90,5 +92,24 @@
     <script src="{{ asset('public_template/js/mixitup.min.js') }}"></script>
     <script src="{{ asset('public_template/js/main.js') }}"></script>
     @stack('scripts')
+    <script>
+      // Global image lazy-loading fallback for older Blade markup
+      document.addEventListener('DOMContentLoaded', function () {
+        document.querySelectorAll('img:not([loading])').forEach(function (img) {
+          img.setAttribute('loading', 'lazy');
+        });
+      });
+    </script>
+    <script>
+      // Back to top visibility
+      const backToTop = document.getElementById('back-to-top');
+      window.addEventListener('scroll', () => {
+        if (window.pageYOffset > 300) {
+          backToTop.classList.add('show');
+        } else {
+          backToTop.classList.remove('show');
+        }
+      });
+    </script>
 </body>
 </html>

@@ -68,6 +68,78 @@ a {
   transition: all 0.3s ease 0s;
 }
 
+/* Equal-height cards for Pricing & Team */
+.single-price,
+.team-equal-card {
+  display: flex;
+  flex-direction: column;
+}
+.single-price .primary-btn {
+  margin-top: auto;
+}
+
+/* === Custom Enhancements === */
+/* Improved Hero Contrast */
+/* .banner-area .overlay-bg {
+  background: rgba(0, 0, 0, 0.6) !important;
+}
+.banner-area .banner-content h1,
+.banner-area .banner-content p {
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.4);
+} */
+
+/*------------------------------
+  Consistent Section Spacing
+-------------------------------*/
+.section-gap {
+  padding: 80px 0; /* unified vertical space */
+}
+
+/* Adjust smaller devices */
+@media (max-width: 767.98px) {
+  .section-gap {
+    padding: 60px 0;
+  }
+}
+
+/*------------------------------
+  Sticky Header Active State
+-------------------------------*/
+.default-header.sticky .main-menu li.active > a,
+.default-header.sticky .main-menu a.active {
+  color: #00ff8c !important;
+}
+
+/*------------------------------
+  Back To Top Button
+-------------------------------*/
+#back-to-top {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  border-radius: 50%;
+  background: #00ff8c;
+  color: #ffffff;
+  text-align: center;
+  font-size: 20px;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+}
+
+#back-to-top.show {
+  opacity: 1;
+  visibility: visible;
+}
+
+#back-to-top:hover {
+  background: #00d57a;
+}
+
 iframe {
   border: 0;
 }

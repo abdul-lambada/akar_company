@@ -56,3 +56,35 @@
   </div>
 </section>
 @endsection
+
+@push('scripts')
+<script>
+  jQuery(function($){
+    const form = $('#myForm');
+    form.on('submit', function(e){
+      e.preventDefault();
+      let valid = true;
+      form.find('[required]').each(function(){
+        if(!this.value.trim()){
+          $(this).addClass('is-invalid');
+          valid = false;
+        } else {
+          $(this).removeClass('is-invalid');
+        }
+      });
+      if(!valid){
+        form.prev('.alert').removeClass('alert-success').addClass('alert-danger').text('Please fill all required fields.').show();
+        return;
+      }
+      // success feedback
+      form.prev('.alert').removeClass('alert-danger').addClass('alert-success').text('Message sent successfully (dummy).').show();
+      form[0].reset();
+    });
+    form.find('[required]').on('input', function(){
+      if(this.value.trim()){
+        $(this).removeClass('is-invalid');
+      }
+    });
+  });
+</script>
+@endpush

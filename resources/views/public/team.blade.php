@@ -17,7 +17,7 @@
     <div class="row wow fadeInUp">
       @forelse($team as $member)
         <div class="col-6 col-md-4 col-lg-3">
-          <div class="p-3 border rounded text-center h-100">
+          <div class="team-equal-card p-3 border rounded text-center h-100">
             <img src="{{ $member->avatar ? asset('storage/'.$member->avatar) : asset('NiceAdmin/assets/img/profile-img.jpg') }}" alt="{{ $member->full_name }}" class="img-fluid rounded-circle mb-2" style="width:96px;height:96px;object-fit:cover;">
             <div class="fw-bold">{{ $member->full_name }}</div>
             <div class="text-muted small">{{ $member->email }}</div>

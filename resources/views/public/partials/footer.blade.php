@@ -9,6 +9,20 @@
             </div>
             <div class="col-lg-3 col-sm-6">
                 <div class="single-footer-widget">
+                    <h6 class="text-white text-uppercase mb-20">Kontak Kami</h6>
+                    @if(config('app.company_address'))
+                        <p class="mb-2"><i class="fa fa-map-marker mr-2"></i>{{ config('app.company_address') }}</p>
+                    @endif
+                    @if(config('app.company_phone'))
+                        <p class="mb-2"><i class="fa fa-phone mr-2"></i><a href="tel:{{ preg_replace('/\D/','', config('app.company_phone')) }}">{{ config('app.company_phone') }}</a></p>
+                    @endif
+                    @if(config('app.company_email'))
+                        <p class="mb-0"><i class="fa fa-envelope mr-2"></i><a href="mailto:{{ config('app.company_email') }}">{{ config('app.company_email') }}</a></p>
+                    @endif
+                </div>
+            </div>
+            <div class="col-lg-3 col-sm-6">
+                <div class="single-footer-widget">
                     <h6 class="text-white text-uppercase mb-20">Navigation Links</h6>
                     <div class="d-flex">
                         <ul class="footer-nav">
