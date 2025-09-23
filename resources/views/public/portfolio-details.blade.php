@@ -9,7 +9,7 @@
 @endpush
 
 @section('content')
-<section class="section-gap" id="portfolio-details">
+<section class="section-gap wow fadeInUp" id="portfolio-details">
   <div class="container">
     <div class="row mb-4">
       <div class="col-12">
@@ -23,7 +23,7 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row wow fadeInUp">
       @forelse($project->images as $img)
         <div class="col-md-6 col-lg-4 mb-4">
           <img src="{{ asset('storage/' . $img->image_path) }}" alt="{{ $project->project_title }}" class="img-fluid rounded">
@@ -34,7 +34,7 @@
     </div>
 
     @if($project->testimonials && $project->testimonials->count())
-      <div class="row mt-4">
+      <div class="row mt-4 wow fadeInUp">
         <div class="col-12">
           <h4 class="mb-3">{{ config('app.testimonials_heading', 'Testimonials') }}</h4>
         </div>

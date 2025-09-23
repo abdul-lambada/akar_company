@@ -4,7 +4,7 @@
 @section('meta_description', 'Tim ' . config('app.name') . ' — profesional di balik layanan dan solusi berkualitas kami.')
 
 @section('content')
-<section class="section-gap" id="team">
+<section class="section-gap wow fadeInUp" id="team">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-8">
@@ -14,7 +14,7 @@
         </div>
       </div>
     </div>
-    <div class="row">
+    <div class="row wow fadeInUp">
       @forelse($team as $member)
         <div class="col-6 col-md-4 col-lg-3">
           <div class="p-3 border rounded text-center h-100">

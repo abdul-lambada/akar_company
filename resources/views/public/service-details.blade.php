@@ -5,7 +5,7 @@
 @section('meta_description', ($service->description ?? null) ? \Illuminate\Support\Str::limit(strip_tags($service->description), 160) : ('Detail layanan ' . ($service->service_name ?? '') . ' — temukan informasi layanan dan proyek terkait.'))
 
 @section('content')
-<section class="section-gap" id="service-details">
+<section class="section-gap wow fadeInUp" id="service-details">
   <div class="container">
     <div class="row mb-4">
       <div class="col-12">
@@ -17,9 +17,8 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row wow fadeInUp">
       @forelse($projects as $project)
-        @php $thumb = optional($project->images->first())->image_path; @endphp
         <div class="col-lg-4 col-md-6 mb-4">
           <div class="single-portfolio d-flex flex-column p-2 border rounded h-100">
             <a href="{{ route('public.portfolio-details', $project) }}" class="d-block mb-2">

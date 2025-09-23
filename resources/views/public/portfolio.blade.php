@@ -4,7 +4,7 @@
 @section('meta_description', 'Portfolio ' . config('app.name') . ' — kumpulan proyek pilihan dan studi kasus untuk berbagai klien.')
 
 @section('content')
-<section class="section-gap" id="portfolio">
+<section class="section-gap wow fadeInUp" id="portfolio">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-8">
@@ -23,7 +23,7 @@
         @endforeach
       </div>
     </div>
-    <div id="filter-content" class="row">
+    <div id="filter-content" class="row wow fadeInUp">
       @forelse($projects as $project)
         @php $thumb = optional($project->images->first())->image_path; @endphp
         <div class="col-lg-4 col-md-6">

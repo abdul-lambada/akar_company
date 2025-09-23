@@ -4,7 +4,7 @@
 @section('meta_description', 'Hubungi ' . config('app.name') . ' untuk konsultasi, penawaran, atau pertanyaan seputar layanan kami.')
 
 @section('content')
-<section class="section-gap" id="contact">
+<section class="section-gap wow fadeInUp" id="contact">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-8">
@@ -14,7 +14,7 @@
         </div>
       </div>
     </div>
-    <div class="row">
+    <div class="row wow fadeInUp">
       <div class="col-lg-6">
         <h3 class="h4">{{ config('app.contact_cta_title', 'Butuh Bantuan?') }}</h3>
         <p class="text-muted">{{ config('app.contact_cta_description', 'Hubungi kami untuk konsultasi gratis dan penawaran terbaik.') }}</p>

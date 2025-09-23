@@ -3,8 +3,8 @@
         <div class="row">
             <div class="col-lg-3 col-sm-6">
                 <div class="single-footer-widget">
-                    <h6 class="text-white text-uppercase mb-20">About {{ config('app.name') }}</h6>
-                    <p>{{ config('app.contact_cta_description', 'Kami membantu brand tumbuh melalui layanan desain, pengembangan, dan strategi pemasaran yang berdampak.') }}</p>
+                    <h6 class="text-white text-uppercase mb-20">Tentang {{ config('app.name') }}</h6>
+                    <p>{{ config('app.contact_cta_description', 'Kami adalah tim profesional yang berdedikasi untuk membantu bisnis Anda berkembang melalui solusi digital inovatif.') }}</p>
                 </div>
             </div>
             <div class="col-lg-3 col-sm-6">
@@ -20,54 +20,31 @@
                         <ul class="ml-30 footer-nav">
                             <li><a href="{{ route('public.team') }}">Team</a></li>
                             <li><a href="{{ route('public.pricing') }}">Pricing</a></li>
-                            <li><a href="{{ route('public.about') }}">About</a></li>
+                            <li><a href="{{ route('public.blog') }}">Blog</a></li>
                             <li><a href="{{ route('public.contact') }}">Contact</a></li>
                         </ul>
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6 class="text-white text-uppercase mb-20">Newsletter</h6>
-                    <p>For business professionals caught between high OEM price and mediocre print and graphic output,</p>
-                    <div id="mc_embed_signup">
-                        <form target="_blank" novalidate action="https://spondonit.us12.list-manage.com/subscribe/post?u=1462626880ade1ac87bd9c93a&id=92a4423d01" method="get" class="subscription relative d-flex justify-content-center">
-                            <input type="email" name="EMAIL" placeholder="Email address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email address'" required>
-                            <div style="position: absolute; left: -5000px;">
-                                <input type="text" name="b_36c4fd991d266f23781ded980_aefe40901a" tabindex="-1" value="">
-                            </div>
-                            <button type="submit" class="newsletter-btn" name="subscribe"><span class="lnr lnr-location"></span></button>
-                            <div class="info"></div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6">
-                <div class="single-footer-widget">
-                    <h6 class="text-white text-uppercase mb-20">Instafeed</h6>
-                    <ul class="instafeed d-flex flex-wrap">
-                        <li><img src="{{ asset('public_template/img/i1.jpg') }}" alt=""></li>
-                        <li><img src="{{ asset('public_template/img/i2.jpg') }}" alt=""></li>
-                        <li><img src="{{ asset('public_template/img/i3.jpg') }}" alt=""></li>
-                        <li><img src="{{ asset('public_template/img/i4.jpg') }}" alt=""></li>
-                        <li><img src="{{ asset('public_template/img/i5.jpg') }}" alt=""></li>
-                        <li><img src="{{ asset('public_template/img/i6.jpg') }}" alt=""></li>
-                        <li><img src="{{ asset('public_template/img/i7.jpg') }}" alt=""></li>
-                        <li><img src="{{ asset('public_template/img/i8.jpg') }}" alt=""></li>
-                    </ul>
-                </div>
-            </div>
         </div>
         <div class="footer-bottom d-flex justify-content-between align-items-center">
-            <p class="footer-text m-0">Copyright &copy; {{ date('Y') }}  |  All rights reserved to <a href="{{ config('app.url') }}">{{ config('app.name') }}</a>. Designed by <a href="https://colorlib.com/wp">Colorlib</a>.</p>
+            <p class="footer-text m-0">Copyright &copy; {{ date('Y') }} | All rights reserved to <a href="{{ config('app.url') }}">{{ config('app.name') }}</a>.</p>
             <div class="footer-social d-flex align-items-center">
                 @if(config('app.company_whatsapp'))
                     <a href="https://wa.me/{{ preg_replace('/\D/', '', config('app.company_whatsapp')) }}" target="_blank" rel="noopener"><i class="fa fa-whatsapp"></i></a>
                 @endif
-                <a href="#"><i class="fa fa-facebook"></i></a>
-                <a href="#"><i class="fa fa-twitter"></i></a>
-                <a href="#"><i class="fa fa-dribbble"></i></a>
-                <a href="#"><i class="fa fa-behance"></i></a>
+                @if(config('app.company_facebook'))
+                    <a href="{{ config('app.company_facebook') }}" target="_blank" rel="noopener"><i class="fa fa-facebook"></i></a>
+                @endif
+                @if(config('app.company_twitter'))
+                    <a href="{{ config('app.company_twitter') }}" target="_blank" rel="noopener"><i class="fa fa-twitter"></i></a>
+                @endif
+                @if(config('app.company_dribbble'))
+                    <a href="{{ config('app.company_dribbble') }}" target="_blank" rel="noopener"><i class="fa fa-dribbble"></i></a>
+                @endif
+                @if(config('app.company_behance'))
+                    <a href="{{ config('app.company_behance') }}" target="_blank" rel="noopener"><i class="fa fa-behance"></i></a>
+                @endif
             </div>
         </div>
     </div>

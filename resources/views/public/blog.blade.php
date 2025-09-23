@@ -4,7 +4,7 @@
 @section('meta_description', 'Blog ' . config('app.name') . ' — artikel, berita, dan insight seputar desain, teknologi, dan pengembangan produk.')
 
 @section('content')
-<section class="section-gap" id="blog">
+<section class="section-gap wow fadeInUp" id="blog">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-8">

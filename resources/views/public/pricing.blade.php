@@ -4,7 +4,7 @@
 @section('meta_description', 'Harga dan paket layanan ' . config('app.name') . ' — transparan dan kompetitif untuk berbagai kebutuhan.')
 
 @section('content')
-<section class="section-gap" id="pricing">
+<section class="section-gap wow fadeInUp" id="pricing">
   <div class="container">
     <div class="row justify-content-center mb-4">
       <div class="col-lg-8">
@@ -14,7 +14,7 @@
         </div>
       </div>
     </div>
-    <div class="row">
+    <div class="row wow fadeInUp">
       @forelse($services as $service)
         <div class="col-lg-4 col-md-6 mb-4">
           <div class="single-price p-4 border rounded h-100 text-center">

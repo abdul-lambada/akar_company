@@ -4,7 +4,7 @@
 @section('meta_description', 'Tentang ' . config('app.name') . ' — tim, visi, dan nilai yang mendorong kami dalam membantu klien.')
 
 @section('content')
-<section class="about-area section-gap" id="about">
+<section class="about-area section-gap wow fadeInUp" id="about">
   <div class="container">
     <div class="row align-items-center">
       <div class="col-lg-6">
@@ -30,7 +30,7 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row wow fadeInUp">
       <div class="col-12">
         <h4 class="mb-2">{{ config('app.clients_heading', 'Our Clients') }}</h4>
       </div>
@@ -48,7 +48,7 @@
       @endforelse
     </div>
 
-    <div class="row" id="team">
+    <div class="row wow fadeInUp" id="team">
       <div class="col-12">
         <h4 class="mb-2">{{ config('app.team_heading', 'Team') }}</h4>
       </div>

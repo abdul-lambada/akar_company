@@ -9,7 +9,7 @@
 @endpush
 
 @section('content')
-<section class="section-gap" id="blog-detail">
+<section class="section-gap wow fadeInUp" id="blog-detail">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-8">

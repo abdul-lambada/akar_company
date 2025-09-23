@@ -4,7 +4,7 @@
 @section('meta_description', 'Layanan ' . config('app.name') . ' — jelajahi paket layanan dan solusi yang kami tawarkan untuk bisnis Anda.')
 
 @section('content')
-<section class="section-gap services-area" id="services">
+<section class="section-gap services-area wow fadeInUp" id="services">
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-8">
@@ -14,7 +14,7 @@
         </div>
       </div>
     </div>
-    <div class="row">
+    <div class="row wow fadeInUp">
       @forelse($services as $service)
         <div class="col-lg-4 col-md-6">
           <div class="single-service d-flex flex-column p-4 border rounded h-100">

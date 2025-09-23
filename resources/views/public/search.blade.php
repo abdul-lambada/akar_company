@@ -7,7 +7,7 @@
 @endpush
 
 @section('content')
-<section class="section-gap" id="search">
+<section class="section-gap wow fadeInUp" id="search">
   <div class="container">
     <div class="row justify-content-center mb-4">
       <div class="col-lg-8 text-center">
@@ -22,7 +22,7 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row wow fadeInUp">
       <div class="col-lg-4 mb-4">
         <h4>Layanan</h4>
         <ul class="list-unstyled">

@@ -5,7 +5,7 @@
 
 @section('content')
     <!-- Start Banner Area -->
-    <section class="banner-area relative">
+    <section class="banner-area relative wow fadeInUp">
         <div class="overlay overlay-bg"></div>
         <div class="container">
             <div class="row fullscreen justify-content-center align-items-center">
@@ -24,7 +24,7 @@
     </section>
     <!-- End Banner Area -->
     <!-- Services (Dynamic Grid) -->
-    <section class="section-gap services-area" id="services-list">
+    <section class="section-gap services-area wow fadeInUp" id="services-list">
         <div class="container">
             <div class="row justify-content-center mb-4">
                 <div class="col-lg-8">
@@ -62,7 +62,7 @@
     </section>
 
     <!-- Portfolio (Latest Projects) -->
-    <section class="section-gap" id="latest-projects">
+    <section class="section-gap wow fadeInUp" id="latest-projects">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-8">
@@ -106,7 +106,7 @@
     </section>
 
     <!-- Testimonials -->
-    <section class="section-gap gray-bg" id="testimonials">
+    <section class="section-gap gray-bg wow fadeInUp" id="testimonials">
         <div class="container">
             <div class="row justify-content-center mb-4">
                 <div class="col-lg-8">
@@ -139,7 +139,7 @@
     </section>
 
     <!-- Blog (Latest 3 Posts) -->
-    <section class="section-gap" id="latest-blog">
+    <section class="section-gap wow fadeInUp" id="latest-blog">
         <div class="container">
             <div class="row justify-content-center mb-4">
                 <div class="col-lg-8">
