@@ -15,9 +15,10 @@
     </div>
     <div class="row">
       <div class="col-12 d-flex justify-content-center controls">
-        <a href="{{ route('public.portfolio') }}" class="btn btn-outline-primary {{ !$activeServiceId ? 'active' : '' }}">All</a>
+        @php $activeIds = $activeServiceIds ?? []; @endphp
+        <a href="{{ route('public.portfolio') }}" class="btn btn-outline-primary {{ empty($activeIds) ? 'active' : '' }}">All</a>
         @foreach($filters as $f)
-          <a href="{{ route('public.portfolio', ['service' => $f->service_id]) }}" class="btn btn-outline-primary ms-2 {{ $activeServiceId === $f->service_id ? 'active' : '' }}">{{ $f->service_name }}</a>
+          <a href="{{ route('public.portfolio', ['service' => $f->service_id]) }}" class="btn btn-outline-primary ms-2 {{ in_array($f->service_id, $activeIds, true) ? 'active' : '' }}">{{ $f->service_name }}</a>
         @endforeach
       </div>
     </div>

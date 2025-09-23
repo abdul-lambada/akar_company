@@ -96,7 +96,8 @@ class PublicController extends Controller
             'clients' => Client::count(),
         ];
         $clients = Client::latest()->take(8)->get();
-        $team = User::orderBy('name')->take(6)->get();
+        // edited: gunakan full_name sesuai kolom pada tabel users
+        $team = User::orderBy('full_name')->take(6)->get();
         return view('public.about', compact('counters', 'clients', 'team'));
     }
 
@@ -111,7 +112,8 @@ class PublicController extends Controller
     // Halaman Tim
     public function team()
     {
-        $team = User::orderBy('name')->paginate(12);
+        // edited: gunakan full_name sesuai kolom pada tabel users
+        $team = User::orderBy('full_name')->paginate(12);
         return view('public.team', compact('team'));
     }
 

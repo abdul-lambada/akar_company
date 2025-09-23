@@ -63,7 +63,7 @@
     <!-- Portfolio (Latest Projects) -->
     <section class="section-gap" id="latest-projects">
         <div class="container">
-            <div class="row justify-content-center mb-4">
+            <div class="row justify-content-center">
                 <div class="col-lg-8">
                     <div class="product-area-title text-center">
                         <p class="text-uppercase">Karya Terbaru</p>
@@ -76,7 +76,7 @@
                     @php
                         $thumb = optional($project->images->first())->image_path;
                     @endphp
-                    <div class="col-lg-4 col-md-6 mb-4">
+                    <div class="col-lg-4 col-md-6">
                         <div class="signle-service border rounded overflow-hidden h-100">
                             <a href="{{ route('public.portfolio-details', $project) }}" class="d-block">
                                 <img src="{{ $thumb ? asset('storage/' . $thumb) : asset('public_template/img/s1.jpg') }}"
@@ -97,7 +97,7 @@
                     </div>
                 @endforelse
             </div>
-            <div class="text-center mt-2">
+            <div class="text-center mt-4">
                 <a href="{{ route('public.portfolio') }}" class="primary-btn d-inline-flex align-items-center">Lihat Semua
                     Portfolio <span class="lnr lnr-arrow-right ml-2"></span></a>
             </div>
