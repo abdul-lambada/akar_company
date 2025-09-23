@@ -21,7 +21,7 @@ Route::get('/portfolio-details/{portfolio}', [PublicController::class, 'portfoli
 // If you need authentication routes, install Breeze/Fortify or define custom routes.
 // Auth::routes();
 
-Route::middleware(['auth'])->group(function () {
+Route::middleware(['auth'])->prefix('admin')->group(function () {
     Route::get('/dashboard', [App\Http\Controllers\AuthController::class, 'index'])->name('dashboard');
 
     // Categories
