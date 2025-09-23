@@ -18,6 +18,18 @@ class SettingController extends Controller
             'app_logo' => config('app.logo'),
             'app_currency' => config('app.currency'),
             'app_date_format' => config('app.date_format'),
+            // additional configurable fields
+            'company_whatsapp' => config('app.company_whatsapp'),
+            'hero_heading' => config('app.hero_heading'),
+            'hero_description' => config('app.hero_description'),
+            'services_heading' => config('app.services_heading'),
+            'services_description' => config('app.services_description'),
+            'portfolio_heading' => config('app.portfolio_heading'),
+            'portfolio_description' => config('app.portfolio_description'),
+            'testimonials_heading' => config('app.testimonials_heading'),
+            'testimonials_description' => config('app.testimonials_description'),
+            'contact_cta_title' => config('app.contact_cta_title'),
+            'contact_cta_description' => config('app.contact_cta_description'),
         ];
         return view('settings.index', compact('settings'));
     }
@@ -33,6 +45,18 @@ class SettingController extends Controller
             'app_logo' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp,svg|max:4096',
             'app_currency' => 'nullable|string|max:10',
             'app_date_format' => 'nullable|string|max:20',
+            // new configurable fields
+            'company_whatsapp' => 'nullable|string|max:32',
+            'hero_heading' => 'nullable|string|max:255',
+            'hero_description' => 'nullable|string|max:500',
+            'services_heading' => 'nullable|string|max:255',
+            'services_description' => 'nullable|string|max:255',
+            'portfolio_heading' => 'nullable|string|max:255',
+            'portfolio_description' => 'nullable|string|max:255',
+            'testimonials_heading' => 'nullable|string|max:255',
+            'testimonials_description' => 'nullable|string|max:255',
+            'contact_cta_title' => 'nullable|string|max:255',
+            'contact_cta_description' => 'nullable|string|max:500',
         ]);
 
         // handle logo upload
@@ -52,6 +76,18 @@ class SettingController extends Controller
             'APP_LOGO' => $data['app_logo'] ?? '',
             'APP_CURRENCY' => $data['app_currency'] ?? 'USD',
             'APP_DATE_FORMAT' => $data['app_date_format'] ?? 'Y-m-d',
+            // front texts & whatsapp
+            'COMPANY_WHATSAPP' => preg_replace('/\D/', '', ($data['company_whatsapp'] ?? '')),
+            'HERO_HEADING' => '"' . ($data['hero_heading'] ?? config('app.hero_heading')) . '"',
+            'HERO_DESCRIPTION' => '"' . ($data['hero_description'] ?? config('app.hero_description')) . '"',
+            'SERVICES_HEADING' => '"' . ($data['services_heading'] ?? config('app.services_heading')) . '"',
+            'SERVICES_DESCRIPTION' => '"' . ($data['services_description'] ?? config('app.services_description')) . '"',
+            'PORTFOLIO_HEADING' => '"' . ($data['portfolio_heading'] ?? config('app.portfolio_heading')) . '"',
+            'PORTFOLIO_DESCRIPTION' => '"' . ($data['portfolio_description'] ?? config('app.portfolio_description')) . '"',
+            'TESTIMONIALS_HEADING' => '"' . ($data['testimonials_heading'] ?? config('app.testimonials_heading')) . '"',
+            'TESTIMONIALS_DESCRIPTION' => '"' . ($data['testimonials_description'] ?? config('app.testimonials_description')) . '"',
+            'CONTACT_CTA_TITLE' => '"' . ($data['contact_cta_title'] ?? config('app.contact_cta_title')) . '"',
+            'CONTACT_CTA_DESCRIPTION' => '"' . ($data['contact_cta_description'] ?? config('app.contact_cta_description')) . '"',
         ]);
 
         try {

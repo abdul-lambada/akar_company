@@ -73,6 +73,23 @@ return [
         'logo' => env('APP_LOGO', null), // relative path under storage/public or public
         'currency' => env('APP_CURRENCY', 'USD'),
         'date_format' => env('APP_DATE_FORMAT', 'Y-m-d'),
+        'company_whatsapp' => env('COMPANY_WHATSAPP', ''),
+
+        // Front-facing editable texts
+        'hero_heading' => env('HERO_HEADING', 'Solusi Kreatif & Strategis untuk Bisnis Anda'),
+        'hero_description' => env('HERO_DESCRIPTION', 'Kami membantu brand tumbuh melalui layanan desain, pengembangan, dan strategi pemasaran yang berdampak.'),
+
+        'services_heading' => env('SERVICES_HEADING', 'Services'),
+        'services_description' => env('SERVICES_DESCRIPTION', 'What We Offer'),
+
+        'portfolio_heading' => env('PORTFOLIO_HEADING', 'Portfolio'),
+        'portfolio_description' => env('PORTFOLIO_DESCRIPTION', 'Recent Projects'),
+
+        'testimonials_heading' => env('TESTIMONIALS_HEADING', 'Testimonials'),
+        'testimonials_description' => env('TESTIMONIALS_DESCRIPTION', 'What Clients Say'),
+
+        'contact_cta_title' => env('CONTACT_CTA_TITLE', 'Butuh Bantuan?'),
+        'contact_cta_description' => env('CONTACT_CTA_DESCRIPTION', 'Hubungi kami untuk konsultasi gratis dan penawaran terbaik.'),
 
     'fallback_locale' => env('APP_FALLBACK_LOCALE', 'en'),
 

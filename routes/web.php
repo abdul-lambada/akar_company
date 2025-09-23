@@ -1,81 +1,61 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\OrderController;
-use App\Http\Controllers\PortfolioController;
-use App\Http\Controllers\PostController;
-use App\Http\Controllers\ServiceController;
-use App\Http\Controllers\TestimonialController;
-use App\Http\Controllers\ClientController;
-use App\Http\Controllers\InvoiceController;
-use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PublicController;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+*/
 
-Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [AuthController::class, 'login'])->name('login.post');
-Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/', [PublicController::class, 'home'])->name('home');
+Route::get('/services', [PublicController::class, 'services'])->name('public.services');
+Route::get('/portfolio', [PublicController::class, 'portfolio'])->name('public.portfolio');
+Route::get('/contact', [PublicController::class, 'contact'])->name('public.contact');
+// Detail pages (avoid conflict with admin resource routes)
+Route::get('/service-details/{slug}', [PublicController::class, 'serviceDetail'])->name('public.service-details');
+Route::get('/portfolio-details/{portfolio}', [PublicController::class, 'portfolioDetail'])->name('public.portfolio-details');
 
-Route::middleware('auth')->group(function () {
-    Route::get('/dashboard', function () {
-        $todaySalesCount = \App\Models\Order::whereDate('created_at', now()->toDateString())->count();
-        $monthRevenue = \App\Models\Order::whereYear('created_at', now()->year)
-            ->whereMonth('created_at', now()->month)
-            ->sum('total_amount');
-        $yearCustomers = \App\Models\Client::whereYear('created_at', now()->year)->count();
+// Auth scaffolding routes are not auto-registered because laravel/ui is not installed.
+// If you need authentication routes, install Breeze/Fortify or define custom routes.
+// Auth::routes();
 
-        return view('dashboard', compact('todaySalesCount', 'monthRevenue', 'yearCustomers'));
-    })->name('dashboard');
+Route::middleware(['auth'])->group(function () {
+    Route::get('/dashboard', [App\Http\Controllers\AuthController::class, 'index'])->name('dashboard');
 
-    // CRUD Master Data
-    Route::resource('categories', CategoryController::class)->parameters([
-        'categories' => 'category'
-    ]);
-    Route::resource('services', ServiceController::class)->parameters([
-        'services' => 'service'
-    ]);
+    // Categories
+    Route::resource('categories', App\Http\Controllers\CategoryController::class);
 
-    // CRUD Content
-    Route::resource('posts', PostController::class)->parameters([
-        'posts' => 'post'
-    ]);
-    Route::resource('portfolio', PortfolioController::class)->parameters([
-        'portfolio' => 'portfolio'
-    ]);
-    Route::resource('testimonials', TestimonialController::class)->parameters([
-        'testimonials' => 'testimonial'
-    ]);
+    // Services
+    Route::resource('services', App\Http\Controllers\ServiceController::class);
 
-    // CRUD Sales
-    Route::resource('orders', OrderController::class)->parameters([
-        'orders' => 'order'
-    ]);
+    // Posts
+    Route::resource('posts', App\Http\Controllers\PostController::class);
 
-    // CRM
-    Route::resource('clients', ClientController::class)->parameters([
-        'clients' => 'client'
-    ]);
+    // Portfolio
+    Route::resource('portfolio', App\Http\Controllers\PortfolioController::class);
 
-    // Billing
-    Route::resource('invoices', InvoiceController::class)->parameters([
-        'invoices' => 'invoice'
-    ]);
+    // Testimonials
+    Route::resource('testimonials', App\Http\Controllers\TestimonialController::class);
 
-    // Users management
-    Route::resource('users', UserController::class)->parameters([
-        'users' => 'user'
-    ]);
+    // Orders
+    Route::resource('orders', App\Http\Controllers\OrderController::class);
+
+    // Clients
+    Route::resource('clients', App\Http\Controllers\ClientController::class);
+
+    // Invoices
+    Route::resource('invoices', App\Http\Controllers\InvoiceController::class);
+
+    // Users
+    Route::resource('users', App\Http\Controllers\UserController::class);
 
     // Settings
     Route::get('/settings', [\App\Http\Controllers\SettingController::class, 'index'])->name('settings.index');
     Route::put('/settings', [\App\Http\Controllers\SettingController::class, 'update'])->name('settings.update');
 
-    // Profile (user sendiri)
-    Route::get('/profile', [\App\Http\Controllers\ProfileController::class, 'index'])->name('profile.index');
-    Route::put('/profile', [\App\Http\Controllers\ProfileController::class, 'updateProfile'])->name('profile.update');
-    Route::put('/profile/password', [\App\Http\Controllers\ProfileController::class, 'updatePassword'])->name('profile.password');
+    // Profile
+    Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'index'])->name('profile.index');
+    Route::put('/profile', [App\Http\Controllers\ProfileController::class, 'update'])->name('profile.update');
 });
