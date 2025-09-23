@@ -1,0 +1,29 @@
+@extends('layouts.public')
+
+@section('title', 'Services')
+
+@section('content')
+<section class="section-gap services-area" id="services">
+  <div class="container">
+    <div class="row">
+      @forelse($services as $service)
+        <div class="col-lg-4 col-md-6 mb-4">
+          <div class="single-service d-flex flex-column p-4 border rounded h-100">
+            <h4 class="mb-2">{{ $service->service_name }}</h4>
+            @if(!is_null($service->price))
+              <div class="text-primary mb-2">Rp {{ number_format($service->price, 0, ',', '.') }}</div>
+            @endif
+            <p class="flex-grow-1 text-muted">Hubungi kami untuk informasi lebih lanjut.</p>
+            <a href="{{ route('public.service-details', $service->slug) }}" class="text-uppercase">Details</a>
+          </div>
+        </div>
+      @empty
+        <div class="col-12"><p class="text-center">No services available.</p></div>
+      @endforelse
+    </div>
+    <div class="d-flex justify-content-center mt-4">
+      {{ $services->links() }}
+    </div>
+  </div>
+</section>
+@endsection
