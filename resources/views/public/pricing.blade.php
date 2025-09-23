@@ -5,13 +5,21 @@
 @section('content')
 <section class="section-gap" id="pricing">
   <div class="container">
+    <div class="row justify-content-center mb-4">
+      <div class="col-lg-8">
+        <div class="product-area-title text-center">
+          <p class="text-uppercase">{{ config('app.services_description', 'What We Offer') }}</p>
+          <h2 class="h1">{{ config('app.services_heading', 'Services') }}</h2>
+        </div>
+      </div>
+    </div>
     <div class="row">
       @forelse($services as $service)
         <div class="col-lg-4 col-md-6 mb-4">
           <div class="single-price p-4 border rounded h-100 text-center">
             <h4 class="mb-2">{{ $service->service_name }}</h4>
             @if(!is_null($service->price))
-              <h2 class="mb-3">Rp {{ number_format($service->price, 0, ',', '.') }}</h2>
+              <h2 class="mb-3">{{ config('app.currency', 'Rp') }} {{ number_format($service->price, 0, ',', '.') }}</h2>
             @else
               <h6 class="text-muted mb-3">Contact us for pricing</h6>
             @endif

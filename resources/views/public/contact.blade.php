@@ -7,8 +7,8 @@
   <div class="container">
     <div class="row">
       <div class="col-lg-6 mb-4">
-        <h3>Contact Us</h3>
-        <p class="text-muted">Isi formulir berikut, tim kami akan segera menghubungi Anda.</p>
+        <h3>{{ config('app.contact_cta_title', 'Butuh Bantuan?') }}</h3>
+        <p class="text-muted">{{ config('app.contact_cta_description', 'Hubungi kami untuk konsultasi gratis dan penawaran terbaik.') }}</p>
         <div class="alert" style="display:none;"></div>
         <form id="myForm" class="form-area">
           <div class="row">
@@ -33,11 +33,14 @@
       </div>
       <div class="col-lg-6">
         <h3>Our Office</h3>
-        <p>Alamat kantor Anda atau informasi kontak lain di sini.</p>
         <ul class="list-unstyled">
-          <li><i class="fa fa-envelope-o me-2"></i> email@company.com</li>
-          <li><i class="fa fa-phone me-2"></i> +62 812-3456-7890</li>
-          <li><i class="fa fa-map-marker me-2"></i> Jl. Contoh Alamat No. 123, Jakarta</li>
+          @if(config('mail.from.address'))
+            <li><i class="fa fa-envelope-o me-2"></i> {{ config('mail.from.address') }}</li>
+          @endif
+          @if(config('app.company_whatsapp'))
+            <li><i class="fa fa-phone me-2"></i> <a href="https://wa.me/{{ preg_replace('/\D/', '', config('app.company_whatsapp')) }}" target="_blank" rel="noopener">{{ config('app.company_whatsapp') }}</a></li>
+          @endif
+          <li><i class="fa fa-globe me-2"></i> <a href="{{ config('app.url') }}" target="_blank" rel="noopener">{{ config('app.url') }}</a></li>
         </ul>
       </div>
     </div>

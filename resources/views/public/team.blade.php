@@ -5,6 +5,14 @@
 @section('content')
 <section class="section-gap" id="team">
   <div class="container">
+    <div class="row justify-content-center mb-4">
+      <div class="col-lg-8">
+        <div class="product-area-title text-center">
+          <p class="text-uppercase">{{ config('app.team_description', 'Meet our professionals') }}</p>
+          <h2 class="h1">{{ config('app.team_heading', 'Our Team') }}</h2>
+        </div>
+      </div>
+    </div>
     <div class="row">
       @forelse($team as $member)
         <div class="col-6 col-md-4 col-lg-3 mb-4">

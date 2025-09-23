@@ -5,6 +5,14 @@
 @section('content')
 <section class="section-gap" id="portfolio">
   <div class="container">
+    <div class="row justify-content-center mb-4">
+      <div class="col-lg-8">
+        <div class="product-area-title text-center">
+          <p class="text-uppercase">{{ config('app.portfolio_description', 'Recent Projects') }}</p>
+          <h2 class="h1">{{ config('app.portfolio_heading', 'Portfolio') }}</h2>
+        </div>
+      </div>
+    </div>
     <div class="row mb-4">
       <div class="col-12 d-flex justify-content-center controls">
         <button class="filter btn btn-outline-primary active" data-filter="all">All</button>

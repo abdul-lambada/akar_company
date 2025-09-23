@@ -9,7 +9,7 @@
       <div class="col-12">
         <h2 class="mb-2">{{ $service->service_name }}</h2>
         @if(!is_null($service->price))
-          <div class="h5 text-primary">Rp {{ number_format($service->price, 0, ',', '.') }}</div>
+          <div class="h5 text-primary">{{ config('app.currency', 'Rp') }} {{ number_format($service->price, 0, ',', '.') }}</div>
         @endif
         <p class="text-muted">Berikut adalah proyek yang berkaitan dengan layanan ini.</p>
       </div>

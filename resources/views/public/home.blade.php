@@ -10,9 +10,9 @@
             <div class="row fullscreen justify-content-center align-items-center">
                 <div class="col-lg-8">
                     <div class="banner-content text-center">
-                        <p class="text-uppercase text-white">We work hard, we result perfect</p>
-                        <h1 class="text-uppercase text-white">Crafting Digital Agency Experiences</h1>
-                        <a href="#services" class="primary-btn banner-btn">Explore Us</a>
+                        <p class="text-uppercase text-white">{{ config('app.hero_description', 'We work hard, we result perfect') }}</p>
+                        <h1 class="text-uppercase text-white">{{ config('app.hero_heading', 'Crafting Digital Agency Experiences') }}</h1>
+                        <a href="{{ route('public.services') }}" class="primary-btn banner-btn">Explore Us</a>
                     </div>
                 </div>
             </div>
@@ -38,7 +38,7 @@
                         <figcaption class="text-center">
                             <h5 class="text-uppercase">Addiction Whit Gambling</h5>
                             <p>It is a good idea to think of your PC as an office. It stores files, programs, pictures. This can be compared to an actual office’s files</p>
-                            <a href="#" class="primary-btn d-inline-flex align-items-center">Explore<span class="lnr lnr-arrow-right"></span></a>
+                            <a href="{{ route('public.services') }}" class="primary-btn d-inline-flex align-items-center">Explore<span class="lnr lnr-arrow-right"></span></a>
                         </figcaption>
                     </figure>
                 </div>
@@ -48,7 +48,7 @@
                         <figcaption class="text-center">
                             <h5 class="text-uppercase">Headset No Longer Wired</h5>
                             <p>If you are in the market for a computer, there are a number of factors to consider. Will it be used for your home, your office or perhaps </p>
-                            <a href="#" class="primary-btn d-inline-flex align-items-center">Explore<span class="lnr lnr-arrow-right"></span></a>
+                            <a href="{{ route('public.services') }}" class="primary-btn d-inline-flex align-items-center">Explore<span class="lnr lnr-arrow-right"></span></a>
                         </figcaption>
                     </figure>
                 </div>
@@ -58,7 +58,7 @@
                         <figcaption class="text-center">
                             <h5 class="text-uppercase">Life Advice Looking At Window</h5>
                             <p>Having a baby can be a nerve wrackingexp erience for new parents – not the nine months of pregnancy, I’m talking</p>
-                            <a href="#" class="primary-btn d-inline-flex align-items-center">Explore<span class="lnr lnr-arrow-right"></span></a>
+                            <a href="{{ route('public.services') }}" class="primary-btn d-inline-flex align-items-center">Explore<span class="lnr lnr-arrow-right"></span></a>
                         </figcaption>
                     </figure>
                 </div>
@@ -73,8 +73,8 @@
             <div class="row justify-content-center">
                 <div class="col-lg-8">
                     <div class="product-area-title text-center">
-                        <p class="text-white text-uppercase">Why Choose Us</p>
-                        <h2 class="text-white h1">We ensure perfect quality Digital <br> products for you</h2>
+                        <p class="text-white text-uppercase">{{ config('app.services_description', 'Why Choose Us') }}</p>
+                        <h2 class="text-white h1">{{ config('app.services_heading', 'We ensure perfect quality Digital products for you') }}</h2>
                     </div>
                 </div>
             </div>

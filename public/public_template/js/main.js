@@ -8,12 +8,6 @@ $(document).ready(function(){
 	header_height_static = $(".site-header.static").outerHeight(),
 	fitscreen 			 = window_height - header_height;
 
-
-	// $(window).on('load', function() {
- //        // Animate loader off screen
- //        $(".preloader").fadeOut("slow");;
- //    });
-	
 	$(".fullscreen").css("height", window_height)
 	$(".fitscreen").css("height", fitscreen);
 
@@ -29,22 +23,15 @@ $(document).ready(function(){
         $(".main-menu").addClass('mobile-menu');
     });
      $(".main-menu li a").on('click', function(e){
-        e.preventDefault();
-        $(".mobile-menu").slideUp();
-        $(".mobile-btn span").toggleClass("lnr-menu lnr-cross");
+        // Jangan blok navigasi; hanya tutup menu mobile jika sedang terbuka
+        if ($(".main-menu").hasClass('mobile-menu')) {
+            $(".main-menu").slideUp();
+            $(".mobile-btn span").removeClass("lnr-cross").addClass("lnr-menu");
+            $(".main-menu").removeClass('mobile-menu');
+        }
     });
      
 
-    // $(function(){
-    //     $('#Container').mixItUp();
-    // });
-    if (document.querySelector('#filter-content')) {
-        var mixer = mixitup('#filter-content');
-        $(".controls .filter").on('click', function(event){
-            $(".controls .filter").removeClass('active');
-            $(this).addClass('active');
-        });
-    }
     // Add smooth scrolling to Menu links
          $(".main-menu li a, .smooth").on('click', function(event) {
                 if (this.hash !== "") {
@@ -194,3 +181,11 @@ $(document).ready(function(){
   $('.progressBar--animateAll').bekeyProgressbar();
   
 })
+    // Pulihkan inisialisasi MixItUp untuk halaman dengan #filter-content
+    if (document.querySelector('#filter-content')) {
+        var mixer = mixitup('#filter-content');
+        $(".controls .filter").on('click', function(event){
+            $(".controls .filter").removeClass('active');
+            $(this).addClass('active');
+        });
+    }

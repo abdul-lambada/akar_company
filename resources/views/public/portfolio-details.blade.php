@@ -30,7 +30,7 @@
     @if($project->testimonials && $project->testimonials->count())
       <div class="row mt-4">
         <div class="col-12">
-          <h4 class="mb-3">Testimonials</h4>
+          <h4 class="mb-3">{{ config('app.testimonials_heading', 'Testimonials') }}</h4>
         </div>
         @foreach($project->testimonials as $t)
           <div class="col-md-6 mb-3">

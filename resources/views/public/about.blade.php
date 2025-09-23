@@ -10,8 +10,8 @@
         <img class="img-fluid" src="{{ asset('public_template/img/about.jpg') }}" alt="About">
       </div>
       <div class="col-lg-6">
-        <h3>About Us</h3>
-        <p>Kami adalah tim profesional yang berfokus pada solusi digital end-to-end.</p>
+        <h3>{{ config('app.about_heading', 'About Us') }}</h3>
+        <p>{{ config('app.about_description', 'Kami adalah tim profesional yang berfokus pada solusi digital end-to-end.') }}</p>
         <div class="row mt-4">
           <div class="col-4 text-center">
             <h2>{{ $counters['years'] }}</h2>
@@ -31,7 +31,7 @@
 
     <div class="row mt-5">
       <div class="col-12">
-        <h4 class="mb-3">Our Clients</h4>
+        <h4 class="mb-3">{{ config('app.clients_heading', 'Our Clients') }}</h4>
       </div>
       @forelse($clients as $client)
         <div class="col-6 col-md-3 mb-3">
@@ -49,7 +49,7 @@
 
     <div class="row mt-5" id="team">
       <div class="col-12">
-        <h4 class="mb-3">Team</h4>
+        <h4 class="mb-3">{{ config('app.team_heading', 'Team') }}</h4>
       </div>
       @forelse($team as $member)
         <div class="col-6 col-md-4 col-lg-3 mb-3">

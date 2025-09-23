@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" href="{{ asset('public_template/img/fav.png') }}">
-    <title>@yield('title', 'Agency')</title>
+    <title>@yield('title', config('app.name'))</title>
 
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,500,600" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('public_template/css/linearicons.css') }}">
