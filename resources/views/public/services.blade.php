@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Services')
+@section('meta_description', 'Layanan ' . config('app.name') . ' — jelajahi paket layanan dan solusi yang kami tawarkan untuk bisnis Anda.')
 
 @section('content')
 <section class="section-gap services-area" id="services">

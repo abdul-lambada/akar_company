@@ -1,6 +1,12 @@
 @extends('layouts.public')
 
-@section('title', 'Project: ' . $project->project_title)
+@section('title', $project->project_title ?? 'Portfolio Details')
+@section('meta_og_type', 'website')
+@section('meta_description', 'Proyek: ' . ($project->project_title ?? '') . ' — Client: ' . ($project->client_name ?? '') . '. Detail dan hasil pekerjaan kami.')
+@push('meta')
+  @php $ogImage = optional(optional($project->images)->first())->image_path; @endphp
+  <meta property="og:image" content="{{ $ogImage ? asset('storage/' . $ogImage) : (config('app.logo') ? asset('storage/' . config('app.logo')) : asset('public_template/img/logo.png')) }}">
+@endpush
 
 @section('content')
 <section class="section-gap" id="portfolio-details">

@@ -1,6 +1,12 @@
 @extends('layouts.public')
 
-@section('title', $post->title)
+@section('title', $post->title ?? 'Blog Detail')
+@section('meta_og_type', 'article')
+@section('meta_description', \Illuminate\Support\Str::limit(strip_tags($post->content ?? ''), 160))
+@push('meta')
+  @php $ogImage = $img ?? optional(optional($post->images)->first())->image_path; @endphp
+  <meta property="og:image" content="{{ $ogImage ? asset('storage/' . $ogImage) : (config('app.logo') ? asset('storage/' . config('app.logo')) : asset('public_template/img/logo.png')) }}">
+@endpush
 
 @section('content')
 <section class="section-gap" id="blog-detail">

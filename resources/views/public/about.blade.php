@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'About')
+@section('meta_description', 'Tentang ' . config('app.name') . ' — tim, visi, dan nilai yang mendorong kami dalam membantu klien.')
 
 @section('content')
 <section class="about-area section-gap" id="about">

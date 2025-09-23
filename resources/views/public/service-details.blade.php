@@ -1,6 +1,8 @@
 @extends('layouts.public')
 
-@section('title', 'Service: ' . $service->service_name)
+@section('title', $service->service_name ?? 'Service Details')
+@section('meta_og_type', 'website')
+@section('meta_description', ($service->description ?? null) ? \Illuminate\Support\Str::limit(strip_tags($service->description), 160) : ('Detail layanan ' . ($service->service_name ?? '') . ' — temukan informasi layanan dan proyek terkait.'))
 
 @section('content')
 <section class="section-gap" id="service-details">

@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Contact')
+@section('meta_description', 'Hubungi ' . config('app.name') . ' untuk konsultasi, penawaran, atau pertanyaan seputar layanan kami.')
 
 @section('content')
 <section class="section-gap" id="contact">

@@ -1,6 +1,10 @@
 @extends('layouts.public')
 
 @section('title', 'Search')
+@section('meta_description', 'Hasil pencarian untuk: ' . ($q ?? ''))
+@push('meta')
+  <meta name="robots" content="noindex,follow">
+@endpush
 
 @section('content')
 <section class="section-gap" id="search">

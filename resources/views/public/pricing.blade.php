@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Pricing')
+@section('meta_description', 'Harga dan paket layanan ' . config('app.name') . ' — transparan dan kompetitif untuk berbagai kebutuhan.')
 
 @section('content')
 <section class="section-gap" id="pricing">

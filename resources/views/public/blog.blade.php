@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Blog')
+@section('meta_description', 'Blog ' . config('app.name') . ' — artikel, berita, dan insight seputar desain, teknologi, dan pengembangan produk.')
 
 @section('content')
 <section class="section-gap" id="blog">

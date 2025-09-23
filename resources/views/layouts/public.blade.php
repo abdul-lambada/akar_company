@@ -1,11 +1,24 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html lang="{{ str_replace('_','-', config('app.locale', 'id')) }}" class="no-js">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="shortcut icon" href="{{ asset('public_template/img/fav.png') }}">
     <title>@yield('title', config('app.name'))</title>
 
+    <!-- Base Meta: Description / Canonical / Open Graph / Twitter -->
+    <meta name="description" content="@yield('meta_description', config('app.meta_description', 'Solusi layanan digital, desain, dan pengembangan oleh ' . config('app.name')))">
+    <link rel="canonical" href="{{ url()->current() }}">
+    
+    <meta property="og:site_name" content="{{ config('app.name') }}">
+    <meta property="og:title" content="@yield('title', config('app.name'))">
+    <meta property="og:description" content="@yield('meta_description', config('app.meta_description', 'Solusi layanan digital, desain, dan pengembangan oleh ' . config('app.name')))">
+    <meta property="og:type" content="@yield('meta_og_type', 'website')">
+    <meta property="og:url" content="{{ url()->current() }}">
+    <meta property="og:image" content="{{ config('app.og_image') ? asset('storage/' . config('app.og_image')) : (config('app.logo') ? asset('storage/' . config('app.logo')) : asset('public_template/img/logo.png')) }}">
+    
+    <meta name="twitter:card" content="summary_large_image">
+    @stack('meta')
     <link href="https://fonts.googleapis.com/css?family=Poppins:300,500,600" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('public_template/css/linearicons.css') }}">
     <link rel="stylesheet" href="{{ asset('public_template/css/owl.carousel.css') }}">

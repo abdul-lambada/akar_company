@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Team')
+@section('meta_description', 'Tim ' . config('app.name') . ' — profesional di balik layanan dan solusi berkualitas kami.')
 
 @section('content')
 <section class="section-gap" id="team">

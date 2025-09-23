@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Home')
+@section('meta_description', config('app.meta_home', 'Beranda ' . config('app.name') . ' — layanan desain, pengembangan, dan strategi digital untuk membantu brand tumbuh.'))
 
 @section('content')
     <!-- Start Banner Area -->

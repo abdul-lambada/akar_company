@@ -1,6 +1,7 @@
 @extends('layouts.public')
 
 @section('title', 'Portfolio')
+@section('meta_description', 'Portfolio ' . config('app.name') . ' — kumpulan proyek pilihan dan studi kasus untuk berbagai klien.')
 
 @section('content')
 <section class="section-gap" id="portfolio">
