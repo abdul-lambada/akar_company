@@ -19,6 +19,9 @@ Route::get('/team', [PublicController::class, 'team'])->name('public.team');
 // Detail pages (avoid conflict with admin resource routes)
 Route::get('/service-details/{slug}', [PublicController::class, 'serviceDetail'])->name('public.service-details');
 Route::get('/portfolio-details/{portfolio}', [PublicController::class, 'portfolioDetail'])->name('public.portfolio-details');
+Route::get('/blog', [PublicController::class, 'blog'])->name('public.blog');
+Route::get('/blog/{slug}', [PublicController::class, 'blogDetail'])->name('public.blog-detail');
+Route::get('/search', [PublicController::class, 'search'])->name('public.search');
 
 // Auth scaffolding routes are not auto-registered because laravel/ui is not installed.
 // If you need authentication routes, install Breeze/Fortify or define custom routes.

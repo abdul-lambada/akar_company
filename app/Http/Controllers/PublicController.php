@@ -7,6 +7,7 @@ use App\Models\Portfolio;
 use App\Models\Testimonial;
 use App\Models\Client;
 use App\Models\User;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class PublicController extends Controller
@@ -16,8 +17,9 @@ class PublicController extends Controller
         $services = Service::orderBy('service_name')->take(6)->get();
         $projects = Portfolio::with(['images' => function($q){ $q->orderBy('id'); }])->latest()->take(6)->get();
         $testimonials = Testimonial::latest()->take(3)->get();
+        $posts = Post::with(['images','categories','user'])->latest()->take(3)->get();
 
-        return view('public.home', compact('services', 'projects', 'testimonials'));
+        return view('public.home', compact('services', 'projects', 'testimonials', 'posts'));
     }
 
     public function services()
@@ -40,10 +42,37 @@ class PublicController extends Controller
 
     public function portfolio()
     {
+        $serviceIds = collect((array) request()->input('service', []))
+            ->filter()
+            ->map(fn($v) => (int) $v)
+            ->unique()
+            ->values();
+
+        $clientName = trim((string) request('client', ''));
+
         $projects = Portfolio::with(['images' => function($q){ $q->orderBy('id'); }, 'services'])
-            ->latest()->paginate(9);
+            // Match ANY: project tampil jika punya salah satu layanan yang dipilih
+            ->when($serviceIds->isNotEmpty(), function($q) use ($serviceIds) {
+                $q->whereHas('services', function($qs) use ($serviceIds) {
+                    $qs->whereIn('services.service_id', $serviceIds);
+                });
+            })
+            ->when($clientName !== '', function($q) use ($clientName) {
+                $q->where('client_name', $clientName);
+            })
+            ->latest()->paginate(9)->withQueryString();
+
         $filters = Service::orderBy('service_name')->get();
-        return view('public.portfolio', compact('projects', 'filters'));
+        $clients = Portfolio::select('client_name')
+            ->whereNotNull('client_name')
+            ->distinct()
+            ->orderBy('client_name')
+            ->pluck('client_name');
+
+        $activeServiceIds = $serviceIds->all();
+        $activeClientName = $clientName !== '' ? $clientName : null;
+
+        return view('public.portfolio', compact('projects', 'filters', 'activeServiceIds', 'clients', 'activeClientName'));
     }
 
     public function portfolioDetail(Portfolio $portfolio)
@@ -84,5 +113,57 @@ class PublicController extends Controller
     {
         $team = User::orderBy('name')->paginate(12);
         return view('public.team', compact('team'));
+    }
+
+    // Blog publik (listing)
+    public function blog()
+    {
+        $posts = Post::with(['images','categories','user'])->latest()->paginate(9);
+        return view('public.blog', compact('posts'));
+    }
+
+    // Detail blog berdasarkan slug
+    public function blogDetail(string $slug)
+    {
+        $post = Post::with(['images','categories','user'])->where('slug', $slug)->firstOrFail();
+        // artikel terkait (berdasarkan kategori pertama)
+        $related = collect();
+        if ($post->categories->count()) {
+            $catIds = $post->categories->pluck('category_id');
+            $related = Post::with(['images'])
+                ->where('post_id', '!=', $post->post_id)
+                ->whereHas('categories', function($q) use ($catIds) {
+                    $q->whereIn('categories.category_id', $catIds);
+                })
+                ->latest()->take(3)->get();
+        }
+        return view('public.blog-detail', compact('post','related'));
+    }
+
+    // Pencarian konten publik
+    public function search(Request $request)
+    {
+        $q = trim($request->get('q', ''));
+        $services = collect();
+        $projects = collect();
+        $posts = collect();
+
+        if ($q !== '') {
+            $services = Service::where('service_name', 'like', "%{$q}%")->orderBy('service_name')->take(10)->get();
+            $projects = Portfolio::with(['images'])
+                ->where(function($w) use ($q){
+                    $w->where('project_title', 'like', "%{$q}%")
+                      ->orWhere('client_name', 'like', "%{$q}%");
+                })
+                ->latest()->take(10)->get();
+            $posts = Post::with(['images'])
+                ->where(function($w) use ($q){
+                    $w->where('title', 'like', "%{$q}%")
+                      ->orWhere('content', 'like', "%{$q}%");
+                })
+                ->latest()->take(10)->get();
+        }
+
+        return view('public.search', compact('q','services','projects','posts'));
     }
 }

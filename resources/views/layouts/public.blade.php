@@ -15,7 +15,7 @@
     <link rel="stylesheet" href="{{ asset('public_template/css/main.css') }}">
     @stack('styles')
 </head>
-<body>
+<body class="has-fixed-header">
     <div id="top"></div>
 
     @include('public.partials.header')

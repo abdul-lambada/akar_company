@@ -11,24 +11,36 @@ $(document).ready(function(){
 	$(".fullscreen").css("height", window_height)
 	$(".fitscreen").css("height", fitscreen);
 
-    //-------- Active Sticky Js ----------//
-     $(".sticky-header").sticky({topSpacing:0});
-     
-     // -------   Active Mobile Menu-----//
+    // Offset konten agar tidak tertutup header (dinamis mengikuti tinggi header)
+    function adjustContentOffset(){
+      var h = $(".default-header").outerHeight() || 80;
+      $("main").css("padding-top", h);
+    }
+    adjustContentOffset();
+    $(window).on('resize', adjustContentOffset);
 
-     $(".mobile-btn").on('click', function(e){
-        e.preventDefault();
-        $(".main-menu").slideToggle();
-        $("span", this).toggleClass("lnr-menu lnr-cross");
-        $(".main-menu").addClass('mobile-menu');
+    //-------- Active Sticky Js ----------//
+    $(".sticky-header").sticky({topSpacing:0});
+    // Setelah sticky aktif, sesuaikan lagi offset
+    $(document).on('sticky-start sticky-update sticky-end', function(){
+      adjustContentOffset();
     });
-     $(".main-menu li a").on('click', function(e){
-        // Jangan blok navigasi; hanya tutup menu mobile jika sedang terbuka
-        if ($(".main-menu").hasClass('mobile-menu')) {
-            $(".main-menu").slideUp();
-            $(".mobile-btn span").removeClass("lnr-cross").addClass("lnr-menu");
-            $(".main-menu").removeClass('mobile-menu');
-        }
+
+    // -------   Active Mobile Menu-----//
+
+    $(".mobile-btn").on('click', function(e){
+      e.preventDefault();
+      $(".main-menu").slideToggle();
+      $("span", this).toggleClass("lnr-menu lnr-cross");
+      $(".main-menu").addClass('mobile-menu');
+    });
+    $(".main-menu li a").on('click', function(e){
+      // Jangan blok navigasi; hanya tutup menu mobile jika sedang terbuka
+      if ($(".main-menu").hasClass('mobile-menu')) {
+        $(".main-menu").slideUp();
+        $(".mobile-btn span").removeClass("lnr-cross").addClass("lnr-menu");
+        $(".main-menu").removeClass('mobile-menu');
+      }
     });
      
 

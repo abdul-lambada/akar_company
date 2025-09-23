@@ -15,16 +15,16 @@
     </div>
     <div class="row mb-4">
       <div class="col-12 d-flex justify-content-center controls">
-        <button class="filter btn btn-outline-primary active" data-filter="all">All</button>
+        <a href="{{ route('public.portfolio') }}" class="btn btn-outline-primary {{ !$activeServiceId ? 'active' : '' }}">All</a>
         @foreach($filters as $f)
-          <button class="filter btn btn-outline-primary ms-2" data-filter=".srv-{{ $f->service_id }}">{{ $f->service_name }}</button>
+          <a href="{{ route('public.portfolio', ['service' => $f->service_id]) }}" class="btn btn-outline-primary ms-2 {{ $activeServiceId === $f->service_id ? 'active' : '' }}">{{ $f->service_name }}</a>
         @endforeach
       </div>
     </div>
     <div id="filter-content" class="row">
-      @foreach($projects as $project)
+      @forelse($projects as $project)
         @php $thumb = optional($project->images->first())->image_path; @endphp
-        <div class="col-lg-4 col-md-6 mb-4 mix {{ $project->services->map(fn($s) => 'srv-'.$s->service_id)->implode(' ') }}">
+        <div class="col-lg-4 col-md-6 mb-4">
           <div class="single-portfolio d-flex flex-column p-2 border rounded h-100">
             <a href="{{ route('public.portfolio-details', $project) }}" class="d-block mb-2">
               @if($thumb)
@@ -44,7 +44,9 @@
             </div>
           </div>
         </div>
-      @endforeach
+      @empty
+        <div class="col-12"><p class="text-center">Tidak ada project untuk filter ini.</p></div>
+      @endforelse
     </div>
     <div class="d-flex justify-content-center mt-4">
       {{ $projects->links() }}
