@@ -13,6 +13,9 @@ Route::get('/', [PublicController::class, 'home'])->name('home');
 Route::get('/services', [PublicController::class, 'services'])->name('public.services');
 Route::get('/portfolio', [PublicController::class, 'portfolio'])->name('public.portfolio');
 Route::get('/contact', [PublicController::class, 'contact'])->name('public.contact');
+Route::get('/about', [PublicController::class, 'about'])->name('public.about');
+Route::get('/pricing', [PublicController::class, 'pricing'])->name('public.pricing');
+Route::get('/team', [PublicController::class, 'team'])->name('public.team');
 // Detail pages (avoid conflict with admin resource routes)
 Route::get('/service-details/{slug}', [PublicController::class, 'serviceDetail'])->name('public.service-details');
 Route::get('/portfolio-details/{portfolio}', [PublicController::class, 'portfolioDetail'])->name('public.portfolio-details');

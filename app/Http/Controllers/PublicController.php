@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Service;
 use App\Models\Portfolio;
 use App\Models\Testimonial;
+use App\Models\Client;
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class PublicController extends Controller
@@ -15,7 +17,7 @@ class PublicController extends Controller
         $projects = Portfolio::with(['images' => function($q){ $q->orderBy('id'); }])->latest()->take(6)->get();
         $testimonials = Testimonial::latest()->take(3)->get();
 
-        return view('welcome', compact('services', 'projects', 'testimonials'));
+        return view('public.home', compact('services', 'projects', 'testimonials'));
     }
 
     public function services()
@@ -53,5 +55,34 @@ class PublicController extends Controller
     public function contact()
     {
         return view('public.contact');
+    }
+
+    // Halaman Tentang Kami
+    public function about()
+    {
+        // info singkat, angka-angka, dan daftar client untuk kredibilitas
+        $counters = [
+            'years' => 5,
+            'projects' => Portfolio::count(),
+            'clients' => Client::count(),
+        ];
+        $clients = Client::latest()->take(8)->get();
+        $team = User::orderBy('name')->take(6)->get();
+        return view('public.about', compact('counters', 'clients', 'team'));
+    }
+
+    // Halaman Harga
+    public function pricing()
+    {
+        // gunakan services sebagai paket harga dasar
+        $services = Service::orderBy('price', 'desc')->orderBy('service_name')->get();
+        return view('public.pricing', compact('services'));
+    }
+
+    // Halaman Tim
+    public function team()
+    {
+        $team = User::orderBy('name')->paginate(12);
+        return view('public.team', compact('team'));
     }
 }
