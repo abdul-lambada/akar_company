@@ -9,7 +9,7 @@ use App\Http\Controllers\PublicController;
 |--------------------------------------------------------------------------
 */
 
-Route::get('/', [PublicController::class, 'home'])->name('home');
+Route::get('/', [PublicController::class, 'home'])->name('public.index');
 Route::get('/services', [PublicController::class, 'services'])->name('public.services');
 Route::get('/portfolio', [PublicController::class, 'portfolio'])->name('public.portfolio');
 Route::get('/contact', [PublicController::class, 'contact'])->name('public.contact');

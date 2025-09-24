@@ -25,7 +25,7 @@
                         <li class="{{ active_class('public.about') }}"><a href="{{ route('public.about') }}">About Us</a></li>
                         <li class="{{ active_class('public.services') }}"><a href="{{ route('public.services') }}">Services</a></li>
                         <li class="{{ active_class('public.portfolio') }}"><a href="{{ route('public.portfolio') }}">Portfolio</a></li>
-                        <li class="{{ active_class('public.career') }}"><a href="{{ route('public.career') }}">Careers</a></li>
+                        {{-- <li class="{{ active_class('public.career') }}"><a href="{{ route('public.career') }}">Careers</a></li> --}}
                         <li class="{{ active_class('public.contact') }}"><a href="{{ route('public.contact') }}">Contact Us</a></li>
                     </ul>
                 </div>
