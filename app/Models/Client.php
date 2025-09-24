@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class Client extends Model
 {
@@ -18,6 +20,8 @@ class Client extends Model
         'email',
         'whatsapp',
         'address',
+        // optional logo path stored relative to storage/public or an absolute URL
+        'logo_path',
     ];
 
     public function getRouteKeyName()
@@ -28,5 +32,20 @@ class Client extends Model
     public function invoices()
     {
         return $this->hasMany(Invoice::class, 'client_id', 'client_id');
+    }
+
+    /**
+     * Public URL for the client's logo.
+     */
+    public function getLogoUrlAttribute(): string
+    {
+        $path = (string) ($this->logo_path ?? '');
+        if ($path === '') {
+            return '';
+        }
+        if (Str::startsWith($path, ['http://', 'https://', '/'])) {
+            return $path;
+        }
+        return Storage::url($path);
     }
 }

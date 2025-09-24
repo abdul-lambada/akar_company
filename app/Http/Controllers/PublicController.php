@@ -17,9 +17,11 @@ class PublicController extends Controller
         $services = Service::orderBy('service_name')->take(6)->get();
         $projects = Portfolio::with(['images' => function($q){ $q->orderBy('id'); }])->latest()->take(6)->get();
         $testimonials = Testimonial::latest()->take(3)->get();
+        // For client logos, we can use a bigger pool of testimonials
+        $clientTestimonials = Testimonial::latest()->take(24)->get();
         $posts = Post::with(['images','categories','user'])->latest()->take(3)->get();
-
-        return view('public.home', compact('services', 'projects', 'testimonials', 'posts'));
+        
+        return view('public.home', compact('services', 'projects', 'testimonials', 'posts', 'clientTestimonials'));
     }
 
     public function services()
@@ -142,30 +144,4 @@ class PublicController extends Controller
         return view('public.blog-detail', compact('post','related'));
     }
 
-    // Pencarian konten publik
-    public function search(Request $request)
-    {
-        $q = trim($request->get('q', ''));
-        $services = collect();
-        $projects = collect();
-        $posts = collect();
-
-        if ($q !== '') {
-            $services = Service::where('service_name', 'like', "%{$q}%")->orderBy('service_name')->take(10)->get();
-            $projects = Portfolio::with(['images'])
-                ->where(function($w) use ($q){
-                    $w->where('project_title', 'like', "%{$q}%")
-                      ->orWhere('client_name', 'like', "%{$q}%");
-                })
-                ->latest()->take(10)->get();
-            $posts = Post::with(['images'])
-                ->where(function($w) use ($q){
-                    $w->where('title', 'like', "%{$q}%")
-                      ->orWhere('content', 'like', "%{$q}%");
-                })
-                ->latest()->take(10)->get();
-        }
-
-        return view('public.search', compact('q','services','projects','posts'));
-    }
 }
