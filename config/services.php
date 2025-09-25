@@ -35,4 +35,28 @@ return [
         ],
     ],
 
+    // Google reCAPTCHA v3
+    'recaptcha' => [
+        'site_key' => env('RECAPTCHA_SITE_KEY'),
+        'secret_key' => env('RECAPTCHA_SECRET_KEY'),
+        'score_threshold' => env('RECAPTCHA_SCORE_THRESHOLD', 0.5),
+    ],
+
+    // Fonnte WhatsApp Gateway
+    'fonnte' => [
+        // Prefer env in production; in local we may override via runtime config
+        'token' => env('FONNTE_TOKEN'),
+    ],
+
+    // WhatsApp Cloud API
+    'whatsapp' => [
+        'cloud' => [
+            'token' => env('WHATSAPP_CLOUD_TOKEN'),
+            'phone_id' => env('WHATSAPP_CLOUD_PHONE_ID'),
+            'graph_version' => env('WHATSAPP_CLOUD_GRAPH_VERSION', 'v20.0'),
+            'template_name' => env('WHATSAPP_TEMPLATE_NAME'),
+            'template_lang' => env('WHATSAPP_TEMPLATE_LANG', 'id'),
+        ],
+    ],
+
 ];

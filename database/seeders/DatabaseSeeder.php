@@ -21,6 +21,9 @@ class DatabaseSeeder extends Seeder
             PortfolioSeeder::class,
             TestimonialSeeder::class,
             PostSeeder::class,
+            InvoiceSeeder::class,
+            InvoiceItemSeeder::class,
+            BackfillOrderTotalsSeeder::class,
         ]);
     }
 }

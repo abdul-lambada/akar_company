@@ -6,6 +6,7 @@ use App\Models\Client;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+// Email flow removed; using WhatsApp only
 
 class InvoiceController extends Controller
 {
@@ -66,7 +67,79 @@ class InvoiceController extends Controller
 
     public function show(Invoice $invoice)
     {
-        $invoice->load(['client','order']);
+        $invoice->load(['client','order','items']);
         return view('invoices.show', compact('invoice'));
+    }
+
+    /**
+     * Signed public endpoint to download invoice PDF without authentication.
+     */
+    public function publicPdf(Invoice $invoice)
+    {
+        $invoice->load(['client','order','items']);
+
+        $filename = 'Invoice-'.$invoice->invoice_code.'.pdf';
+
+        // Use barryvdh facade if available
+        if (class_exists(\Barryvdh\DomPDF\Facade\Pdf::class)) {
+            $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('invoices.pdf', compact('invoice'));
+            return $pdf->download($filename);
+        }
+
+        // Fallback to native dompdf if installed
+        if (class_exists(\Dompdf\Dompdf::class)) {
+            $html = view('invoices.pdf', ['invoice' => $invoice])->render();
+            $options = new \Dompdf\Options();
+            $options->set('isRemoteEnabled', true);
+            $dompdf = new \Dompdf\Dompdf($options);
+            $dompdf->loadHtml($html);
+            $dompdf->setPaper('A4');
+            $dompdf->render();
+            $output = $dompdf->output();
+            return response($output)
+                ->header('Content-Type', 'application/pdf')
+                ->header('Content-Disposition', 'attachment; filename="'.$filename.'"');
+        }
+
+        // Last resort: HTML preview
+        return response()->view('invoices.pdf', compact('invoice'))->withHeaders([
+            'Content-Type' => 'application/pdf',
+        ]);
+    }
+
+    /**
+     * Admin download endpoint (requires auth via route group), mirrors publicPdf without signed middleware.
+     */
+    public function downloadPdf(Invoice $invoice)
+    {
+        $invoice->load(['client','order','items']);
+
+        $filename = 'Invoice-'.$invoice->invoice_code.'.pdf';
+
+        // Use barryvdh facade if available
+        if (class_exists(\Barryvdh\DomPDF\Facade\Pdf::class)) {
+            $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('invoices.pdf', compact('invoice'));
+            return $pdf->download($filename);
+        }
+
+        // Fallback to native dompdf if installed
+        if (class_exists(\Dompdf\Dompdf::class)) {
+            $html = view('invoices.pdf', ['invoice' => $invoice])->render();
+            $options = new \Dompdf\Options();
+            $options->set('isRemoteEnabled', true);
+            $dompdf = new \Dompdf\Dompdf($options);
+            $dompdf->loadHtml($html);
+            $dompdf->setPaper('A4');
+            $dompdf->render();
+            $output = $dompdf->output();
+            return response($output)
+                ->header('Content-Type', 'application/pdf')
+                ->header('Content-Disposition', 'attachment; filename="'.$filename.'"');
+        }
+
+        // Last resort: HTML preview
+        return response()->view('invoices.pdf', compact('invoice'))->withHeaders([
+            'Content-Type' => 'application/pdf',
+        ]);
     }
 }

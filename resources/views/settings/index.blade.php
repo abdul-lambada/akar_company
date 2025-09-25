@@ -131,17 +131,63 @@
             <label for="contact_cta_title" class="form-label">Contact CTA Title</label>
             <input type="text" name="contact_cta_title" id="contact_cta_title" class="form-control @error('contact_cta_title') is-invalid @enderror" value="{{ old('contact_cta_title', $settings['contact_cta_title'] ?? '') }}">
             @error('contact_cta_title')<div class="invalid-feedback">{{ $message }}</div>@enderror
-          </div>
-          <div class="col-md-6">
             <label for="contact_cta_description" class="form-label">Contact CTA Description</label>
             <textarea name="contact_cta_description" id="contact_cta_description" rows="2" class="form-control @error('contact_cta_description') is-invalid @enderror">{{ old('contact_cta_description', $settings['contact_cta_description'] ?? '') }}</textarea>
             @error('contact_cta_description')<div class="invalid-feedback">{{ $message }}</div>@enderror
           </div>
         </div>
+
+        <hr class="my-4">
+        <div class="d-flex justify-content-between align-items-center">
+          <h5 class="card-title m-0">WhatsApp Integration</h5>
+        </div>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="fonnte_token" class="form-label">Fonnte API Token</label>
+            <input type="text" name="fonnte_token" id="fonnte_token" class="form-control @error('fonnte_token') is-invalid @enderror" value="{{ old('fonnte_token', $settings['fonnte_token'] ?? '') }}" placeholder="xxxxxxxxxxxxxxxxxxxx">
+            @error('fonnte_token')<div class="invalid-feedback">{{ $message }}</div>@enderror
+            <small class="text-muted">Jika terisi, sistem akan mengirim pesan via Fonnte terlebih dahulu.</small>
+          </div>
+          <div class="col-md-4">
+            <label for="wa_template_name" class="form-label">Template Name (WA Cloud API)</label>
+            <input type="text" name="wa_template_name" id="wa_template_name" class="form-control @error('wa_template_name') is-invalid @enderror" value="{{ old('wa_template_name', $settings['wa_template_name'] ?? '') }}" placeholder="invoice_notification">
+            @error('wa_template_name')<div class="invalid-feedback">{{ $message }}</div>@enderror
+          </div>
+          <div class="col-md-2">
+            <label for="wa_template_lang" class="form-label">Template Lang</label>
+            <input type="text" name="wa_template_lang" id="wa_template_lang" class="form-control @error('wa_template_lang') is-invalid @enderror" value="{{ old('wa_template_lang', $settings['wa_template_lang'] ?? 'id') }}" placeholder="id">
+            @error('wa_template_lang')<div class="invalid-feedback">{{ $message }}</div>@enderror
+          </div>
+        </div>
+
+        <div class="alert alert-info mt-3">
+          <div class="fw-bold mb-1">Prioritas Provider</div>
+          <div class="small">1) Fonnte (jika token diisi) • 2) WhatsApp Cloud API (jika token & phone id di .env) • 3) Fallback log wa.me</div>
+        </div>
+
         <div class="mt-4">
           <button class="btn btn-primary" type="submit"><i class="bi bi-save"></i> Save Changes</button>
         </div>
       </form>
+
+      <div class="mt-4">
+        <h6 class="mb-2">Kirim Pesan Uji Coba WhatsApp</h6>
+        <form action="{{ route('settings.whatsappTest') }}" method="POST" class="row g-2">
+          @csrf
+          <div class="col-md-4">
+            <input type="text" name="wa_number" class="form-control" placeholder="No. WhatsApp tujuan (62...)" required>
+          </div>
+          <div class="col-md-5">
+            <input type="text" name="message" class="form-control" placeholder="Pesan uji (opsional)" value="Test WhatsApp dari Admin Settings">
+          </div>
+          <div class="col-md-3">
+            <input type="url" name="cta_url" class="form-control" placeholder="CTA URL (opsional)">
+          </div>
+          <div class="col-12">
+            <button class="btn btn-outline-success"><i class="bi bi-send"></i> Kirim Uji</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
 </section>

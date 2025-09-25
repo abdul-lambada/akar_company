@@ -54,6 +54,7 @@
               <td>
                 <a href="{{ route('invoices.show', $inv) }}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-eye"></i></a>
                 <a href="{{ route('invoices.edit', $inv) }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
+                <a href="{{ route('invoices.pdf', $inv) }}" class="btn btn-sm btn-outline-success" title="Unduh PDF"><i class="bi bi-file-earmark-pdf"></i></a>
                 <form action="{{ route('invoices.destroy', $inv) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this invoice?')">
                   @csrf
                   @method('DELETE')

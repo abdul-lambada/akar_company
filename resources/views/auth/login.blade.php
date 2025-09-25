@@ -1,6 +1,6 @@
 @extends('layouts.auth')
 
-@section('title', 'Login')
+@section('title', 'Masuk')
 
 @section('content')
     <main>
@@ -12,7 +12,7 @@
 
                             <div class="d-flex justify-content-center py-4">
                                 <a href="{{ url('/') }}" class="logo d-flex align-items-center w-auto">
-                                    <img src="{{ asset('NiceAdmin/assets/img/logo.png') }}" alt="">
+                                    <img src="{{ config('app.logo') ? asset('storage/'.config('app.logo')) : asset('NiceAdmin/assets/img/logo.png') }}" alt="Logo">
                                     <span class="d-none d-lg-block">{{ config('app.name', 'Akar Company') }}</span>
                                 </a>
                             </div>
@@ -20,20 +20,24 @@
                             <div class="card mb-3 w-100">
                                 <div class="card-body">
                                     <div class="pt-4 pb-2">
-                                        <h5 class="card-title text-center pb-0 fs-4">Login to Your Account</h5>
-                                        <p class="text-center small">Enter your email/username & password to login</p>
+                                        <h5 class="card-title text-center pb-0 fs-4">Masuk ke Akun Anda</h5>
+                                        <p class="text-center small">Masukkan email/username dan kata sandi untuk masuk</p>
+                                        @if ($errors->has('login') && !old('password'))
+                                          <div class="alert alert-danger small py-2 mt-2" role="alert">
+                                            {{ $errors->first('login') }}
+                                          </div>
+                                        @endif
                                     </div>
 
-                                    <form class="row g-3 needs-validation" method="POST" action="{{ route('login.post') }}"
-                                        novalidate>
+                                    <form class="row g-3 needs-validation" method="POST" action="{{ route('login.post') }}" novalidate>
                                         @csrf
 
                                         <div class="col-12">
-                                            <label for="login" class="form-label">Email or Username</label>
+                                            <label for="login" class="form-label">Email atau Username</label>
                                             <div class="input-group has-validation">
-                                                <input type="text" name="login"
-                                                    class="form-control @error('login') is-invalid @enderror" id="login"
-                                                    value="{{ old('login') }}" required autofocus>
+                                                <input type="text" name="login" id="login"
+                                                    class="form-control @error('login') is-invalid @enderror"
+                                                    value="{{ old('login') }}" required autofocus placeholder="nama@domain.com atau username">
                                                 @error('login')
                                                     <div class="invalid-feedback d-block">{{ $message }}</div>
                                                 @enderror
@@ -41,10 +45,9 @@
                                         </div>
 
                                         <div class="col-12">
-                                            <label for="password" class="form-label">Password</label>
-                                            <input type="password" name="password"
-                                                class="form-control @error('password') is-invalid @enderror" id="password"
-                                                required>
+                                            <label for="password" class="form-label">Kata Sandi</label>
+                                            <input type="password" name="password" id="password"
+                                                class="form-control @error('password') is-invalid @enderror" required placeholder="••••••••">
                                             @error('password')
                                                 <div class="invalid-feedback d-block">{{ $message }}</div>
                                             @enderror
@@ -52,14 +55,13 @@
 
                                         <div class="col-12">
                                             <div class="form-check">
-                                                <input class="form-check-input" type="checkbox" name="remember"
-                                                    id="remember" {{ old('remember') ? 'checked' : '' }}>
-                                                <label class="form-check-label" for="remember">Remember me</label>
+                                                <input class="form-check-input" type="checkbox" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }}>
+                                                <label class="form-check-label" for="remember">Ingat saya</label>
                                             </div>
                                         </div>
 
                                         <div class="col-12">
-                                            <button class="btn btn-primary w-100" type="submit">Login</button>
+                                            <button class="btn btn-primary w-100" type="submit">Masuk</button>
                                         </div>
 
                                     </form>
@@ -67,7 +69,7 @@
                             </div>
 
                             <div class="credits text-center">
-                                Designed by Akar Sekawan
+                                Dikembangkan oleh Akar Sekawan
                             </div>
 
                         </div>

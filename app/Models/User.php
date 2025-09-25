@@ -31,6 +31,20 @@ class User extends Authenticatable
         'role',
         'password',
         'avatar',
+        // Team/public profile fields
+        'job_title',
+        'short_bio',
+        'is_public',
+        'display_order',
+        'linkedin_url',
+        'github_url',
+        'instagram_url',
+        'website',
+        'whatsapp_public',
+        'years_of_experience',
+        'expertise',
+        'skills',
+        'slug',
     ];
 
     /**
@@ -53,6 +67,9 @@ class User extends Authenticatable
         return [
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
+            'is_public' => 'boolean',
+            'expertise' => 'array',
+            'skills' => 'array',
         ];
     }
 

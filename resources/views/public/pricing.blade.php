@@ -1,9 +1,10 @@
 @extends('layouts.bizland')
 @section('title','Harga')
+@section('meta_description','Pilihan paket layanan dan harga yang transparan')
 @section('content')
 <section class="section">
   <div class="container section-title" data-aos="fade-up">
-    <h2>Harga</h2>
+    <x-breadcrumbs :items="[[ 'label' => 'Home', 'url' => route('public.index') ], [ 'label' => 'Harga' ]]" title="Harga" />
     <p><span>Paket</span> <span class="description-title">Layanan</span></p>
   </div>
   <div class="container">

@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use App\Models\Invoice;
+use App\Models\Service;
 
 class Order extends Model
 {
@@ -20,6 +21,8 @@ class Order extends Model
         'customer_whatsapp',
         'total_amount',
         'status',
+        // keep optional if present in schema
+        'service_id',
     ];
 
     public function getRouteKeyName()
@@ -35,5 +38,10 @@ class Order extends Model
     public function invoices()
     {
         return $this->hasMany(Invoice::class, 'order_id', 'order_id');
+    }
+
+    public function service()
+    {
+        return $this->belongsTo(Service::class, 'service_id', 'service_id');
     }
 }

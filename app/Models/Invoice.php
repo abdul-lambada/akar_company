@@ -42,4 +42,9 @@ class Invoice extends Model
     {
         return $this->belongsTo(Order::class, 'order_id', 'order_id');
     }
+
+    public function items()
+    {
+        return $this->hasMany(InvoiceItem::class, 'invoice_id', 'invoice_id');
+    }
 }

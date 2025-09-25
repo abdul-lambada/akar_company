@@ -1,12 +1,19 @@
 @extends('layouts.bizland')
 @section('title', $service->service_name)
+@section('meta_description', 'Layanan ' . $service->service_name)
 @section('content')
 <section class="section">
   <div class="container">
+    <div class="container section-title" data-aos="fade-up">
+      <x-breadcrumbs :items="[[ 'label' => 'Home', 'url' => route('public.index') ], [ 'label' => 'Services', 'url' => route('public.services') ], [ 'label' => $service->service_name ]]" title="Detail Layanan" />
+    </div>
     <h2 class="mb-3">{{ $service->service_name }}</h2>
     @if(!is_null($service->price))
       <p class="text-muted">Harga mulai: {{ number_format((float)$service->price, 0, ',', '.') }}</p>
     @endif
+    <div class="mb-4">
+      <a href="{{ route('public.order.create', ['service_id' => $service->getKey(), 'package_name' => $service->service_name, 'budget' => $service->price]) }}" class="btn btn-primary"><i class="bi bi-bag-check me-2"></i>Order Sekarang</a>
+    </div>
 
     <hr class="my-4">
     <h4 class="mb-3">Proyek terkait</h4>
@@ -16,7 +23,7 @@
         <div class="col-lg-4 col-md-6">
           <div class="card h-100 border-0 shadow-sm">
             @if($cover)
-              <img src="{{ $cover->url }}" class="card-img-top" alt="{{ $project->project_title }}">
+              <img src="{{ $cover->url }}" class="card-img-top" alt="{{ $project->project_title }}" loading="lazy">
             @endif
             <div class="card-body">
               <h5 class="card-title mb-1">{{ $project->project_title }}</h5>

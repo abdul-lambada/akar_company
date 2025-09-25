@@ -6,7 +6,19 @@
   <title>@yield('title', 'Auth') - {{ config('app.name', 'Akar Company') }}</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
-  <link href="{{ asset('NiceAdmin/assets/img/favicon.png') }}" rel="icon">
+  @php
+    $logo = config('app.logo');
+    $logoUrl = null;
+    if (!empty($logo)) {
+      if (\Illuminate\Support\Str::startsWith($logo, ['http://', 'https://', '/'])) {
+        $logoUrl = $logo;
+      } else {
+        $logoUrl = \Illuminate\Support\Facades\Storage::url($logo);
+      }
+    }
+    $logoUrl = $logoUrl ?: asset('NiceAdmin/assets/img/logo.png');
+  @endphp
+  <link href="{{ $logoUrl }}" rel="icon">
   <link href="{{ asset('NiceAdmin/assets/img/apple-touch-icon.png') }}" rel="apple-touch-icon">
   <link href="https://fonts.gstatic.com" rel="preconnect">
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Nunito:300,300i,400,400i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">

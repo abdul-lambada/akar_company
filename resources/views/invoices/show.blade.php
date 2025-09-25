@@ -40,6 +40,7 @@
           <div class="mt-3">
             <a href="{{ route('invoices.index') }}" class="btn btn-secondary">Back</a>
             <a href="{{ route('invoices.edit', $invoice) }}" class="btn btn-primary">Edit</a>
+            <a href="{{ route('invoices.pdf', $invoice) }}" class="btn btn-outline-success">Unduh PDF</a>
           </div>
         </div>
       </div>

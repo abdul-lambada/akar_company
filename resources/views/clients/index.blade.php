@@ -48,13 +48,13 @@
               <td>{{ $c->address ?? '-' }}</td>
               <td class="text-center">{{ $c->invoices_count ?? '-' }}</td>
               <td class="text-end">
-                  @include('components.action-buttons', [
-                    'viewUrl' => route('portofolio.show', $portofolio),
-                    'editUrl' => route('portofolio.edit', $portofolio),
-                    'deleteUrl' => route('portofolio.destroy', $portofolio),
-                    'confirm' => 'Delete this portofolio?'
-                  ])
-                </td>
+                @include('components.action-buttons', [
+                  'viewUrl' => route('clients.show', $c),
+                  'editUrl' => route('clients.edit', $c),
+                  'deleteUrl' => route('clients.destroy', $c),
+                  'confirm' => 'Delete this client?'
+                ])
+              </td>
             </tr>
             @empty
             <tr>

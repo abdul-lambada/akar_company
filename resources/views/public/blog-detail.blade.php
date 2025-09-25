@@ -1,8 +1,12 @@
 @extends('layouts.bizland')
 @section('title', $post->title)
+@section('meta_description', \Illuminate\Support\Str::limit(strip_tags($post->content), 150))
 @section('content')
 <section class="section">
   <div class="container">
+    <div class="container section-title" data-aos="fade-up">
+      <x-breadcrumbs :items="[[ 'label' => 'Home', 'url' => route('public.index') ], [ 'label' => 'Blog', 'url' => route('public.blog') ], [ 'label' => $post->title ]]" title="Detail Artikel" />
+    </div>
     <div class="row">
       <div class="col-lg-8">
         <h1 class="mb-3">{{ $post->title }}</h1>

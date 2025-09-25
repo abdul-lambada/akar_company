@@ -16,12 +16,6 @@ class OrderController extends Controller
         return view('orders.index', compact('orders'));
     }
 
-    public function create()
-    {
-        $services = Service::orderBy('service_name')->get();
-        return view('orders.create', compact('services'));
-    }
-
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -33,30 +27,29 @@ class OrderController extends Controller
             'items.*.price_at_order' => 'required|numeric|min:0',
         ]);
 
-        $order = new Order();
-        $order->order_code = 'ORD-'.strtoupper(Str::random(6));
-        $order->customer_name = $data['customer_name'];
-        $order->customer_whatsapp = $data['customer_whatsapp'];
-        $order->status = $data['status'];
-        $order->total_amount = collect($data['items'])->sum('price_at_order');
-        $order->save();
+        \DB::transaction(function () use ($data) {
+            $order = new Order();
+            $order->order_code = 'ORD-'.strtoupper(Str::random(6));
+            $order->customer_name = $data['customer_name'];
+            $order->customer_whatsapp = $data['customer_whatsapp'];
+            $order->status = $data['status'];
+            $order->total_amount = collect($data['items'])->sum('price_at_order');
+            // Keep dashboard-friendly single service_id (first item) if column exists
+            if (\Illuminate\Support\Facades\Schema::hasColumn($order->getTable(), 'service_id')) {
+                $order->service_id = $data['items'][0]['service_id'] ?? null;
+            }
+            $order->save();
 
-        foreach ($data['items'] as $item) {
-            OrderItem::create([
-                'order_id' => $order->order_id,
-                'service_id' => $item['service_id'],
-                'price_at_order' => $item['price_at_order'],
-            ]);
-        }
+            foreach ($data['items'] as $item) {
+                OrderItem::create([
+                    'order_id' => $order->order_id,
+                    'service_id' => $item['service_id'],
+                    'price_at_order' => $item['price_at_order'],
+                ]);
+            }
+        });
 
         return redirect()->route('orders.index')->with('success', 'Order created');
-    }
-
-    public function edit(Order $order)
-    {
-        $order->load('items');
-        $services = Service::orderBy('service_name')->get();
-        return view('orders.edit', compact('order', 'services'));
     }
 
     public function update(Request $request, Order $order)
@@ -69,30 +62,28 @@ class OrderController extends Controller
             'items.*.service_id' => 'required|integer|exists:services,service_id',
             'items.*.price_at_order' => 'required|numeric|min:0',
         ]);
+        \DB::transaction(function () use ($data, $order) {
+            $order->customer_name = $data['customer_name'];
+            $order->customer_whatsapp = $data['customer_whatsapp'];
+            $order->status = $data['status'];
+            $order->total_amount = collect($data['items'])->sum('price_at_order');
+            if (\Illuminate\Support\Facades\Schema::hasColumn($order->getTable(), 'service_id')) {
+                $order->service_id = $data['items'][0]['service_id'] ?? $order->service_id;
+            }
+            $order->save();
 
-        $order->customer_name = $data['customer_name'];
-        $order->customer_whatsapp = $data['customer_whatsapp'];
-        $order->status = $data['status'];
-        $order->total_amount = collect($data['items'])->sum('price_at_order');
-        $order->save();
-
-        // reset items
-        $order->items()->delete();
-        foreach ($data['items'] as $item) {
-            OrderItem::create([
-                'order_id' => $order->order_id,
-                'service_id' => $item['service_id'],
-                'price_at_order' => $item['price_at_order'],
-            ]);
-        }
+            // reset items
+            $order->items()->delete();
+            foreach ($data['items'] as $item) {
+                OrderItem::create([
+                    'order_id' => $order->order_id,
+                    'service_id' => $item['service_id'],
+                    'price_at_order' => $item['price_at_order'],
+                ]);
+            }
+        });
 
         return redirect()->route('orders.index')->with('success', 'Order updated');
-    }
-
-    public function destroy(Order $order)
-    {
-        $order->delete();
-        return redirect()->route('orders.index')->with('success', 'Order deleted');
     }
 
     public function show(Order $order)

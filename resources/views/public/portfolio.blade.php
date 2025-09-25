@@ -8,49 +8,46 @@
   </div>
 
   <div class="container">
-    <form method="get" class="row g-2 align-items-end mb-4">
-      <div class="col-md-6">
-        <label class="form-label">Filter Layanan</label>
-        <select class="form-select" name="service[]" multiple>
-          @foreach($filters as $f)
-            <option value="{{ $f->service_id }}" {{ in_array($f->service_id, $activeServiceIds ?? []) ? 'selected' : '' }}>{{ $f->service_name }}</option>
-          @endforeach
-        </select>
-        <div class="form-text">Tahan CTRL untuk memilih lebih dari satu.</div>
+    <div class="card border-0 shadow-sm mb-4">
+      <div class="card-body">
+        <form method="get" class="row g-3 align-items-end">
+          <div class="col-12 col-lg-8">
+            <label class="form-label mb-2">Filter Layanan</label>
+            <div class="row row-cols-2 row-cols-md-3 g-2">
+              @foreach($filters as $f)
+                @php $checked = in_array($f->service_id, $activeServiceIds ?? []); @endphp
+                <div class="col">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" name="service[]" id="svc-{{ $f->service_id }}" value="{{ $f->service_id }}" {{ $checked ? 'checked' : '' }}>
+                    <label class="form-check-label" for="svc-{{ $f->service_id }}">{{ $f->service_name }}</label>
+                  </div>
+                </div>
+              @endforeach
+            </div>
+          </div>
+          <div class="col-12 col-lg-3">
+            <label class="form-label" for="client">Nama Klien</label>
+            <select class="form-select" id="client" name="client">
+              <option value="">Semua</option>
+              @foreach($clients as $client)
+                <option value="{{ $client }}" {{ ($activeClientName ?? '') === $client ? 'selected' : '' }}>{{ $client }}</option>
+              @endforeach
+            </select>
+          </div>
+          <div class="col-12 col-lg-1 d-grid">
+            <button class="btn btn-primary" type="submit">Terapkan</button>
+          </div>
+          <div class="col-12 col-lg-12">
+            <a href="{{ route('public.portfolio') }}" class="btn btn-link p-0">Reset filter</a>
+          </div>
+        </form>
       </div>
-      <div class="col-md-4">
-        <label class="form-label">Nama Klien</label>
-        <select class="form-select" name="client">
-          <option value="">Semua</option>
-          @foreach($clients as $client)
-            <option value="{{ $client }}" {{ ($activeClientName ?? '') === $client ? 'selected' : '' }}>{{ $client }}</option>
-          @endforeach
-        </select>
-      </div>
-      <div class="col-md-2">
-        <button class="btn btn-primary w-100" type="submit">Terapkan</button>
-      </div>
-    </form>
+    </div>
 
     <div class="row gy-4">
       @forelse($projects as $project)
-        @php $cover = $project->images->first(); @endphp
         <div class="col-lg-4 col-md-6 portfolio-item">
-          <div class="card h-100 border-0 shadow-sm">
-            @if($cover)
-              <img src="{{ $cover->url }}" class="card-img-top" alt="{{ $project->project_title }}">
-            @endif
-            <div class="card-body">
-              <h5 class="card-title mb-1">{{ $project->project_title }}</h5>
-              <p class="card-text text-muted small mb-2">{{ $project->client_name }}</p>
-              <div class="small mb-2">
-                @foreach(($project->services ?? []) as $sv)
-                  <span class="badge bg-secondary">{{ $sv->service_name }}</span>
-                @endforeach
-              </div>
-              <a href="{{ route('public.portfolio-details', $project) }}" class="stretched-link">Detail</a>
-            </div>
-          </div>
+          @include('components.portfolio-card', ['project' => $project])
         </div>
       @empty
         <div class="col-12 text-center text-muted">Tidak ada data.</div>

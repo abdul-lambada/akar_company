@@ -74,6 +74,14 @@ return [
         'currency' => env('APP_CURRENCY', 'USD'),
         'date_format' => env('APP_DATE_FORMAT', 'Y-m-d'),
         'company_whatsapp' => env('COMPANY_WHATSAPP', ''),
+        // WhatsApp settings
+        'whatsapp_number' => env('APP_WHATSAPP_NUMBER', '085156553226'),
+        'whatsapp_auto_open_seconds' => env('APP_WHATSAPP_AUTO_OPEN_SECONDS', 0),
+        'whatsapp_auto_close_seconds' => env('APP_WHATSAPP_AUTO_CLOSE_SECONDS', 5),
+
+        // Brand colors (used for theming)
+        'brand_primary' => env('APP_BRAND_PRIMARY', '#2563eb'), // blue fallback
+        'brand_accent' => env('APP_BRAND_ACCENT', '#f59e0b'),   // orange fallback
 
         // Front-facing editable texts
         'hero_heading' => env('HERO_HEADING', 'Solusi Kreatif & Strategis untuk Bisnis Anda'),

@@ -1,11 +1,39 @@
 <div class="service-item position-relative">
   <div class="icon">
-    <i class="bi bi-stack"></i>
+    @php
+      $logo = config('app.logo');
+      $logoUrl = null;
+      if (!empty($logo)) {
+        if (\Illuminate\Support\Str::startsWith($logo, ['http://', 'https://', '/'])) {
+          $logoUrl = $logo;
+        } else {
+          $logoUrl = \Illuminate\Support\Facades\Storage::url($logo);
+        }
+      }
+      $logoUrl = $logoUrl ?: asset('BizLand/assets/img/logo.png');
+    @endphp
+    <img src="{{ $logoUrl }}" alt="{{ config('app.name','BizLand') }} logo" class="rounded-circle" style="width: 40px; height: 40px; object-fit: cover;" loading="lazy">
   </div>
+@push('styles')
+<style>
+  .service-item .card, .service-item{ transition: transform .16s ease, box-shadow .16s ease; }
+  .service-item:hover{ transform: translateY(-3px); box-shadow: 0 12px 24px rgba(0,0,0,.08); }
+  .service-item .icon img{ transition: transform .16s ease; }
+  .service-item:hover .icon img{ transform: scale(1.05); }
+  .portfolio-item .card{ transition: transform .16s ease, box-shadow .16s ease; }
+  .portfolio-item .card:hover{ transform: translateY(-4px); box-shadow: 0 14px 28px rgba(0,0,0,.10); }
+  .portfolio-item img{ transition: transform .2s ease; }
+  .portfolio-item .card:hover img{ transform: scale(1.02); }
+</style>
+@endpush
   <a href="{{ route('public.service-details', $service->slug) }}" class="stretched-link">
     <h3>{{ $service->service_name }}</h3>
   </a>
   @if(($showPrice ?? true))
     <p>Mulai dari Rp {{ number_format($service->price ?? 0, 0, ',', '.') }}</p>
   @endif
+  <div class="d-flex gap-2 mt-2">
+    <a href="{{ route('public.service-details', $service->slug) }}" class="btn btn-outline-primary btn-sm">Detail</a>
+    <a href="{{ route('public.order.create', ['service_id' => $service->getKey(), 'package_name' => $service->service_name, 'budget' => $service->price]) }}" class="btn btn-primary btn-sm">Order Sekarang</a>
+  </div>
 </div>
