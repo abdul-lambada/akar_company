@@ -15,6 +15,16 @@
   </div>
   <nav class="header-nav ms-auto">
     <ul class="d-flex align-items-center">
+      @auth
+      <!-- Idle countdown indicator -->
+      <li id="idleIndicator" class="nav-item ms-3 d-none">
+        <span class="badge rounded-pill text-bg-warning d-inline-flex align-items-center">
+          <i class="bi bi-hourglass-split me-1"></i>
+          Tidak ada aktivitas. Auto logout dalam <span id="idleSecs">30</span> detik
+          <button type="button" id="idleExtendBtn" class="btn btn-sm btn-light ms-2">Perpanjang sesi</button>
+        </span>
+      </li>
+      @endauth
       <li class="nav-item dropdown pe-3">
         <a class="nav-link nav-profile d-flex align-items-center pe-0" href="#" data-bs-toggle="dropdown">
           <img src="{{ auth()->check() && auth()->user()->avatar ? asset('storage/'.auth()->user()->avatar) : asset('NiceAdmin/assets/img/profile-img.jpg') }}" alt="Profile" class="rounded-circle">

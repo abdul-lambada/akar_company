@@ -46,7 +46,16 @@
         // Gunakan asset() saat preview HTML agar gambar tampil di browser,
         // dan gunakan public_path() saat generate PDF (Dompdf butuh path file lokal).
         $isPdf = !isset($pdf_unavailable);
-        $logoSrc = $isPdf ? public_path($companyLogo) : asset($companyLogo);
+
+        // Dompdf tidak mendukung .ico dan membutuhkan path file yang benar.
+        // Fallback ke logo NiceAdmin jika file tidak ada atau ekstensi .ico.
+        $ext = strtolower(pathinfo($companyLogo, PATHINFO_EXTENSION));
+        $candidate = $companyLogo;
+        if ($ext === 'ico' || !file_exists(public_path($companyLogo))) {
+            $candidate = 'NiceAdmin/assets/img/logo.png';
+        }
+
+        $logoSrc = $isPdf ? public_path($candidate) : asset($candidate);
     @endphp
 
     <div class="header">
@@ -149,7 +158,7 @@
 
     <div class="footer">
         <div><strong>Catatan:</strong> Harap melakukan pembayaran sebelum tanggal jatuh tempo. Abaikan jika sudah melakukan pembayaran.</div>
-        <div class="small">Dokumen ini dibuat secara otomatis oleh sistem.</div>
+        <div class="small">Dokumen ini dibuat secara otomatis oleh sistem Akar Company Sekawan.</div>
     </div>
 </div>
 </body>
