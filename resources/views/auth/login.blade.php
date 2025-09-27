@@ -32,7 +32,7 @@
                                         @csrf
 
                                         <div class="col-12">
-                                            <label for="login" class="form-label">Email atau Username</label>
+                                            <label for="login" class="form-label">Email</label>
                                             <div class="input-group has-validation">
                                                 <input type="text" name="login" id="login"
                                                     class="form-control @error('login') is-invalid @enderror"
@@ -72,6 +72,9 @@
 
                                         <div class="col-12">
                                             <button class="btn btn-primary w-100" type="submit">Masuk</button>
+                                        </div>
+                                        <div class="col-12">
+                                            <a href="{{ url('/') }}" class="btn btn-outline-secondary w-100">Kembali ke Beranda</a>
                                         </div>
 
                                     </form>
