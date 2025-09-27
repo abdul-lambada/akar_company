@@ -83,6 +83,8 @@ Route::middleware(['auth','role:admin'])->prefix('admin')->group(function () {
     // Invoices
     Route::resource('invoices', App\Http\Controllers\InvoiceController::class);
     Route::get('invoices/{invoice}/pdf', [App\Http\Controllers\InvoiceController::class, 'downloadPdf'])->name('invoices.pdf');
+    Route::post('invoices/{invoice}/send-whatsapp', [App\Http\Controllers\InvoiceController::class, 'sendWhatsApp'])->name('invoices.sendWhatsApp');
+    Route::post('invoices/{invoice}/send-whatsapp-admin', [App\Http\Controllers\InvoiceController::class, 'sendWhatsAppAdmin'])->name('invoices.sendWhatsAppAdmin');
 
     // Users
     Route::resource('users', App\Http\Controllers\UserController::class);

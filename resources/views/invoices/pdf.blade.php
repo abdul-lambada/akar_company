@@ -64,7 +64,7 @@
             <img class="logo" src="{{ $logoSrc }}" alt="Logo">
             <div>
                 <h2>{{ $companyName }}</h2>
-                <div class="muted small company">{{ $companyAddress }}<br>{{ $companyEmail }} • {{ $companyPhone }}</div>
+                <div class="muted small company">{{ $companyAddress }}<br>{{-- {{ $companyEmail }} • --}} {{ $companyPhone }}</div>
             </div>
         </div>
         <div class="meta right">
@@ -83,7 +83,7 @@
             <div class="muted small">Ditagihkan Kepada</div>
             <div style="margin-top:4px;">
                 <strong>{{ $invoice->client->client_name ?? '-' }}</strong><br>
-                {{ $invoice->client->email ?? '-' }}<br>
+                {{-- {{ $invoice->client->email ?? '-' }} --}}<br>
                 {{ $invoice->client->whatsapp ?? '-' }}<br>
                 {{ $invoice->client->address ?? '-' }}
             </div>

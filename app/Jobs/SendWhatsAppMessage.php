@@ -15,7 +15,7 @@ class SendWhatsAppMessage implements ShouldQueue
     use Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
     public function __construct(
-        public string $to,
+        public array|string $to,
         public string $message,
         public ?string $ctaUrl = null,
         public array $templateVars = [],
@@ -23,7 +23,11 @@ class SendWhatsAppMessage implements ShouldQueue
 
     public function handle(): void
     {
-        $phone = $this->normalizePhone($this->to);
+        $targets = $this->normalizeTargets($this->to);
+        if (empty($targets)) {
+            Log::warning('No valid WhatsApp targets provided');
+            return;
+        }
 
         // Provider: Fonnte (preferred if configured)
         // Prefer env (production), but allow config override (local)
@@ -33,7 +37,7 @@ class SendWhatsAppMessage implements ShouldQueue
             try {
                 $payload = [
                     // Fonnte expects international format without +, multiple targets separated by comma
-                    'target' => $phone,
+                    'target' => implode(',', $targets),
                     'message' => $this->message . ($this->ctaUrl ? "\n\n".$this->ctaUrl : ''),
                 ];
 
@@ -42,12 +46,12 @@ class SendWhatsAppMessage implements ShouldQueue
                     ->post('https://api.fonnte.com/send', $payload);
 
                 if ($resp->successful()) {
-                    Log::info('Fonnte WA sent', ['to' => $phone]);
+                    Log::info('Fonnte WA sent', ['to' => $targets]);
                     return;
                 }
 
                 Log::warning('Fonnte API failed', [
-                    'to' => $phone,
+                    'to' => $targets,
                     'status' => $resp->status(),
                     'body' => $resp->body(),
                 ]);
@@ -66,60 +70,62 @@ class SendWhatsAppMessage implements ShouldQueue
 
         if ($token && $fromPhoneId) {
             try {
-                $payload = [
-                    'messaging_product' => 'whatsapp',
-                    'to' => $phone,
-                ];
-
-                if (!empty($templateName)) {
-                    // Build template payload
-                    $components = [];
-                    $bodyParams = [];
-                    // Map up to 5 vars if provided
-                    foreach (array_values($this->templateVars) as $idx => $val) {
-                        if ($idx >= 10) break; // guard
-                        $bodyParams[] = [ 'type' => 'text', 'text' => (string) $val ];
-                    }
-                    if (!empty($bodyParams)) {
-                        $components[] = [
-                            'type' => 'body',
-                            'parameters' => $bodyParams,
-                        ];
-                    }
-                    // Optional button URL param if template supports it
-                    if (!empty($this->ctaUrl)) {
-                        $components[] = [
-                            'type' => 'button',
-                            'sub_type' => 'url',
-                            'index' => '0',
-                            'parameters' => [ [ 'type' => 'text', 'text' => $this->ctaUrl ] ],
-                        ];
-                    }
-
-                    $payload['type'] = 'template';
-                    $payload['template'] = [
-                        'name' => $templateName,
-                        'language' => [ 'code' => $templateLang ],
-                        'components' => $components,
-                    ];
-                } else {
-                    // Fallback to plain text
-                    $payload['type'] = 'text';
-                    $payload['text'] = [ 'body' => $this->message ];
-                }
-
-                $resp = Http::withToken($token)
-                    ->acceptJson()
-                    ->post("https://graph.facebook.com/{$graphVersion}/{$fromPhoneId}/messages", $payload);
-
-                if ($resp->successful()) {
-                    Log::info('WhatsApp message sent', ['to' => $phone]);
-                } else {
-                    Log::warning('WhatsApp API failed', [
+                foreach ($targets as $phone) {
+                    $payload = [
+                        'messaging_product' => 'whatsapp',
                         'to' => $phone,
-                        'status' => $resp->status(),
-                        'body' => $resp->body(),
-                    ]);
+                    ];
+
+                    if (!empty($templateName)) {
+                        // Build template payload
+                        $components = [];
+                        $bodyParams = [];
+                        // Map up to 10 vars if provided
+                        foreach (array_values($this->templateVars) as $idx => $val) {
+                            if ($idx >= 10) break; // guard
+                            $bodyParams[] = [ 'type' => 'text', 'text' => (string) $val ];
+                        }
+                        if (!empty($bodyParams)) {
+                            $components[] = [
+                                'type' => 'body',
+                                'parameters' => $bodyParams,
+                            ];
+                        }
+                        // Optional button URL param if template supports it
+                        if (!empty($this->ctaUrl)) {
+                            $components[] = [
+                                'type' => 'button',
+                                'sub_type' => 'url',
+                                'index' => '0',
+                                'parameters' => [ [ 'type' => 'text', 'text' => $this->ctaUrl ] ],
+                            ];
+                        }
+
+                        $payload['type'] = 'template';
+                        $payload['template'] = [
+                            'name' => $templateName,
+                            'language' => [ 'code' => $templateLang ],
+                            'components' => $components,
+                        ];
+                    } else {
+                        // Fallback to plain text
+                        $payload['type'] = 'text';
+                        $payload['text'] = [ 'body' => $this->message ];
+                    }
+
+                    $resp = Http::withToken($token)
+                        ->acceptJson()
+                        ->post("https://graph.facebook.com/{$graphVersion}/{$fromPhoneId}/messages", $payload);
+
+                    if ($resp->successful()) {
+                        Log::info('WhatsApp message sent', ['to' => $phone]);
+                    } else {
+                        Log::warning('WhatsApp API failed', [
+                            'to' => $phone,
+                            'status' => $resp->status(),
+                            'body' => $resp->body(),
+                        ]);
+                    }
                 }
                 return;
             } catch (\Throwable $e) {
@@ -129,17 +135,26 @@ class SendWhatsAppMessage implements ShouldQueue
 
         // Fallback: just log wa.me link so admin can manually follow up
         $extra = $this->ctaUrl ? ("\n\n".$this->ctaUrl) : '';
-        $waLink = 'https://wa.me/'.$phone.'?text='.rawurlencode($this->message.$extra);
-        Log::info('WhatsApp fallback link', ['link' => $waLink]);
+        foreach ($targets as $phone) {
+            $waLink = 'https://wa.me/'.$phone.'?text='.rawurlencode($this->message.$extra);
+            Log::info('WhatsApp fallback link', ['link' => $waLink]);
+        }
     }
 
-    private function normalizePhone(string $raw): string
+    private function normalizeTargets(array|string $raw): array
     {
-        $digits = preg_replace('/\D/', '', $raw);
-        if ($digits === '') return $digits;
-        if (str_starts_with($digits, '0')) {
-            return '62'.substr($digits, 1);
+        $list = is_array($raw) ? $raw : [$raw];
+        $res = [];
+        foreach ($list as $entry) {
+            $digits = preg_replace('/\D/', '', (string) $entry);
+            if ($digits === '') continue;
+            if (str_starts_with($digits, '0')) {
+                $digits = '62'.substr($digits, 1);
+            }
+            $res[] = $digits;
         }
-        return $digits;
+        // Remove duplicates and reindex
+        $res = array_values(array_unique($res));
+        return $res;
     }
 }

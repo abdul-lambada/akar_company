@@ -6,6 +6,8 @@ use App\Models\Client;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\URL;
+use App\Jobs\SendWhatsAppMessage;
 // Email flow removed; using WhatsApp only
 
 class InvoiceController extends Controller
@@ -80,18 +82,25 @@ class InvoiceController extends Controller
 
         $filename = 'Invoice-'.$invoice->invoice_code.'.pdf';
 
-        // Use barryvdh facade if available
-        if (class_exists(\Barryvdh\DomPDF\Facade\Pdf::class)) {
-            $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('invoices.pdf', compact('invoice'));
+        // Prefer Barryvdh/laravel-dompdf via container binding if available (no direct class reference)
+        if (app()->bound('dompdf.wrapper')) {
+            $pdf = app('dompdf.wrapper');
+            $pdf->loadView('invoices.pdf', compact('invoice'));
             return $pdf->download($filename);
         }
 
-        // Fallback to native dompdf if installed
-        if (class_exists(\Dompdf\Dompdf::class)) {
+        // Fallback to native dompdf if installed (use dynamic class names to avoid static analysis errors)
+        $dompdfClass = 'Dompdf\\Dompdf';
+        $optionsClass = 'Dompdf\\Options';
+        if (class_exists($dompdfClass)) {
             $html = view('invoices.pdf', ['invoice' => $invoice])->render();
-            $options = new \Dompdf\Options();
-            $options->set('isRemoteEnabled', true);
-            $dompdf = new \Dompdf\Dompdf($options);
+            $options = class_exists($optionsClass) ? new $optionsClass() : null;
+            if ($options) {
+                $options->set('isRemoteEnabled', true);
+                $dompdf = new $dompdfClass($options);
+            } else {
+                $dompdf = new $dompdfClass();
+            }
             $dompdf->loadHtml($html);
             $dompdf->setPaper('A4');
             $dompdf->render();
@@ -116,18 +125,25 @@ class InvoiceController extends Controller
 
         $filename = 'Invoice-'.$invoice->invoice_code.'.pdf';
 
-        // Use barryvdh facade if available
-        if (class_exists(\Barryvdh\DomPDF\Facade\Pdf::class)) {
-            $pdf = \Barryvdh\DomPDF\Facade\Pdf::loadView('invoices.pdf', compact('invoice'));
+        // Prefer Barryvdh/laravel-dompdf via container binding if available (no direct class reference)
+        if (app()->bound('dompdf.wrapper')) {
+            $pdf = app('dompdf.wrapper');
+            $pdf->loadView('invoices.pdf', compact('invoice'));
             return $pdf->download($filename);
         }
 
-        // Fallback to native dompdf if installed
-        if (class_exists(\Dompdf\Dompdf::class)) {
+        // Fallback to native dompdf if installed (use dynamic class names to avoid static analysis errors)
+        $dompdfClass = 'Dompdf\\Dompdf';
+        $optionsClass = 'Dompdf\\Options';
+        if (class_exists($dompdfClass)) {
             $html = view('invoices.pdf', ['invoice' => $invoice])->render();
-            $options = new \Dompdf\Options();
-            $options->set('isRemoteEnabled', true);
-            $dompdf = new \Dompdf\Dompdf($options);
+            $options = class_exists($optionsClass) ? new $optionsClass() : null;
+            if ($options) {
+                $options->set('isRemoteEnabled', true);
+                $dompdf = new $dompdfClass($options);
+            } else {
+                $dompdf = new $dompdfClass();
+            }
             $dompdf->loadHtml($html);
             $dompdf->setPaper('A4');
             $dompdf->render();
@@ -141,5 +157,91 @@ class InvoiceController extends Controller
         return response()->view('invoices.pdf', compact('invoice'))->withHeaders([
             'Content-Type' => 'application/pdf',
         ]);
+    }
+
+    private function buildCustomerWaMessage(Invoice $invoice): string
+    {
+        $pdfLink = URL::signedRoute('invoices.public.pdf', ['invoice' => $invoice->getKey()]);
+        $statusLink = URL::signedRoute('invoices.public.status', ['invoice' => $invoice->getKey()]);
+        $orderCode = optional($invoice->order)->order_code;
+        $lines = [
+            'Halo ' . ($invoice->client->client_name ?? 'Pelanggan') . ',',
+            'Berikut detail invoice Anda.',
+            ($orderCode ? ('Order: ' . $orderCode) : null),
+            'Invoice: ' . $invoice->invoice_code,
+            'Total: Rp ' . number_format((float) $invoice->total_amount, 0, ',', '.'),
+            'Jatuh Tempo: ' . optional($invoice->due_date)->format('d M Y'),
+            'Status & Konfirmasi Pembayaran: ' . $statusLink,
+            'Unduh Invoice (PDF): ' . $pdfLink,
+            'Terima kasih, ' . config('app.name'),
+        ];
+        return implode("\n", array_filter($lines));
+    }
+
+    public function sendWhatsApp(Request $request, Invoice $invoice)
+    {
+        $invoice->loadMissing(['client', 'order', 'items']);
+        $to = (string) optional($invoice->client)->whatsapp;
+        if (empty($to)) {
+            return redirect()->route('invoices.show', $invoice)->with('danger', 'Nomor WhatsApp pelanggan tidak tersedia.');
+        }
+
+        $statusUrl = URL::signedRoute('invoices.public.status', ['invoice' => $invoice->getKey()]);
+        $message = $this->buildCustomerWaMessage($invoice);
+
+        // Kirim WA menggunakan job (queue) agar non-blocking
+        SendWhatsAppMessage::dispatch(
+            to: $to,
+            message: $message,
+            ctaUrl: $statusUrl,
+            templateVars: [
+                $invoice->invoice_code,
+                optional($invoice->due_date)->format('d M Y'),
+                number_format((float) $invoice->total_amount, 0, ',', '.'),
+                $statusUrl,
+            ]
+        );
+
+        return redirect()->route('invoices.show', $invoice)->with('success', 'WhatsApp berhasil dikirim ke pelanggan.');
+    }
+
+    private function buildAdminWaMessage(Invoice $invoice): string
+    {
+        $adminLink = route('invoices.show', $invoice);
+        $clientName = optional($invoice->client)->client_name ?: '-';
+        $lines = [
+            'Follow-up internal Invoice',
+            'Invoice: ' . $invoice->invoice_code,
+            'Client: ' . $clientName,
+            'Total: Rp ' . number_format((float) $invoice->total_amount, 0, ',', '.'),
+            'Link Admin: ' . $adminLink,
+        ];
+        return implode("\n", $lines);
+    }
+
+    public function sendWhatsAppAdmin(Request $request, Invoice $invoice)
+    {
+        $invoice->loadMissing(['client', 'order', 'items']);
+        $adminRaw = config('app.whatsapp_number') ?: config('app.company_whatsapp');
+        if (empty($adminRaw)) {
+            return redirect()->route('invoices.show', $invoice)->with('danger', 'Nomor WhatsApp admin belum diset di Settings.');
+        }
+
+        $ctaUrl = route('invoices.show', $invoice);
+        $message = $this->buildAdminWaMessage($invoice);
+
+        SendWhatsAppMessage::dispatch(
+            to: $adminRaw,
+            message: $message,
+            ctaUrl: $ctaUrl,
+            templateVars: [
+                $invoice->invoice_code,
+                optional($invoice->due_date)->format('d M Y'),
+                number_format((float) $invoice->total_amount, 0, ',', '.'),
+                $ctaUrl,
+            ]
+        );
+
+        return redirect()->route('invoices.show', $invoice)->with('success', 'WhatsApp berhasil dikirim ke Admin.');
     }
 }

@@ -270,8 +270,8 @@ class PublicOrderController extends Controller
                 ctaUrl: $statusUrl,
                 templateVars: [
                     $invoice->invoice_code,
-                    number_format((float)$invoice->total_amount, 0, ',', '.'),
                     optional($invoice->due_date)->format('d M Y'),
+                    number_format((float)$invoice->total_amount, 0, ',', '.'),
                     $statusUrl,
                 ]
             );

@@ -19,6 +19,20 @@
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">Invoice #{{ $invoice->invoice_code }}</h5>
+
+          @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+              {{ session('success') }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          @endif
+          @if(session('danger'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              {{ session('danger') }}
+              <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+          @endif
+
           <dl class="row mb-0">
             <dt class="col-sm-4">Client</dt>
             <dd class="col-sm-8">
@@ -37,10 +51,18 @@
             <dt class="col-sm-4">Total</dt>
             <dd class="col-sm-8">Rp {{ number_format($invoice->total_amount, 0, ',', '.') }}</dd>
           </dl>
-          <div class="mt-3">
+          <div class="mt-3 d-flex gap-2">
             <a href="{{ route('invoices.index') }}" class="btn btn-secondary">Back</a>
             <a href="{{ route('invoices.edit', $invoice) }}" class="btn btn-primary">Edit</a>
             <a href="{{ route('invoices.pdf', $invoice) }}" class="btn btn-outline-success">Unduh PDF</a>
+            <form action="{{ route('invoices.sendWhatsApp', $invoice) }}" method="POST" onsubmit="return confirm('Kirim ulang WhatsApp ke pelanggan?');">
+              @csrf
+              <button type="submit" class="btn btn-success"><i class="bi bi-whatsapp"></i> Kirim WhatsApp</button>
+            </form>
+            <form action="{{ route('invoices.sendWhatsAppAdmin', $invoice) }}" method="POST" onsubmit="return confirm('Kirim WhatsApp ke Admin untuk follow-up?');">
+              @csrf
+              <button type="submit" class="btn btn-outline-primary"><i class="bi bi-whatsapp"></i> Kirim WA ke Admin</button>
+            </form>
           </div>
         </div>
       </div>

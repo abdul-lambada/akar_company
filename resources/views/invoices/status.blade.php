@@ -24,7 +24,8 @@
             <div class="col-md-6">
               <div class="fw-bold">Diterbitkan Untuk</div>
               <div>{{ $invoice->client->client_name ?? '-' }}</div>
-              <div class="text-muted small">{{ $invoice->client->email ?? '-' }}</div>
+              {{-- Email disembunyikan sesuai kebijakan tanpa email --}}
+              {{-- <div class="text-muted small">{{ $invoice->client->email ?? '-' }}</div> --}}
               <div class="text-muted small">{{ $invoice->client->whatsapp ?? '-' }}</div>
             </div>
             <div class="col-md-6">

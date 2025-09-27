@@ -218,8 +218,8 @@ class SettingController extends Controller
             config()->set('app.whatsapp_number', $payload['company_whatsapp']);
             // Provider tokens (allow jobs to read from config instead of env when local)
             config()->set('services.fonnte.token', $payload['fonnte_token']);
-            config()->set('services.whatsapp.template_name', $payload['wa_template_name']);
-            config()->set('services.whatsapp.template_lang', $payload['wa_template_lang']);
+            config()->set('services.whatsapp.cloud.template_name', $payload['wa_template_name']);
+            config()->set('services.whatsapp.cloud.template_lang', $payload['wa_template_lang']);
             // Contact & Social runtime
             config()->set('app.contact_email', $payload['contact_email']);
             config()->set('app.contact_phone', $payload['contact_phone']);
