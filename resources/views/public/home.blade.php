@@ -4,7 +4,7 @@
 @section('body_class','index-page')
 
 @section('content')
-  <section id="hero" class="hero section hero-pro bg-primary">
+  <section id="hero" class="hero section hero-pro">
     <div class="container">
       <div class="row gy-4 align-items-center">
         <div class="col-md-8 d-flex flex-column justify-content-center text-center text-md-start" data-aos="zoom-out">
