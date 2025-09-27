@@ -2,7 +2,12 @@
 @php($cover = $project->images->first())
 <div class="card h-100 border-0 shadow-sm">
   @if($cover)
-    <img src="{{ $cover->url }}" class="card-img-top" alt="{{ $project->project_title }}" loading="lazy">
+    <a href="{{ $cover->url }}" class="glightbox" data-gallery="portfolio-gallery-{{ $project->project_id }}" title="{{ $project->project_title }}">
+      <img src="{{ $cover->url }}" class="card-img-top" alt="{{ $project->project_title }}" loading="lazy">
+    </a>
+    @foreach($project->images->skip(1) as $img)
+      <a href="{{ $img->url }}" class="glightbox d-none" data-gallery="portfolio-gallery-{{ $project->project_id }}" title="{{ $project->project_title }}"></a>
+    @endforeach
   @endif
   <div class="card-body">
     <h5 class="card-title mb-1">{{ $project->project_title }}</h5>

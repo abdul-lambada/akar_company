@@ -30,7 +30,8 @@
     <h3>{{ $service->service_name }}</h3>
   </a>
   @if(($showPrice ?? true))
-    <p>Mulai dari Rp {{ number_format($service->price ?? 0, 0, ',', '.') }}</p>
+    <div class="text-muted small">Mulai dari</div>
+    <div class="h5 mb-2">{{ !is_null($service->price) ? 'Rp ' . number_format((float)$service->price, 0, ',', '.') : 'Hubungi Kami' }}</div>
   @endif
   <div class="d-flex gap-2 mt-2">
     <a href="{{ route('public.service-details', $service->slug) }}" class="btn btn-outline-primary btn-sm">Detail</a>

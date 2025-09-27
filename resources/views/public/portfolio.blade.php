@@ -41,17 +41,47 @@
             <a href="{{ route('public.portfolio') }}" class="btn btn-link p-0">Reset filter</a>
           </div>
         </form>
+        
+        @if(!empty($activeServiceIds) || !empty($activeClientName))
+          <div class="mt-3">
+            <div class="small text-muted mb-1">Filter aktif:</div>
+            <div class="d-flex flex-wrap gap-2">
+              @foreach($filters as $f)
+                @if(in_array($f->service_id, $activeServiceIds ?? []))
+                  <span class="badge bg-primary">{{ $f->service_name }}</span>
+                @endif
+              @endforeach
+              @if(!empty($activeClientName))
+                <span class="badge bg-info text-dark">Klien: {{ $activeClientName }}</span>
+              @endif
+              <a href="{{ route('public.portfolio') }}" class="btn btn-sm btn-outline-secondary">Bersihkan</a>
+            </div>
+          </div>
+        @endif
       </div>
     </div>
 
-    <div class="row gy-4">
-      @forelse($projects as $project)
-        <div class="col-lg-4 col-md-6 portfolio-item">
-          @include('components.portfolio-card', ['project' => $project])
-        </div>
-      @empty
-        <div class="col-12 text-center text-muted">Tidak ada data.</div>
-      @endforelse
+    <!-- Isotope Filters (client-side) -->
+    <div class="isotope-layout" data-layout="masonry" data-default-filter="*" data-sort="original-order">
+      <ul class="isotope-filters list-unstyled d-flex flex-wrap gap-2 justify-content-center mb-4">
+        <li data-filter="*" class="btn btn-outline-secondary btn-sm filter-active">Semua</li>
+        @foreach($filters as $f)
+          <li data-filter=".filter-svc-{{ $f->service_id }}" class="btn btn-outline-secondary btn-sm">{{ $f->service_name }}</li>
+        @endforeach
+      </ul>
+
+      <div class="isotope-container row gy-4">
+        @forelse($projects as $project)
+          @php
+            $svcClasses = collect($project->services ?? [])->map(fn($sv) => 'filter-svc-' . $sv->service_id)->implode(' ');
+          @endphp
+          <div class="col-lg-4 col-md-6 portfolio-item isotope-item {{ $svcClasses }}">
+            @include('components.portfolio-card', ['project' => $project])
+          </div>
+        @empty
+          <div class="col-12 text-center text-muted">Tidak ada data.</div>
+        @endforelse
+      </div>
     </div>
 
     <x-pagination :paginator="$projects" />

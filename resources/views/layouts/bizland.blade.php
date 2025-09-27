@@ -263,11 +263,24 @@
   <script src="{{ asset('BizLand/assets/vendor/glightbox/js/glightbox.min.js') }}"></script>
   <script src="{{ asset('BizLand/assets/vendor/swiper/swiper-bundle.min.js') }}"></script>
   <script src="{{ asset('BizLand/assets/vendor/purecounter/purecounter_vanilla.js') }}"></script>
+  <script src="{{ asset('BizLand/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js') }}"></script>
+  <script src="{{ asset('BizLand/assets/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
   <script src="{{ asset('BizLand/assets/js/main.js') }}"></script>
   <style>
     /* Loader styles */
     .app-loader{position:fixed;inset:0;background:rgba(255,255,255,.95);z-index:2000;transition:opacity .3s ease, visibility .3s ease}
     .app-loader.hidden{opacity:0;visibility:hidden}
+
+    /* Micro-interactions for cards (portfolio & general items) */
+    .portfolio .card, .portfolio-item .card { transition: transform .18s ease, box-shadow .18s ease; }
+    .portfolio .card:hover, .portfolio-item .card:hover { transform: translateY(-4px); box-shadow: 0 12px 24px rgba(0,0,0,.12); }
+    .portfolio .card img { transition: transform .25s ease; }
+    .portfolio .card:hover img { transform: scale(1.02); }
+
+    /* Testimonials spacing & typography refinement */
+    #testimonials .swiper-slide .p-4 { line-height: 1.75; }
+    #testimonials .swiper-slide p { font-size: 1.05rem; }
+    #testimonials .swiper-slide .small { letter-spacing: .2px; }
   </style>
   <script>
     (function(){

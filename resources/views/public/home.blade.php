@@ -8,11 +8,12 @@
     <div class="container">
       <div class="row gy-4 align-items-center">
         <div class="col-md-8 d-flex flex-column justify-content-center text-center text-md-start" data-aos="zoom-out">
-          <h1 class="mb-2">
-            <span class="d-block">Selamat datang di</span>
-            <span class="d-block" style="color: var(--brand-primary);">{{ config('app.name','BizLand') }}</span>
-          </h1>
-          <p class="mb-3 mb-md-4">Kami membantu Anda membangun solusi digital yang berdampak.</p>
+          @php
+            $heroTitle = (string) (config('app.hero_heading') ?: 'Solusi Kreatif & Strategis untuk Bisnis Anda');
+            $heroDesc  = (string) (config('app.hero_description') ?: 'Kami membantu brand tumbuh melalui layanan desain, pengembangan, dan strategi pemasaran yang berdampak.');
+          @endphp
+          <h1 class="mb-2">{{ $heroTitle }}</h1>
+          <p class="mb-3 mb-md-4">{{ $heroDesc }}</p>
           <div class="d-flex flex-wrap justify-content-center justify-content-md-start gap-2">
             <a href="{{ route('public.about') }}" class="btn-get-started">Tentang Kami</a>
             <a href="{{ route('public.contact') }}" class="btn-get-started ms-0 ms-md-2">Kontak</a>
@@ -162,8 +163,15 @@
 
   <section id="services" class="services section">
     <div class="container section-title" data-aos="fade-up">
-      <h2>Layanan</h2>
-      <p><span>Jelajahi</span> <span class="description-title">Layanan Kami</span></p>
+      @php
+        $servicesHeading = (string) (config('app.services_heading') ?: 'Layanan');
+        $servicesDesc    = (string) (config('app.services_description') ?: 'Jelajahi Layanan Kami');
+        $parts = explode(' ', $servicesDesc, 2);
+        $firstWord = $parts[0] ?? '';
+        $restText  = $parts[1] ?? '';
+      @endphp
+      <h2>{{ $servicesHeading }}</h2>
+      <p><span>{{ $firstWord }}</span> <span class="description-title">{{ $restText }}</span></p>
     </div>
     <div class="container">
       <div class="row gy-4">
@@ -174,6 +182,35 @@
         @empty
           <div class="col-12 text-center text-muted">Belum ada layanan.</div>
         @endforelse
+      </div>
+    </div>
+  </section>
+
+  <section id="contact-cta" class="section light-background">
+    <div class="container">
+      @php
+        $ctaTitle = (string) config('app.contact_cta_title', 'Butuh Bantuan?');
+        $ctaDesc  = (string) config('app.contact_cta_description', 'Hubungi kami untuk konsultasi gratis dan penawaran terbaik.');
+        $waRaw    = preg_replace('/\D+/', '', (string) (config('app.company_whatsapp') ?: config('app.whatsapp_number')));
+        $waLink   = null;
+        if (!empty($waRaw)) {
+          $msg   = urlencode('Halo, saya ingin konsultasi tentang layanan ' . (string) config('app.name'));
+          $waLink = 'https://wa.me/' . $waRaw . '?text=' . $msg;
+        }
+      @endphp
+      <div class="row align-items-center gy-3">
+        <div class="col-lg-8">
+          <h3 class="mb-1">{{ $ctaTitle }}</h3>
+          <p class="text-muted mb-0">{{ $ctaDesc }}</p>
+        </div>
+        <div class="col-lg-4 text-lg-end">
+          <div class="d-flex flex-wrap gap-2 justify-content-lg-end">
+            <a href="{{ route('public.contact') }}" class="btn btn-outline-primary">Hubungi Kami</a>
+            @if($waLink)
+              <a href="{{ $waLink }}" target="_blank" rel="noopener" class="btn btn-success"><i class="bi bi-whatsapp me-1"></i>Konsultasi via WhatsApp</a>
+            @endif
+          </div>
+        </div>
       </div>
     </div>
   </section>
