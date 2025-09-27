@@ -60,6 +60,17 @@
                                             </div>
                                         </div>
 
+                                        @php $recaptchaSiteKey = config('services.recaptcha.site_key'); @endphp
+                                        @if(!empty($recaptchaSiteKey))
+                                        <div class="col-12">
+                                          <label class="form-label">Verifikasi Keamanan</label>
+                                          <div class="g-recaptcha" data-sitekey="{{ $recaptchaSiteKey }}"></div>
+                                          @if($errors->has('recaptcha'))
+                                            <div class="invalid-feedback d-block">{{ $errors->first('recaptcha') }}</div>
+                                          @endif
+                                        </div>
+                                        @endif
+
                                         <div class="col-12">
                                             <button class="btn btn-primary w-100" type="submit">Masuk</button>
                                         </div>
@@ -79,3 +90,9 @@
         </div>
     </main>
 @endsection
+@push('scripts')
+@php $recaptchaSiteKey = config('services.recaptcha.site_key'); @endphp
+@if(!empty($recaptchaSiteKey))
+  <script src="https://www.google.com/recaptcha/api.js" async defer></script>
+@endif
+@endpush

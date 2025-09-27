@@ -139,6 +139,58 @@
 
         <hr class="my-4">
         <div class="d-flex justify-content-between align-items-center">
+          <h5 class="card-title m-0">Contact & Social</h5>
+        </div>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <label for="contact_email" class="form-label">Contact Email</label>
+            <input type="email" name="contact_email" id="contact_email" class="form-control @error('contact_email') is-invalid @enderror" value="{{ old('contact_email', $settings['contact_email'] ?? '') }}" placeholder="name@example.com">
+            @error('contact_email')<div class="invalid-feedback">{{ $message }}</div>@enderror
+          </div>
+          <div class="col-md-6">
+            <label for="contact_phone" class="form-label">Contact Phone</label>
+            <input type="text" name="contact_phone" id="contact_phone" class="form-control @error('contact_phone') is-invalid @enderror" value="{{ old('contact_phone', $settings['contact_phone'] ?? '') }}" placeholder="+62...">
+            @error('contact_phone')<div class="invalid-feedback">{{ $message }}</div>@enderror
+          </div>
+          <div class="col-12">
+            <label for="office_address" class="form-label">Office Address</label>
+            <input type="text" name="office_address" id="office_address" class="form-control @error('office_address') is-invalid @enderror" value="{{ old('office_address', $settings['office_address'] ?? '') }}" placeholder="Alamat kantor">
+            @error('office_address')<div class="invalid-feedback">{{ $message }}</div>@enderror
+          </div>
+          <div class="col-md-6">
+            <label for="office_lat" class="form-label">Office Latitude</label>
+            <input type="text" name="office_lat" id="office_lat" class="form-control @error('office_lat') is-invalid @enderror" value="{{ old('office_lat', $settings['office_lat'] ?? '') }}" placeholder="-6.2">
+            @error('office_lat')<div class="invalid-feedback">{{ $message }}</div>@enderror
+          </div>
+          <div class="col-md-6">
+            <label for="office_lng" class="form-label">Office Longitude</label>
+            <input type="text" name="office_lng" id="office_lng" class="form-control @error('office_lng') is-invalid @enderror" value="{{ old('office_lng', $settings['office_lng'] ?? '') }}" placeholder="106.8">
+            @error('office_lng')<div class="invalid-feedback">{{ $message }}</div>@enderror
+          </div>
+          <div class="col-md-6">
+            <label for="social_facebook" class="form-label">Facebook URL</label>
+            <input type="url" name="social_facebook" id="social_facebook" class="form-control @error('social_facebook') is-invalid @enderror" value="{{ old('social_facebook', $settings['social_facebook'] ?? '') }}" placeholder="https://facebook.com/yourpage">
+            @error('social_facebook')<div class="invalid-feedback">{{ $message }}</div>@enderror
+          </div>
+          <div class="col-md-6">
+            <label for="social_instagram" class="form-label">Instagram URL</label>
+            <input type="url" name="social_instagram" id="social_instagram" class="form-control @error('social_instagram') is-invalid @enderror" value="{{ old('social_instagram', $settings['social_instagram'] ?? '') }}" placeholder="https://instagram.com/yourhandle">
+            @error('social_instagram')<div class="invalid-feedback">{{ $message }}</div>@enderror
+          </div>
+          <div class="col-md-6">
+            <label for="social_linkedin" class="form-label">LinkedIn URL</label>
+            <input type="url" name="social_linkedin" id="social_linkedin" class="form-control @error('social_linkedin') is-invalid @enderror" value="{{ old('social_linkedin', $settings['social_linkedin'] ?? '') }}" placeholder="https://linkedin.com/company/yourcompany">
+            @error('social_linkedin')<div class="invalid-feedback">{{ $message }}</div>@enderror
+          </div>
+          <div class="col-md-6">
+            <label for="social_twitter" class="form-label">Twitter/X URL</label>
+            <input type="url" name="social_twitter" id="social_twitter" class="form-control @error('social_twitter') is-invalid @enderror" value="{{ old('social_twitter', $settings['social_twitter'] ?? '') }}" placeholder="https://x.com/yourhandle">
+            @error('social_twitter')<div class="invalid-feedback">{{ $message }}</div>@enderror
+          </div>
+        </div>
+
+        <hr class="my-4">
+        <div class="d-flex justify-content-between align-items-center">
           <h5 class="card-title m-0">WhatsApp Integration</h5>
         </div>
         <div class="row g-3">

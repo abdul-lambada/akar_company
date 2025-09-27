@@ -79,6 +79,19 @@ return [
         'whatsapp_auto_open_seconds' => env('APP_WHATSAPP_AUTO_OPEN_SECONDS', 0),
         'whatsapp_auto_close_seconds' => env('APP_WHATSAPP_AUTO_CLOSE_SECONDS', 5),
 
+        // Contact info (dynamic from Settings)
+        'contact_email' => env('CONTACT_EMAIL', env('MAIL_FROM_ADDRESS', '')), // fallback to mail from address
+        'contact_phone' => env('CONTACT_PHONE', ''),
+        'office_address' => env('OFFICE_ADDRESS', ''),
+        'office_lat' => env('OFFICE_LAT', null),
+        'office_lng' => env('OFFICE_LNG', null),
+
+        // Social media links
+        'social_facebook' => env('SOCIAL_FACEBOOK', ''),
+        'social_instagram' => env('SOCIAL_INSTAGRAM', ''),
+        'social_linkedin' => env('SOCIAL_LINKEDIN', ''),
+        'social_twitter' => env('SOCIAL_TWITTER', ''),
+
         // Brand colors (used for theming)
         'brand_primary' => env('APP_BRAND_PRIMARY', '#2563eb'), // blue fallback
         'brand_accent' => env('APP_BRAND_ACCENT', '#f59e0b'),   // orange fallback

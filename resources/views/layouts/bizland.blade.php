@@ -50,21 +50,6 @@
 </head>
 <body class="@yield('body_class', 'index-page')">
   <header id="header" class="header sticky-top">
-    <div class="topbar d-flex align-items-center">
-      <div class="container d-flex justify-content-center justify-content-md-between">
-        <div class="contact-info d-flex align-items-center">
-          <i class="bi bi-envelope d-flex align-items-center"><a href="mailto:akar@gmail.com">akar@gmail.com</a></i>
-          <i class="bi bi-phone d-flex align-items-center ms-4"><span>085156553226</span></i>
-        </div>
-        <div class="social-links d-none d-md-flex align-items-center">
-          <!-- <a href="#" class="twitter"><i class="bi bi-twitter-x"></i></a> -->
-          <a href="#" class="facebook"><i class="bi bi-facebook"></i></a>
-          <a href="#" class="instagram"><i class="bi bi-instagram"></i></a>
-          <a href="#" class="linkedin"><i class="bi bi-linkedin"></i></a>
-        </div>
-      </div>
-    </div>
-
     <div class="branding d-flex align-items-cente">
       <div class="container position-relative d-flex align-items-center justify-content-between">
         @php
@@ -111,25 +96,111 @@
   </main>
 
   <footer id="footer" class="footer">
-    <div class="container">
-      @php
-        $footerEmail = 'akar@gmail.com';
-        $footerWa = config('app.whatsapp_number');
-      @endphp
+    @php
+      $brandName = config('app.name', 'BizLand');
+      $contactEmail = config('app.contact_email') ?: config('mail.from.address');
+      $contactPhone = config('app.contact_phone');
+      $address = config('app.office_address');
+      $waNumber = config('app.whatsapp_number');
+      $socialFacebook = config('app.social_facebook');
+      $socialInstagram = config('app.social_instagram');
+      $socialLinkedin = config('app.social_linkedin');
+      $socialTwitter = config('app.social_twitter');
+      $officeLat = config('app.office_lat');
+      $officeLng = config('app.office_lng');
+      $officeHours = config('app.office_hours');
+      $hasSocial = !empty($socialFacebook) || !empty($socialInstagram) || !empty($socialLinkedin) || !empty($socialTwitter);
+    @endphp
+
+    <div class="footer-top">
+      <div class="container">
+        <div class="row gy-4">
+          <div class="col-lg-4 col-md-6">
+            <h4 class="mb-2">{{ $brandName }}</h4>
+            <p class="text-muted mb-3">Kami berkomitmen memberikan layanan profesional untuk kebutuhan digital bisnis Anda.</p>
+            <a href="{{ route('public.order.create') }}" class="btn btn-primary btn-sm">Mulai Order</a>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <h5 class="mb-2">Kontak</h5>
+            <ul class="list-unstyled small">
+              @if(!empty($address))
+                @php
+                  $mapUrl = null;
+                  if (!empty($officeLat) && !empty($officeLng)) {
+                    $mapUrl = 'https://www.google.com/maps?q=' . $officeLat . ',' . $officeLng;
+                  } elseif (!empty($address)) {
+                    $mapUrl = 'https://www.google.com/maps?q=' . rawurlencode($address);
+                  }
+                @endphp
+                <li class="mb-2">
+                  <i class="bi bi-geo-alt me-2"></i>
+                  @if($mapUrl)
+                    <a href="{{ $mapUrl }}" target="_blank" rel="noopener" class="text-decoration-none">{{ $address }}</a>
+                  @else
+                    {{ $address }}
+                  @endif
+                </li>
+              @endif
+              @if(!empty($contactPhone))
+                <li class="mb-2"><i class="bi bi-telephone me-2"></i>{{ $contactPhone }}</li>
+              @endif
+              @if(!empty($contactEmail))
+                <li class="mb-2"><i class="bi bi-envelope me-2"></i><a class="text-decoration-none" href="mailto:{{ $contactEmail }}">{{ $contactEmail }}</a></li>
+              @endif
+              <li class="mb-2">
+                <i class="bi bi-clock me-2"></i>
+                {{ $officeHours ?: 'Senin–Jumat 09:00–17:00' }}
+              </li>
+            </ul>
+          </div>
+          <div class="col-lg-3 col-md-6">
+            <h5 class="mb-2">Tautan</h5>
+            <ul class="list-unstyled footer-links">
+              <li><a class="text-decoration-none" href="{{ route('public.index') }}">Beranda</a></li>
+              <li><a class="text-decoration-none" href="{{ route('public.about') }}">Tentang</a></li>
+              <li><a class="text-decoration-none" href="{{ route('public.services') }}">Layanan</a></li>
+              <li><a class="text-decoration-none" href="{{ route('public.portfolio') }}">Portfolio</a></li>
+              <li><a class="text-decoration-none" href="{{ route('public.contact') }}">Kontak</a></li>
+            </ul>
+            @if($hasSocial)
+              <div class="col-lg-2 col-md-6">
+                <h5 class="mb-2">Ikuti Kami</h5>
+                <div class="d-flex gap-2">
+                  @if(!empty($socialFacebook))
+                    <a href="{{ $socialFacebook }}" target="_blank" rel="noopener" class="btn btn-outline-secondary btn-sm rounded-circle" aria-label="Facebook"><i class="bi bi-facebook"></i></a>
+                  @endif
+                  @if(!empty($socialInstagram))
+                    <a href="{{ $socialInstagram }}" target="_blank" rel="noopener" class="btn btn-outline-secondary btn-sm rounded-circle" aria-label="Instagram"><i class="bi bi-instagram"></i></a>
+                  @endif
+                  @if(!empty($socialLinkedin))
+                    <a href="{{ $socialLinkedin }}" target="_blank" rel="noopener" class="btn btn-outline-secondary btn-sm rounded-circle" aria-label="LinkedIn"><i class="bi bi-linkedin"></i></a>
+                  @endif
+                  @if(!empty($socialTwitter))
+                    <a href="{{ $socialTwitter }}" target="_blank" rel="noopener" class="btn btn-outline-secondary btn-sm rounded-circle" aria-label="Twitter"><i class="bi bi-twitter-x"></i></a>
+                  @endif
+                </div>
+              </div>
+            @endif
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container border-top pt-3 mt-3">
       <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-2 small">
         <div class="copyright mb-1 mb-md-0">
-          &copy; <strong><span>{{ config('app.name', 'BizLand') }}</span></strong> {{ date('Y') }}. All Rights Reserved
+          &copy; <strong><span>{{ $brandName }}</span></strong> {{ date('Y') }}. All Rights Reserved
         </div>
         <div class="d-flex align-items-center gap-3">
-          @if(!empty($footerEmail))
-            <a href="mailto:{{ $footerEmail }}" class="text-decoration-none"><i class="bi bi-envelope me-1"></i>{{ $footerEmail }}</a>
+          @if(!empty($contactEmail))
+            <a href="mailto:{{ $contactEmail }}" class="text-decoration-none"><i class="bi bi-envelope me-1"></i>{{ $contactEmail }}</a>
           @endif
-          @if(!empty($footerWa))
+          @if(!empty($waNumber))
             @php
-              $waDigits = preg_replace('/\D/','',(string) $footerWa);
+              $waDigits = preg_replace('/\D/','',(string) $waNumber);
               if (\Illuminate\Support\Str::startsWith($waDigits,'0')) { $waDigits = '62'.substr($waDigits,1); }
             @endphp
-            <a href="https://wa.me/{{ $waDigits }}" target="_blank" rel="noopener" class="text-decoration-none"><i class="bi bi-whatsapp me-1"></i>{{ $footerWa }}</a>
+            <a href="https://wa.me/{{ $waDigits }}" target="_blank" rel="noopener" class="text-decoration-none"><i class="bi bi-whatsapp me-1"></i>{{ $waNumber }}</a>
           @endif
         </div>
       </div>

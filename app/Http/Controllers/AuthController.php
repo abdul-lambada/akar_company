@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -66,6 +68,33 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        // reCAPTCHA visible checkbox (v2) verification if configured
+        $siteKey = (string) config('services.recaptcha.site_key');
+        $secretKey = (string) config('services.recaptcha.secret_key');
+        if (!empty($siteKey) && !empty($secretKey)) {
+            $token = (string) $request->string('g-recaptcha-response', '');
+            if (empty($token)) {
+                return back()->withErrors(['recaptcha' => 'Verifikasi keamanan diperlukan.'])->withInput($request->only('login'));
+            }
+            try {
+                $resp = Http::asForm()->post('https://www.google.com/recaptcha/api/siteverify', [
+                    'secret' => $secretKey,
+                    'response' => $token,
+                    'remoteip' => $request->ip(),
+                ])->json();
+                $allowedHost = $request->getHost();
+                $hostVal = $resp['hostname'] ?? null;
+                $success = (bool) ($resp['success'] ?? false);
+                $ok = $success && (empty($hostVal) || $hostVal === $allowedHost || \Illuminate\Support\Str::contains($allowedHost, (string) $hostVal));
+                if (!$ok) {
+                    Log::warning('reCAPTCHA login failed', ['resp' => $resp]);
+                    return back()->withErrors(['recaptcha' => 'Gagal verifikasi reCAPTCHA. Silakan coba lagi.'])->withInput($request->only('login'));
+                }
+            } catch (\Throwable $e) {
+                Log::error('reCAPTCHA login error: ' . $e->getMessage());
+            }
+        }
+
         $credentialsInput = $request->validate([
             'login' => ['required', 'string'],
             'password' => ['required', 'string'],
@@ -82,14 +111,14 @@ class AuthController extends Controller
             'password' => $password,
         ];
 
-        if (Auth::attempt($credentials, $remember)) {
+        if (\Illuminate\Support\Facades\Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
             return redirect()->intended(route('dashboard'));
         }
 
         return back()->withErrors([
             'login' => __('These credentials do not match our records.'),
-        ])->onlyInput('login');
+        ])->withInput($request->only('login'));
     }
 
     public function logout(Request $request)

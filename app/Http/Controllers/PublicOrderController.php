@@ -75,12 +75,12 @@ class PublicOrderController extends Controller
             return back()->withErrors(['form' => 'Terjadi kesalahan. Silakan coba lagi.'])->withInput();
         }
 
-        // Optional reCAPTCHA v3 verification
+        // Optional reCAPTCHA verification (supports v2 checkbox and v3 token)
         $siteKey = (string) config('services.recaptcha.site_key');
         $secretKey = (string) config('services.recaptcha.secret_key');
         $threshold = (float) config('services.recaptcha.score_threshold', 0.5);
         if (!empty($siteKey) && !empty($secretKey)) {
-            $token = (string) ($data['recaptcha_token'] ?? '');
+            $token = (string) ($data['recaptcha_token'] ?? $request->string('g-recaptcha-response', ''));
             if (empty($token)) {
                 return back()->withErrors(['recaptcha' => 'Verifikasi keamanan diperlukan.'])->withInput();
             }
@@ -90,9 +90,31 @@ class PublicOrderController extends Controller
                     'response' => $token,
                     'remoteip' => $request->ip(),
                 ])->json();
-                $ok = ($resp['success'] ?? false) && ($resp['score'] ?? 0) >= $threshold;
+
+                $allowedHost = $request->getHost();
+                $hostVal = $resp['hostname'] ?? null;
+                $success = (bool) ($resp['success'] ?? false);
+                $isV3 = array_key_exists('score', (array) $resp);
+                $ok = false;
+                if ($isV3) {
+                    $scoreVal = (float) ($resp['score'] ?? 0);
+                    $actionVal = $resp['action'] ?? null;
+                    $ok = $success
+                        && $scoreVal >= $threshold
+                        && (empty($actionVal) || $actionVal === 'order')
+                        && (empty($hostVal) || $hostVal === $allowedHost || Str::contains($allowedHost, (string) $hostVal));
+                } else {
+                    // v2 checkbox: only success + optional hostname check
+                    $ok = $success
+                        && (empty($hostVal) || $hostVal === $allowedHost || Str::contains($allowedHost, (string) $hostVal));
+                }
+
                 if (!$ok) {
-                    Log::warning('reCAPTCHA failed', ['resp' => $resp]);
+                    Log::warning('reCAPTCHA failed', [
+                        'resp' => $resp,
+                        'threshold' => $threshold,
+                        'route' => 'public.order.store',
+                    ]);
                     return back()->withErrors(['recaptcha' => 'Gagal verifikasi reCAPTCHA. Silakan coba lagi.'])->withInput();
                 }
             } catch (\Throwable $e) {

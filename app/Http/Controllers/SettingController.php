@@ -34,6 +34,16 @@ class SettingController extends Controller
             'testimonials_description' => config('app.testimonials_description'),
             'contact_cta_title' => config('app.contact_cta_title'),
             'contact_cta_description' => config('app.contact_cta_description'),
+            // Contact & Social
+            'contact_email' => config('app.contact_email') ?: config('mail.from.address'),
+            'contact_phone' => config('app.contact_phone'),
+            'office_address' => config('app.office_address'),
+            'office_lat' => config('app.office_lat'),
+            'office_lng' => config('app.office_lng'),
+            'social_facebook' => config('app.social_facebook'),
+            'social_instagram' => config('app.social_instagram'),
+            'social_linkedin' => config('app.social_linkedin'),
+            'social_twitter' => config('app.social_twitter'),
         ];
         // Merge local overrides if in local and file exists
         if (app()->environment('local')) {
@@ -49,6 +59,16 @@ class SettingController extends Controller
                 $settings['wa_template_name'] = $over['wa_template_name'] ?? $settings['wa_template_name'];
                 $settings['wa_template_lang'] = $over['wa_template_lang'] ?? $settings['wa_template_lang'];
                 $settings['company_whatsapp'] = $over['company_whatsapp'] ?? $settings['company_whatsapp'];
+                // Contact & Social overrides
+                $settings['contact_email'] = $over['contact_email'] ?? $settings['contact_email'];
+                $settings['contact_phone'] = $over['contact_phone'] ?? $settings['contact_phone'];
+                $settings['office_address'] = $over['office_address'] ?? $settings['office_address'];
+                $settings['office_lat'] = $over['office_lat'] ?? $settings['office_lat'];
+                $settings['office_lng'] = $over['office_lng'] ?? $settings['office_lng'];
+                $settings['social_facebook'] = $over['social_facebook'] ?? $settings['social_facebook'];
+                $settings['social_instagram'] = $over['social_instagram'] ?? $settings['social_instagram'];
+                $settings['social_linkedin'] = $over['social_linkedin'] ?? $settings['social_linkedin'];
+                $settings['social_twitter'] = $over['social_twitter'] ?? $settings['social_twitter'];
             }
         }
         return view('settings.index', compact('settings'));
@@ -80,6 +100,16 @@ class SettingController extends Controller
             'testimonials_description' => 'nullable|string|max:255',
             'contact_cta_title' => 'nullable|string|max:255',
             'contact_cta_description' => 'nullable|string|max:500',
+            // Contact & Social
+            'contact_email' => 'nullable|email|max:255',
+            'contact_phone' => 'nullable|string|max:32',
+            'office_address' => 'nullable|string|max:255',
+            'office_lat' => 'nullable|numeric',
+            'office_lng' => 'nullable|numeric',
+            'social_facebook' => 'nullable|url|max:255',
+            'social_instagram' => 'nullable|url|max:255',
+            'social_linkedin' => 'nullable|url|max:255',
+            'social_twitter' => 'nullable|url|max:255',
         ]);
 
         // handle logo upload
@@ -117,6 +147,16 @@ class SettingController extends Controller
             'TESTIMONIALS_DESCRIPTION' => '"' . ($data['testimonials_description'] ?? config('app.testimonials_description')) . '"',
             'CONTACT_CTA_TITLE' => '"' . ($data['contact_cta_title'] ?? config('app.contact_cta_title')) . '"',
             'CONTACT_CTA_DESCRIPTION' => '"' . ($data['contact_cta_description'] ?? config('app.contact_cta_description')) . '"',
+            // Contact & Social
+            'CONTACT_EMAIL' => '"' . ($data['contact_email'] ?? '') . '"',
+            'CONTACT_PHONE' => '"' . ($data['contact_phone'] ?? '') . '"',
+            'OFFICE_ADDRESS' => '"' . ($data['office_address'] ?? '') . '"',
+            'OFFICE_LAT' => ($data['office_lat'] !== null ? '"'.$data['office_lat'].'"' : ''),
+            'OFFICE_LNG' => ($data['office_lng'] !== null ? '"'.$data['office_lng'].'"' : ''),
+            'SOCIAL_FACEBOOK' => '"' . ($data['social_facebook'] ?? '') . '"',
+            'SOCIAL_INSTAGRAM' => '"' . ($data['social_instagram'] ?? '') . '"',
+            'SOCIAL_LINKEDIN' => '"' . ($data['social_linkedin'] ?? '') . '"',
+            'SOCIAL_TWITTER' => '"' . ($data['social_twitter'] ?? '') . '"',
             ]);
 
             try {
@@ -153,6 +193,16 @@ class SettingController extends Controller
                 'testimonials_description' => $data['testimonials_description'] ?? null,
                 'contact_cta_title' => $data['contact_cta_title'] ?? null,
                 'contact_cta_description' => $data['contact_cta_description'] ?? null,
+                // Contact & Social
+                'contact_email' => $data['contact_email'] ?? null,
+                'contact_phone' => $data['contact_phone'] ?? null,
+                'office_address' => $data['office_address'] ?? null,
+                'office_lat' => $data['office_lat'] ?? null,
+                'office_lng' => $data['office_lng'] ?? null,
+                'social_facebook' => $data['social_facebook'] ?? null,
+                'social_instagram' => $data['social_instagram'] ?? null,
+                'social_linkedin' => $data['social_linkedin'] ?? null,
+                'social_twitter' => $data['social_twitter'] ?? null,
             ];
             Storage::disk('local')->put('settings_local.json', json_encode($payload));
 
@@ -170,6 +220,16 @@ class SettingController extends Controller
             config()->set('services.fonnte.token', $payload['fonnte_token']);
             config()->set('services.whatsapp.template_name', $payload['wa_template_name']);
             config()->set('services.whatsapp.template_lang', $payload['wa_template_lang']);
+            // Contact & Social runtime
+            config()->set('app.contact_email', $payload['contact_email']);
+            config()->set('app.contact_phone', $payload['contact_phone']);
+            config()->set('app.office_address', $payload['office_address']);
+            config()->set('app.office_lat', $payload['office_lat']);
+            config()->set('app.office_lng', $payload['office_lng']);
+            config()->set('app.social_facebook', $payload['social_facebook']);
+            config()->set('app.social_instagram', $payload['social_instagram']);
+            config()->set('app.social_linkedin', $payload['social_linkedin']);
+            config()->set('app.social_twitter', $payload['social_twitter']);
 
             return redirect()->route('settings.index')->with('success', 'Settings updated locally without .env write.');
         }

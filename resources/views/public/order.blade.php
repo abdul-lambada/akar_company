@@ -12,10 +12,20 @@
       <div class="col-lg-8">
         <div class="card border-0 shadow-sm">
           <div class="card-body p-4">
+            @if($errors->has('recaptcha'))
+              <div class="alert alert-danger" role="alert">
+                {{ $errors->first('recaptcha') }}
+              </div>
+            @endif
+            @if($errors->has('form'))
+              <div class="alert alert-danger" role="alert">
+                {{ $errors->first('form') }}
+              </div>
+            @endif
             <form method="post" action="{{ route('public.order.store') }}" class="needs-validation" novalidate>
               @csrf
               @php $recaptchaSiteKey = config('services.recaptcha.site_key'); @endphp
-              <input type="hidden" name="recaptcha_token" id="recaptcha_token">
+              
               <!-- Honeypot: should remain empty -->
               <div style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;">
                 <label>Website</label>
@@ -59,6 +69,17 @@
                   <textarea name="notes" rows="4" class="form-control" placeholder="Ceritakan kebutuhan Anda...">{{ old('notes') }}</textarea>
                 </div>
               </div>
+
+              @if(!empty($recaptchaSiteKey))
+              <div class="mt-4">
+                <label class="form-label">Verifikasi Keamanan</label>
+                <div class="g-recaptcha" data-sitekey="{{ $recaptchaSiteKey }}"></div>
+                @if($errors->has('recaptcha'))
+                  <div class="invalid-feedback d-block">{{ $errors->first('recaptcha') }}</div>
+                @endif
+              </div>
+              @endif
+
               <div class="d-flex align-items-center gap-3 mt-4">
                 <button class="btn btn-primary" type="submit">Kirim Order</button>
                 <a href="{{ route('public.index') }}" class="btn btn-outline-secondary">Batal</a>
@@ -86,22 +107,7 @@
   })();
 </script>
 @if(!empty($recaptchaSiteKey))
-<script src="https://www.google.com/recaptcha/api.js?render={{ $recaptchaSiteKey }}" defer></script>
-<script>
-  window.addEventListener('load', function(){
-    if (!window.grecaptcha) return;
-    grecaptcha.ready(function() {
-      grecaptcha.execute('{{ $recaptchaSiteKey }}', {action: 'order'}).then(function(token) {
-        var input = document.getElementById('recaptcha_token');
-        if (input) input.value = token;
-      });
-    });
-  });
-</script>
-@else
-<script>
-  // reCAPTCHA disabled (no site key). Token will remain empty and be skipped server-side.
-</script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 @endif
 @endpush
 @endsection
