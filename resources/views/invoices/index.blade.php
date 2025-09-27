@@ -51,15 +51,14 @@
                 <span class="badge bg-{{ match($inv->status){'paid'=>'success','overdue'=>'danger','cancelled'=>'secondary','draft'=>'warning', default=>'info'} }}">{{ ucfirst($inv->status) }}</span>
               </td>
               <td class="text-end">{{ number_format($inv->total_amount,2,',','.') }}</td>
-              <td>
-                <a href="{{ route('invoices.show', $inv) }}" class="btn btn-sm btn-outline-secondary"><i class="bi bi-eye"></i></a>
-                <a href="{{ route('invoices.edit', $inv) }}" class="btn btn-sm btn-outline-primary"><i class="bi bi-pencil"></i></a>
-                <a href="{{ route('invoices.pdf', $inv) }}" class="btn btn-sm btn-outline-success" title="Unduh PDF"><i class="bi bi-file-earmark-pdf"></i></a>
-                <form action="{{ route('invoices.destroy', $inv) }}" method="POST" class="d-inline" onsubmit="return confirm('Delete this invoice?')">
-                  @csrf
-                  @method('DELETE')
-                  <button class="btn btn-sm btn-outline-danger"><i class="bi bi-trash"></i></button>
-                </form>
+              <td class="text-end">
+                @include('components.action-buttons', [
+                  'viewUrl' => route('invoices.show', $inv),
+                  'editUrl' => route('invoices.edit', $inv),
+                  'deleteUrl' => route('invoices.destroy', $inv),
+                  'confirm' => 'Yakin hapus invoice ini?',
+                  'size' => 'sm'
+                ])
               </td>
             </tr>
             @empty
