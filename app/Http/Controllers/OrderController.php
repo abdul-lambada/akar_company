@@ -16,6 +16,13 @@ class OrderController extends Controller
         return view('orders.index', compact('orders'));
     }
 
+    // Tambahkan method create untuk menampilkan form pembuatan Order
+    public function create()
+    {
+        $services = Service::orderBy('service_name')->get(['service_id', 'service_name', 'price']);
+        return view('orders.create', compact('services'));
+    }
+
     public function store(Request $request)
     {
         $data = $request->validate([
@@ -50,6 +57,14 @@ class OrderController extends Controller
         });
 
         return redirect()->route('orders.index')->with('success', 'Order created');
+    }
+
+    // Tambahkan method edit untuk menampilkan form edit Order
+    public function edit(Order $order)
+    {
+        $order->load('items');
+        $services = Service::orderBy('service_name')->get(['service_id', 'service_name', 'price']);
+        return view('orders.edit', compact('order', 'services'));
     }
 
     public function update(Request $request, Order $order)
