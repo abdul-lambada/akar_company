@@ -1,10 +1,10 @@
 @extends('layouts.niceadmin')
 
-@section('title', 'Service Detail')
+@section('title', 'Product Detail')
 
 @section('content')
 <div class="pagetitle">
-  <h1>Service Detail</h1>
+  <h1>Product Detail</h1>
   <nav>
     <ol class="breadcrumb">
       <li class="breadcrumb-item"><a href="{{ route('dashboard') }}">Dashboard</a></li>
@@ -16,7 +16,7 @@
 <section class="section">
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title">Service #{{ $service->service_id }}</h5>
+      <h5 class="card-title">Product #{{ $service->service_id }}</h5>
       <dl class="row mb-0">
         <dt class="col-sm-3">Name</dt>
         <dd class="col-sm-9">{{ $service->service_name }}</dd>

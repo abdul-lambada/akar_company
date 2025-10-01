@@ -74,7 +74,7 @@
           <ul class="align-items-center">
             <li><a href="{{ route('public.index') }}" class="{{ request()->routeIs('public.index') ? 'active' : '' }}">Beranda</a></li>
             <li><a href="{{ route('public.about') }}" class="{{ request()->routeIs('public.about') ? 'active' : '' }}">Tentang</a></li>
-            <li><a href="{{ route('public.services') }}" class="{{ request()->routeIs('public.services') ? 'active' : '' }}">Layanan</a></li>
+            <li><a href="{{ route('public.products') }}" class="{{ request()->routeIs('public.products') ? 'active' : '' }}">Produk</a></li>
             <li><a href="{{ route('public.portfolio') }}" class="{{ request()->routeIs('public.portfolio') ? 'active' : '' }}">Portfolio</a></li>
             <li><a href="{{ route('public.team') }}" class="{{ request()->routeIs('public.team') ? 'active' : '' }}">Tim</a></li>
             <li><a href="{{ route('public.blog') }}" class="{{ request()->routeIs('public.blog') ? 'active' : '' }}">Blog</a></li>
@@ -158,7 +158,7 @@
             <ul class="list-unstyled footer-links">
               <li><a class="text-decoration-none" href="{{ route('public.index') }}">Beranda</a></li>
               <li><a class="text-decoration-none" href="{{ route('public.about') }}">Tentang</a></li>
-              <li><a class="text-decoration-none" href="{{ route('public.services') }}">Layanan</a></li>
+              <li><a class="text-decoration-none" href="{{ route('public.products') }}">Produk</a></li>
               <li><a class="text-decoration-none" href="{{ route('public.portfolio') }}">Portfolio</a></li>
               <li><a class="text-decoration-none" href="{{ route('public.contact') }}">Kontak</a></li>
             </ul>

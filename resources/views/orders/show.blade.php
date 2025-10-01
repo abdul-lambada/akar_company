@@ -45,7 +45,7 @@
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Service</th>
+                  <th>Product</th>
                   <th>Price at Order</th>
                 </tr>
               </thead>

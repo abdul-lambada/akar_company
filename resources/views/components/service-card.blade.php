@@ -26,7 +26,7 @@
   .portfolio-item .card:hover img{ transform: scale(1.02); }
 </style>
 @endpush
-  <a href="{{ route('public.service-details', $service->slug) }}" class="stretched-link">
+  <a href="{{ route('public.product-details', $service->slug) }}" class="stretched-link">
     <h3>{{ $service->service_name }}</h3>
   </a>
   @if(($showPrice ?? true))
@@ -34,7 +34,7 @@
     <div class="h5 mb-2">{{ !is_null($service->price) ? 'Rp ' . number_format((float)$service->price, 0, ',', '.') : 'Hubungi Kami' }}</div>
   @endif
   <div class="d-flex gap-2 mt-2">
-    <a href="{{ route('public.service-details', $service->slug) }}" class="btn btn-outline-primary btn-sm">Detail</a>
+    <a href="{{ route('public.product-details', $service->slug) }}" class="btn btn-outline-primary btn-sm">Detail</a>
     <a href="{{ route('public.order.create', ['service_id' => $service->getKey(), 'package_name' => $service->service_name, 'budget' => $service->price]) }}" class="btn btn-primary btn-sm">Order Sekarang</a>
   </div>
 </div>

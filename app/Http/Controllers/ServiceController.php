@@ -11,12 +11,12 @@ class ServiceController extends Controller
     public function index()
     {
         $services = Service::orderByDesc('service_id')->paginate(10);
-        return view('services.index', compact('services'));
+        return view('products.index', compact('services'));
     }
 
     public function create()
     {
-        return view('services.create');
+        return view('products.create');
     }
 
     public function store(Request $request)
@@ -37,12 +37,12 @@ class ServiceController extends Controller
         }
 
         Service::create($data);
-        return redirect()->route('services.index')->with('success', 'Service created');
+        return redirect()->route('products.index')->with('success', 'Product created');
     }
 
     public function edit(Service $service)
     {
-        return view('services.edit', compact('service'));
+        return view('products.edit', compact('service'));
     }
 
     public function update(Request $request, Service $service)
@@ -63,18 +63,18 @@ class ServiceController extends Controller
         }
 
         $service->update($data);
-        return redirect()->route('services.index')->with('success', 'Service updated');
+        return redirect()->route('products.index')->with('success', 'Product updated');
     }
 
     public function destroy(Service $service)
     {
         $service->delete();
-        return redirect()->route('services.index')->with('success', 'Service deleted');
+        return redirect()->route('products.index')->with('success', 'Product deleted');
     }
 
     public function show(Service $service)
     {
         $service->loadCount(['portfolios']);
-        return view('services.show', compact('service'));
+        return view('products.show', compact('service'));
     }
 }

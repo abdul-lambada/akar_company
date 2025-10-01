@@ -48,7 +48,7 @@
           <table class="table" id="items-table">
             <thead>
               <tr>
-                <th style="width:50%">Service</th>
+                <th style="width:50%">Product</th>
                 <th style="width:30%" class="text-end">Price</th>
                 <th style="width:20%" class="text-end"></th>
               </tr>
@@ -58,7 +58,7 @@
                 <tr>
                   <td>
                     <select name="items[{{ $i }}][service_id]" class="form-select service-select" required>
-                      <option value="">-- Select Service --</option>
+                      <option value="">-- Select Product --</option>
                       @foreach($services as $s)
                         <option value="{{ $s->service_id }}" data-price="{{ $s->price ?? 0 }}" {{ $s->service_id == $it->service_id ? 'selected' : '' }}>{{ $s->service_name }}</option>
                       @endforeach
@@ -67,7 +67,7 @@
                   <td style="width: 200px;">
                     <div class="input-group">
                       <span class="input-group-text">Rp</span>
-                      <input type="number" step="0.01" min="0" name="items[{{ $i }}][price_at_order]" class="form-control price-input" value="{{ number_format($it->price_at_order, 2, '.', '') }}" required>
+                      <input type="number" step="0.01" min="0" name="items[{{ $i }}][price_at_order]" class="form-control price-input" value="{{ number_format($it->price_at_order ?? 0, 2, '.', '') }}" required>
                     </div>
                   </td>
                   <td class="text-end">

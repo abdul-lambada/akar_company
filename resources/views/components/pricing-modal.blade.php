@@ -2,7 +2,7 @@
   <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="pricingModalLabel">Paket Layanan & Harga</h5>
+        <h5 class="modal-title" id="pricingModalLabel">Paket Produk & Harga</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
@@ -14,8 +14,8 @@
                   <h6 class="card-title mb-1">{{ $service->service_name }}</h6>
                   <div class="h4 my-2">{{ !is_null($service->price) ? number_format((float)$service->price, 0, ',', '.') : 'Hubungi Kami' }}</div>
                   <div class="d-flex justify-content-center gap-2">
-                    <a href="{{ route('public.service-details', $service->slug) }}" class="btn btn-outline-primary btn-sm">Detail</a>
-                    <a href="{{ route('public.order.create', ['service_id' => $service->id, 'package_name' => $service->service_name]) }}" class="btn btn-primary btn-sm">Order Sekarang</a>
+                    <a href="{{ route('public.product-details', $service->slug) }}" class="btn btn-outline-primary btn-sm">Detail</a>
+                    <a href="{{ route('public.order.create', ['service_id' => $service->getKey(), 'package_name' => $service->service_name, 'budget' => $service->price]) }}" class="btn btn-primary btn-sm">Order Sekarang</a>
                   </div>
                 </div>
               </div>

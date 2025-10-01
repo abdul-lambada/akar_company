@@ -33,7 +33,14 @@ use App\Http\Controllers\PublicOrderController;
 Route::get('/order', [PublicOrderController::class, 'create'])->name('public.order.create');
 Route::post('/order', [PublicOrderController::class, 'store'])->name('public.order.store');
 Route::get('/order/success', [PublicOrderController::class, 'success'])->name('public.order.success');
-Route::get('/services', [PublicController::class, 'services'])->name('public.services');
+// Products (public) routes — replacing old Services naming on public site
+Route::get('/products', [PublicController::class, 'services'])->name('public.products');
+Route::get('/product-details/{slug}', [PublicController::class, 'serviceDetail'])->name('public.product-details');
+
+// Backward compatibility: redirect old services URLs to products
+Route::get('/services', function(){
+    return redirect()->route('public.products');
+});
 Route::get('/portfolio', [PublicController::class, 'portfolio'])->name('public.portfolio');
 Route::get('/contact', [PublicController::class, 'contact'])->name('public.contact');
 Route::post('/contact', [PublicController::class, 'contactSubmit'])->name('public.contact.submit');
@@ -42,7 +49,9 @@ Route::get('/pricing', [PublicController::class, 'pricing'])->name('public.prici
 Route::get('/team', [PublicController::class, 'team'])->name('public.team');
 Route::get('/team/{slug}', [PublicController::class, 'teamDetail'])->name('public.team-detail');
 // Detail pages (avoid conflict with admin resource routes)
-Route::get('/service-details/{slug}', [PublicController::class, 'serviceDetail'])->name('public.service-details');
+Route::get('/service-details/{slug}', function($slug){
+    return redirect()->route('public.product-details', ['slug' => $slug]);
+});
 Route::get('/portfolio-details/{portfolio}', [PublicController::class, 'portfolioDetail'])->name('public.portfolio-details');
 Route::get('/blog', [PublicController::class, 'blog'])->name('public.blog');
 Route::get('/blog/{slug}', [PublicController::class, 'blogDetail'])->name('public.blog-detail');
@@ -63,7 +72,9 @@ Route::middleware(['auth','role:admin'])->prefix('admin')->group(function () {
     Route::resource('categories', App\Http\Controllers\CategoryController::class);
 
     // Services
-    Route::resource('services', App\Http\Controllers\ServiceController::class);
+    // Route::resource('services', App\Http\Controllers\ServiceController::class);
+    // Ganti ke Products
+    Route::resource('products', App\Http\Controllers\ServiceController::class);
 
     // Posts
     Route::resource('posts', App\Http\Controllers\PostController::class);

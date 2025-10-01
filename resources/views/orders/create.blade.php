@@ -47,7 +47,7 @@
           <table class="table" id="items-table">
             <thead>
               <tr>
-                <th style="width:50%">Service</th>
+                <th style="width:50%">Product</th>
                 <th style="width:30%" class="text-end">Price</th>
                 <th style="width:20%" class="text-end"></th>
               </tr>

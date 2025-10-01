@@ -1,7 +1,7 @@
 <tr>
   <td>
     <select name="items[__INDEX__][service_id]" class="form-select service-select" required>
-      <option value="">-- Select Service --</option>
+      <option value="">-- Select Product --</option>
       @foreach($services as $s)
         <option value="{{ $s->service_id }}" data-price="{{ $s->price ?? 0 }}">{{ $s->service_name }}</option>
       @endforeach

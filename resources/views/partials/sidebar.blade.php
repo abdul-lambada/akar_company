@@ -20,10 +20,10 @@
         </li>
 
         <li class="nav-item">
-            <a class="nav-link {{ request()->routeIs('services.*') ? 'active' : 'collapsed' }}"
-                href="{{ route('services.index') }}">
-                <i class="bi bi-briefcase"></i>
-                <span>Services</span>
+            <a class="nav-link {{ request()->routeIs('products.*') ? 'active' : 'collapsed' }}"
+                href="{{ route('products.index') }}">
+                <i class="bi bi-box-seam"></i>
+                <span>Products</span>
             </a>
         </li>
 

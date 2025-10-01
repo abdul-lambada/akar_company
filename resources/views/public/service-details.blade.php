@@ -1,11 +1,11 @@
 @extends('layouts.bizland')
 @section('title', $service->service_name)
-@section('meta_description', 'Layanan ' . $service->service_name)
+@section('meta_description', 'Produk ' . $service->service_name)
 @section('content')
 <section class="section">
   <div class="container">
     <div class="container section-title" data-aos="fade-up">
-      <x-breadcrumbs :items="[[ 'label' => 'Home', 'url' => route('public.index') ], [ 'label' => 'Services', 'url' => route('public.services') ], [ 'label' => $service->service_name ]]" title="Detail Layanan" />
+      <x-breadcrumbs :items="[[ 'label' => 'Home', 'url' => route('public.index') ], [ 'label' => 'Produk', 'url' => route('public.products') ], [ 'label' => $service->service_name ]]" title="Detail Produk" />
     </div>
     <h2 class="mb-3">{{ $service->service_name }}</h2>
     @if(!is_null($service->price))

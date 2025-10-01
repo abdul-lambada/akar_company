@@ -29,7 +29,7 @@ class PublicController extends Controller
     public function services()
     {
         $services = Service::orderBy('service_name')->paginate(9);
-        return view('public.services', compact('services'));
+        return view('public.products', compact('services'));
     }
 
     public function serviceDetail(string $slug)
