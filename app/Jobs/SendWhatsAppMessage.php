@@ -30,8 +30,8 @@ class SendWhatsAppMessage implements ShouldQueue
         }
 
         // Provider: Fonnte (preferred if configured)
-        // Prefer env (production), but allow config override (local)
-        $fonnteToken = env('FONNTE_TOKEN') ?: config('services.fonnte.token');
+        // Prefer runtime config first (local Settings), fallback to env
+        $fonnteToken = config('services.fonnte.token') ?: env('FONNTE_TOKEN');
 
         if ($fonnteToken) {
             try {
@@ -61,12 +61,12 @@ class SendWhatsAppMessage implements ShouldQueue
             // If Fonnte configured but failed, continue to next fallback
         }
 
-        // WhatsApp Cloud API configs (env with config fallback)
-        $token = env('WHATSAPP_CLOUD_TOKEN') ?: config('services.whatsapp.cloud.token');
-        $fromPhoneId = env('WHATSAPP_CLOUD_PHONE_ID') ?: config('services.whatsapp.cloud.phone_id'); // e.g. 123456789012345
-        $graphVersion = env('WHATSAPP_CLOUD_GRAPH_VERSION', config('services.whatsapp.cloud.graph_version', 'v20.0'));
-        $templateName = env('WHATSAPP_TEMPLATE_NAME') ?: config('services.whatsapp.cloud.template_name'); // optional
-        $templateLang = env('WHATSAPP_TEMPLATE_LANG', config('services.whatsapp.cloud.template_lang', 'id')); // optional
+        // WhatsApp Cloud API configs (prefer runtime config first)
+        $token = config('services.whatsapp.cloud.token') ?: env('WHATSAPP_CLOUD_TOKEN');
+        $fromPhoneId = config('services.whatsapp.cloud.phone_id') ?: env('WHATSAPP_CLOUD_PHONE_ID'); // e.g. 123456789012345
+        $graphVersion = config('services.whatsapp.cloud.graph_version', env('WHATSAPP_CLOUD_GRAPH_VERSION', 'v20.0'));
+        $templateName = config('services.whatsapp.cloud.template_name') ?: env('WHATSAPP_TEMPLATE_NAME'); // optional
+        $templateLang = config('services.whatsapp.cloud.template_lang', env('WHATSAPP_TEMPLATE_LANG', 'id')); // optional
 
         if ($token && $fromPhoneId) {
             try {
@@ -134,6 +134,9 @@ class SendWhatsAppMessage implements ShouldQueue
         }
 
         // Fallback: just log wa.me link so admin can manually follow up
+        if (!$fonnteToken && !$token && !$fromPhoneId) {
+            Log::warning('No WhatsApp provider configured (Fonnte or Cloud API). Falling back to wa.me link.');
+        }
         $extra = $this->ctaUrl ? ("\n\n".$this->ctaUrl) : '';
         foreach ($targets as $phone) {
             $waLink = 'https://wa.me/'.$phone.'?text='.rawurlencode($this->message.$extra);

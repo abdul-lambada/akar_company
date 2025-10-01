@@ -189,18 +189,33 @@ class InvoiceController extends Controller
         $statusUrl = URL::signedRoute('invoices.public.status', ['invoice' => $invoice->getKey()]);
         $message = $this->buildCustomerWaMessage($invoice);
 
-        // Kirim WA menggunakan job (queue) agar non-blocking
-        SendWhatsAppMessage::dispatch(
-            to: $to,
-            message: $message,
-            ctaUrl: $statusUrl,
-            templateVars: [
-                $invoice->invoice_code,
-                optional($invoice->due_date)->format('d M Y'),
-                number_format((float) $invoice->total_amount, 0, ',', '.'),
-                $statusUrl,
-            ]
-        );
+        // Local: send synchronously so Settings changes take effect without worker restart
+        if (app()->environment('local')) {
+            SendWhatsAppMessage::dispatchSync(
+                to: $to,
+                message: $message,
+                ctaUrl: $statusUrl,
+                templateVars: [
+                    $invoice->invoice_code,
+                    optional($invoice->due_date)->format('d M Y'),
+                    number_format((float) $invoice->total_amount, 0, ',', '.'),
+                    $statusUrl,
+                ]
+            );
+        } else {
+            // Production: queue for non-blocking
+            SendWhatsAppMessage::dispatch(
+                to: $to,
+                message: $message,
+                ctaUrl: $statusUrl,
+                templateVars: [
+                    $invoice->invoice_code,
+                    optional($invoice->due_date)->format('d M Y'),
+                    number_format((float) $invoice->total_amount, 0, ',', '.'),
+                    $statusUrl,
+                ]
+            );
+        }
 
         return redirect()->route('invoices.show', $invoice)->with('success', 'WhatsApp berhasil dikirim ke pelanggan.');
     }
@@ -230,18 +245,33 @@ class InvoiceController extends Controller
         $ctaUrl = route('invoices.show', $invoice);
         $message = $this->buildAdminWaMessage($invoice);
 
-        SendWhatsAppMessage::dispatch(
-            to: $adminRaw,
-            message: $message,
-            ctaUrl: $ctaUrl,
-            templateVars: [
-                $invoice->invoice_code,
-                optional($invoice->due_date)->format('d M Y'),
-                number_format((float) $invoice->total_amount, 0, ',', '.'),
-                $ctaUrl,
-            ]
-        );
+        if (app()->environment('local')) {
+            SendWhatsAppMessage::dispatchSync(
+                to: $adminRaw,
+                message: $message,
+                ctaUrl: $ctaUrl,
+                templateVars: [
+                    $invoice->invoice_code,
+                    optional($invoice->due_date)->format('d M Y'),
+                    number_format((float) $invoice->total_amount, 0, ',', '.'),
+                    $ctaUrl,
+                ]
+            );
+        } else {
+            SendWhatsAppMessage::dispatch(
+                to: $adminRaw,
+                message: $message,
+                ctaUrl: $ctaUrl,
+                templateVars: [
+                    $invoice->invoice_code,
+                    optional($invoice->due_date)->format('d M Y'),
+                    number_format((float) $invoice->total_amount, 0, ',', '.'),
+                    $ctaUrl,
+                ]
+            );
+        }
 
         return redirect()->route('invoices.show', $invoice)->with('success', 'WhatsApp berhasil dikirim ke Admin.');
     }
+
 }
