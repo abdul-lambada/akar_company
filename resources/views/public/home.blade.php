@@ -161,31 +161,33 @@
   </script>
   @endpush
 
-  <section id="services" class="services section">
-    @php
-      $servicesHeading = (string) (config('app.services_heading') ?: 'Produk');
-      $servicesDescCfg = (string) (config('app.services_description') ?: 'Jelajahi Produk Kami');
-      // Pastikan subtitle diawali 'Produk' agar pill pertama menampilkan 'Produk'
-      $servicesDesc = preg_match('/^\s*produk\b/i', $servicesDescCfg)
-        ? $servicesDescCfg
-        : ('Produk ' . ltrim($servicesDescCfg));
-    @endphp
-    <x-section-heading :title="$servicesHeading" :subtitle="$servicesDesc" badge="Produk" />
-    <div class="container">
-      <div class="mb-3">
-        <a href="{{ route('public.products') }}" class="btn btn-outline-primary btn-sm">Lihat semua produk</a>
-      </div>
-      <div class="row gy-4">
-        @forelse($services as $service)
-          <div class="col-lg-4 col-md-6 d-flex" data-aos="fade-up">
-            @include('components.service-card', ['service' => $service, 'showPrice' => true])
-          </div>
-        @empty
-          <div class="col-12 text-center text-muted">Belum ada produk.</div>
-        @endforelse
+  <section class="services section">
+  <div class="container" data-aos="fade-up">
+    <x-breadcrumbs :items="[[ 'label' => 'Home', 'url' => route('public.index') ], [ 'label' => 'Produk' ]]" title="Produk" />
+  </div>
+  <x-section-heading title="Produk" subtitle="Jelajahi Produk Kami" />
+  <div class="container">
+    <div class="row gy-4">
+      @forelse($services as $service)
+        <div class="col-lg-4 col-md-6 d-flex" data-aos="fade-up">
+          @include('components.service-card', ['service' => $service, 'showPrice' => true])
+        </div>
+      @empty
+        <div class="col-12 text-center text-muted">Belum ada produk.</div>
+      @endforelse
+    </div>
+    <x-pagination :paginator="$services" />
+    <div class="text-center mt-5">
+      <div class="card border-0 shadow-sm d-inline-block">
+        <div class="card-body p-4">
+          <h5 class="mb-2">Bingung memilih produk?</h5>
+          <p class="text-muted mb-3">Konsultasi gratis dan mulai order sekarang.</p>
+          <a href="{{ route('public.order.create') }}" class="btn btn-primary">Order Sekarang</a>
+        </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
   <section id="contact-cta" class="section light-background">
     <div class="container">
