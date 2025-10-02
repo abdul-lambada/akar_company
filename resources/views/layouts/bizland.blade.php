@@ -108,15 +108,15 @@
             <li class="nav-item ms-xl-2 mt-2 mt-xl-0">
               <a href="{{ route('public.order.create') }}" class="btn btn-primary fw-semibold px-3 py-2 text-white" role="button">Order Sekarang</a>
             </li>
+            <li class="nav-item ms-xl-2 mt-2 mt-xl-0">
+              <button id="themeToggle" class="btn btn-outline-secondary btn-sm" type="button" aria-label="Tema">
+                <i class="bi bi-moon-stars" id="themeIcon"></i>
+              </button>
+            </li>
           </ul>
           <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
       </div>
-    </div>
-    <div class="d-flex align-items-center gap-2">
-      <button id="themeToggle" class="btn btn-outline-secondary btn-sm" type="button" aria-label="Tema">
-        <i class="bi bi-moon-stars" id="themeIcon"></i>
-      </button>
     </div>
   </header>
 
@@ -339,19 +339,23 @@
       });
 
       // Progressive image enhancement: lazy + skeleton + fade
+      // Skip images in header/hero or those explicitly opted-out with .no-skeleton
       var imgs = document.querySelectorAll('main img');
       imgs.forEach(function(img){
+        // Skip header/hero or opted-out
+        if (img.closest('header') || img.closest('#hero') || img.closest('.hero') || img.classList.contains('no-skeleton')) { return; }
         if (!img.hasAttribute('loading')) img.setAttribute('loading', 'lazy');
         if (!img.hasAttribute('decoding')) img.setAttribute('decoding', 'async');
         if (!img.classList.contains('img-fade')) img.classList.add('img-fade');
         // apply skeleton only if not already visible (no background/transparent PNG edge-cases ignored)
-        if (!img.classList.contains('no-skeleton')) {
+        {
           var ph = document.createElement('span');
           ph.className = 'skeleton';
           // Wrap image with skeleton container
           var wrap = document.createElement('span');
-          wrap.style.display = 'inline-block';
+          wrap.style.display = 'block';
           wrap.style.position = 'relative';
+          wrap.style.width = '100%';
           // Insert wrapper before image
           img.parentNode.insertBefore(wrap, img);
           wrap.appendChild(ph);
