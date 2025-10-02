@@ -43,19 +43,42 @@
         $companyPhone = config('company.phone');
         $companyLogo = ltrim((string) config('company.logo_path', 'favicon.ico'), '/');
 
-        // Gunakan asset() saat preview HTML agar gambar tampil di browser,
-        // dan gunakan public_path() saat generate PDF (Dompdf butuh path file lokal).
+        // Saat render PDF via Dompdf, gunakan path lokal absolut (file://),
+        // saat preview HTML gunakan URL asset().
         $isPdf = !isset($pdf_unavailable);
 
-        // Dompdf tidak mendukung .ico dan membutuhkan path file yang benar.
-        // Fallback ke logo NiceAdmin jika file tidak ada atau ekstensi .ico.
+        // Kandidat logo yang valid (format yang umum didukung Dompdf)
+        $validExts = ['png','jpg','jpeg','gif','webp','svg'];
+
+        // 1) Ambil dari konfigurasi jika valid
+        $candidate = null;
         $ext = strtolower(pathinfo($companyLogo, PATHINFO_EXTENSION));
-        $candidate = $companyLogo;
-        if ($ext === 'ico' || !file_exists(public_path($companyLogo))) {
+        if (in_array($ext, $validExts, true) && file_exists(public_path($companyLogo))) {
+            $candidate = $companyLogo;
+        }
+
+        // 2) Fallback ke BizLand logo jika ada
+        if (!$candidate && file_exists(public_path('BizLand/assets/img/logo.png'))) {
+            $candidate = 'BizLand/assets/img/logo.png';
+        }
+
+        // 3) Fallback ke NiceAdmin logo jika ada
+        if (!$candidate && file_exists(public_path('NiceAdmin/assets/img/logo.png'))) {
             $candidate = 'NiceAdmin/assets/img/logo.png';
         }
 
-        $logoSrc = $isPdf ? public_path($candidate) : asset($candidate);
+        // 4) Jika masih tidak ada kandidat, kosongkan agar img tetap render tanpa sumber
+        if (!$candidate) {
+            $candidate = '';
+        }
+
+        // Bangun sumber gambar sesuai mode
+        if ($candidate === '') {
+            $logoSrc = '';
+        } else {
+            $absolute = public_path($candidate);
+            $logoSrc = $isPdf ? ('file://'.$absolute) : asset($candidate);
+        }
     @endphp
 
     <div class="header">

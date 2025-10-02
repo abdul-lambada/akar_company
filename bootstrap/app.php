@@ -3,6 +3,7 @@
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Routing\Exceptions\InvalidSignatureException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -28,5 +29,11 @@ return Application::configure(basePath: dirname(__DIR__))
         }
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        // Render a friendly page for invalid/expired signed URLs
+        $exceptions->render(function (InvalidSignatureException $e, $request) {
+            return response()->view('public.signed-invalid', [
+                'title' => 'Tautan Tidak Valid',
+                'message' => 'Maaf, tautan ini tidak valid atau sudah kedaluwarsa. Silakan minta tautan baru atau hubungi kami.',
+            ], 403);
+        });
     })->create();

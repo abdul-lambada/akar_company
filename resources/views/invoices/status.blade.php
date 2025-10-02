@@ -1,4 +1,4 @@
-@extends('layouts.niceadmin')
+@extends('layouts.bizland')
 
 @section('title', 'Status Pembayaran Invoice')
 
@@ -69,7 +69,7 @@
           <div class="alert alert-info">
             Jika Anda sudah melakukan pembayaran, klik tombol di bawah untuk memberi tahu kami.
           </div>
-          <form action="{{ route('invoices.public.paid', $invoice) }}" method="POST">
+          <form action="{{ URL::signedRoute('invoices.public.paid', ['invoice' => $invoice->getKey()]) }}" method="POST">
             @csrf
             <button class="btn btn-success"><i class="bi bi-check2-circle"></i> Saya sudah membayar</button>
           </form>
@@ -78,7 +78,7 @@
           @endif
 
           <div class="mt-3">
-            <a class="btn btn-outline-secondary" href="{{ route('invoices.public.pdf', $invoice) }}">Unduh PDF</a>
+            <a class="btn btn-outline-secondary" href="{{ URL::signedRoute('invoices.public.pdf', ['invoice' => $invoice->getKey()]) }}">Unduh PDF</a>
           </div>
         </div>
       </div>
