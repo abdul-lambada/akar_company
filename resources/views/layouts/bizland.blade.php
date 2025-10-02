@@ -112,6 +112,7 @@
     html.dark .table{ color: var(--text); }
     html.dark .table thead th{ background: color-mix(in srgb, var(--card) 92%, #000 8%); border-color: var(--border); }
     html.dark .table td, html.dark .table th{ border-color: var(--border); }
+    html.dark .table-striped > tbody > tr:nth-of-type(odd) { background-color: color-mix(in srgb, var(--card) 96%, #000 4%); }
     html.dark .pagination .page-link{ background: var(--card); color: var(--text); border-color: var(--border); }
     html.dark .pagination .page-item.active .page-link{ background: var(--brand-primary); color: #fff; border-color: var(--brand-primary); }
     html.dark .breadcrumb{ --bs-breadcrumb-divider-color: var(--muted); }
@@ -124,6 +125,45 @@
     html.dark .navmenu a{ color: var(--text); }
     html.dark .navmenu a.active:after, html.dark .navmenu a:hover:after{ background: var(--brand-primary); }
     html.dark .navmenu ul{ background: var(--card); }
+
+    /* Readability upgrades for dark mode: ensure sufficient contrast for dimmed text */
+    html.dark p, html.dark li, html.dark small, html.dark .small, html.dark .lead{ color: color-mix(in srgb, var(--text) 88%, #fff 12%) !important; }
+    html.dark .text-muted{ color: color-mix(in srgb, var(--text) 70%, #fff 30%) !important; }
+    html.dark .breadcrumbs, html.dark .page-title, html.dark .page-title .breadcrumbs ol li, html.dark .page-title .breadcrumbs ol li a{ color: color-mix(in srgb, var(--text) 80%, #fff 20%) !important; }
+    html.dark .section-title p{ color: var(--text) !important; }
+    html.dark .section-title .description-title{ color: color-mix(in srgb, var(--brand-primary) 85%, #fff 15%) !important; }
+
+    /* Cards & links */
+    html.dark .card .card-title, html.dark .card .card-title a, html.dark a.card-title{ color: var(--text) !important; }
+    html.dark .card .card-text{ color: color-mix(in srgb, var(--text) 82%, #fff 18%) !important; }
+    html.dark .card a:not(.btn):not(.stretched-link){ color: color-mix(in srgb, var(--brand-primary) 90%, #fff 10%) !important; }
+
+    /* Service/portfolio/blog helper sections from vendor CSS */
+    html.dark .services .service-item p,
+    html.dark .featured-services .service-item p,
+    html.dark .portfolio .portfolio-item .portfolio-info p,
+    html.dark .blog .entry-meta, html.dark .blog .entry-content p{
+      color: color-mix(in srgb, var(--text) 82%, #fff 18%) !important;
+    }
+
+    /* Outline buttons contrast in dark */
+    html.dark .btn-outline-secondary{ color: color-mix(in srgb, var(--text) 90%, #fff 10%) !important; border-color: color-mix(in srgb, var(--text) 35%, var(--border) 65%) !important; }
+    html.dark .btn-outline-secondary:hover{ background: color-mix(in srgb, var(--text) 8%, var(--card) 92%) !important; }
+    html.dark .btn-outline-dark{ color: var(--text) !important; border-color: color-mix(in srgb, var(--text) 35%, var(--border) 65%) !important; }
+    html.dark .btn-outline-light{ color: var(--text) !important; border-color: var(--border) !important; }
+
+    /* Inputs inside dark cards sometimes get low-contrast placeholder */
+    html.dark .form-control::placeholder{ color: color-mix(in srgb, var(--text) 65%, #fff 35%) !important; }
+
+    /* Text utilities */
+    html.dark .text-secondary{ color: color-mix(in srgb, var(--text) 75%, #fff 25%) !important; }
+    html.dark .text-body{ color: var(--text) !important; }
+    html.dark .text-white-50{ color: color-mix(in srgb, #ffffff 60%, var(--text) 40%) !important; }
+
+    /* Subtle variants */
+    html.dark .text-bg-secondary{ background-color: #334155 !important; color:#e5eefc !important; }
+    html.dark .text-bg-info{ background-color:#0ea5e9 !important; color:#052c4e !important; }
+    html.dark .text-bg-success{ background-color:#22c55e !important; color:#052c4e !important; }
 
     /* Card hover subtle based on theme */
     .card{ transition: box-shadow .18s ease, transform .18s ease; }
