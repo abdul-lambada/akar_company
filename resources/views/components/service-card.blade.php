@@ -1,7 +1,7 @@
 <div class="service-item position-relative d-flex flex-column h-100 w-100">
   <div class="card h-100 border-0 shadow-sm w-100">
-    <div class="card-body d-flex flex-column align-items-center align-md-start text-center text-md-start p-4 pb-3">
-      <div class="icon mb-3">
+    <div class="card-body d-flex flex-column align-items-center text-center p-4 pb-3">
+      <div class="icon mb-3 w-100 d-flex justify-content-center">
     @php
       $logo = config('app.logo');
       $logoUrl = null;
