@@ -1,11 +1,11 @@
-#!/bin/bash
+#!/bin/sh
 # Plesk Git: Run script after deployment
 # Purpose: Automate Laravel deploy steps on Plesk hosting
 # Usage (Plesk > Git > Run script):
 #   bash ./deploy/plesk-post-deploy.sh
 
-set -euo pipefail
-IFS=$'\n\t'
+# Use simple, portable settings for Plesk chroot shell
+set -e
 
 PROJECT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$PROJECT_DIR"
@@ -23,7 +23,7 @@ else
   PHP_BIN="/usr/bin/php"
 fi
 
-echo "Using PHP: $(which "$PHP_BIN" || echo "$PHP_BIN")"
+echo "Using PHP: $PHP_BIN"
 
 # --- Detect Composer ---
 if command -v composer >/dev/null 2>&1; then
@@ -42,13 +42,13 @@ echo "Using Composer: $COMPOSER_BIN"
 export COMPOSER_ALLOW_SUPERUSER=1
 
 # --- Refresh optimized autoload before running Artisan ---
-$COMPOSER_BIN dump-autoload -o
+eval "$COMPOSER_BIN dump-autoload -o"
 
 # --- Maintenance mode (optional) ---
 $PHP_BIN artisan down || true
 
 # --- Install/update dependencies ---
-$COMPOSER_BIN install --no-dev --optimize-autoloader --prefer-dist
+eval "$COMPOSER_BIN install --no-dev --optimize-autoloader --prefer-dist"
 
 # --- Database migrations ---
 $PHP_BIN artisan migrate --force
