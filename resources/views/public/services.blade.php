@@ -10,7 +10,7 @@
   <div class="container">
     <div class="row gy-4">
       @forelse($services as $service)
-        <div class="col-lg-4 col-md-6" data-aos="fade-up">
+        <div class="col-lg-4 col-md-6 d-flex" data-aos="fade-up">
           @include('components.service-card', ['service' => $service, 'showPrice' => true])
         </div>
       @empty
