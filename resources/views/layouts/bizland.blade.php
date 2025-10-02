@@ -39,17 +39,65 @@
       --brand-primary: {{ config('app.brand_primary', '#2563eb') }};
       --brand-accent:  {{ config('app.brand_accent',  '#f59e0b') }};
       --bg: #ffffff; --text: #0f172a; --muted: #475569; --card: #ffffff; --border: #e5e7eb;
+      /* Auto contrast resolved colors for text on brand backgrounds */
+      --on-primary: #ffffff; --on-accent: #0b1220;
+      /* Bridge to Bootstrap vars */
+      --bs-primary: var(--brand-primary);
+      --bs-link-color: var(--brand-primary);
     }
     html.dark{
       --bg: #0b1220; --text: #e5eefc; --muted: #a5b4fc; --card: #0f172a; --border: #1f2937;
+      --on-primary: #ffffff; --on-accent: #0b1220;
     }
     body{ background: var(--bg); color: var(--text); }
+    /* Global surfaces follow theme tokens */
+    .section{ background: var(--bg); color: var(--text); }
+    .light-background{ background: color-mix(in srgb, var(--bg) 92%, #fff 8%); }
+    html.dark .light-background{ background: color-mix(in srgb, var(--bg) 92%, #000 8%); }
+    .dark-background{ background: color-mix(in srgb, var(--bg) 80%, #000 20%); color: var(--text); }
+    .header, .footer{ background: var(--card); border-color: var(--border); }
+    .border, .border-top, .border-bottom, .border-start, .border-end{ border-color: var(--border) !important; }
     .card{ background: var(--card); border-color: var(--border); }
     .text-muted{ color: var(--muted) !important; }
+    /* Map common fixed-color utilities to theme tokens */
+    .bg-white{ background-color: #ffffff !important; }
+    html.dark .bg-white{ background-color: var(--card) !important; }
+    .text-dark{ color: #0f172a !important; }
+    html.dark .text-dark{ color: var(--text) !important; }
+    .text-black{ color: #000 !important; }
+    html.dark .text-black{ color: var(--text) !important; }
+    html.dark .bg-light{ background-color: color-mix(in srgb, var(--bg) 92%, #000 8%) !important; }
+    html.dark .text-bg-light{ background-color: color-mix(in srgb, var(--bg) 92%, #000 8%) !important; color: var(--text) !important; border-color: var(--border) !important; }
+    html.dark .border-white{ border-color: var(--border) !important; }
     /* Badge adjustments for dark mode */
     html.dark .badge.bg-secondary{ background-color: #334155 !important; color:#e5eefc; }
     html.dark .badge.bg-light, html.dark .badge.text-bg-light{ background-color: #1f2937 !important; color:#e5eefc !important; border-color:#374151 !important; }
     html.dark .badge.bg-info{ background-color:#0ea5e9 !important; color:#052c4e !important; }
+
+    /* Bootstrap components: dark variants */
+    html.dark .navbar, html.dark .offcanvas, html.dark .dropdown-menu, html.dark .modal-content,
+    html.dark .list-group, html.dark .accordion-item, html.dark .toast{ background-color: var(--card); color: var(--text); border-color: var(--border); }
+    html.dark .dropdown-menu, html.dark .offcanvas, html.dark .modal-content{ border-color: var(--border); }
+    html.dark .list-group-item{ background-color: var(--card); color: var(--text); border-color: var(--border); }
+    html.dark .form-control, html.dark .form-select, html.dark .input-group-text,
+    html.dark .form-check-input{ background-color: color-mix(in srgb, var(--card) 92%, #000 8%); color: var(--text); border-color: var(--border); }
+    html.dark .form-control::placeholder{ color: color-mix(in srgb, var(--text) 55%, #fff 45%); }
+    html.dark .form-control:focus, html.dark .form-select:focus{ border-color: color-mix(in srgb, var(--brand-primary) 60%, var(--border) 40%); box-shadow: 0 0 0 .25rem rgba(37,99,235,.25); }
+    html.dark .table{ color: var(--text); }
+    html.dark .table thead th{ background: color-mix(in srgb, var(--card) 92%, #000 8%); border-color: var(--border); }
+    html.dark .table td, html.dark .table th{ border-color: var(--border); }
+    html.dark .pagination .page-link{ background: var(--card); color: var(--text); border-color: var(--border); }
+    html.dark .pagination .page-item.active .page-link{ background: var(--brand-primary); color: #fff; border-color: var(--brand-primary); }
+    html.dark .breadcrumb{ --bs-breadcrumb-divider-color: var(--muted); }
+    html.dark .breadcrumb .breadcrumb-item, html.dark .breadcrumb .breadcrumb-item a{ color: var(--muted); }
+    html.dark .alert{ background-color: color-mix(in srgb, var(--card) 92%, #000 8%); color: var(--text); border-color: var(--border); }
+    html.dark hr{ border-color: var(--border); opacity: 1; }
+    html.dark code, html.dark pre{ background: #0b213f; color: #e5eefc; }
+
+    /* Navigation menu + mobile dropdown */
+    html.dark .navmenu a{ color: var(--text); }
+    html.dark .navmenu a.active:after, html.dark .navmenu a:hover:after{ background: var(--brand-primary); }
+    html.dark .navmenu ul{ background: var(--card); }
 
     /* Card hover subtle based on theme */
     .card{ transition: box-shadow .18s ease, transform .18s ease; }
@@ -67,7 +115,41 @@
       padding:.5rem 9rem; min-height: 30px; line-height:1.1; font-weight:500;
       transition:.18s ease; box-shadow: 0 4px 14px rgba(37,99,235,.18)
     } */
-    .btn-get-started:hover{background: color-mix(in srgb, var(--brand-primary, #2563eb) 85%, #000 15%); color:#fff; transform: translateY(-1px); box-shadow: 0 8px 18px rgba(37,99,235,.22)}
+    .btn-get-started{ color: var(--on-primary); }
+    .btn-get-started:hover{background: color-mix(in srgb, var(--brand-primary, #2563eb) 85%, #000 15%); color: var(--on-primary); transform: translateY(-1px); box-shadow: 0 8px 18px rgba(37,99,235,.22)}
+    /* Ensure bootstrap primary buttons use auto on-color */
+    .btn.btn-primary, .btn-primary{ background: var(--brand-primary) !important; border-color: var(--brand-primary) !important; color: var(--on-primary) !important; }
+    .btn-primary:hover, .btn-primary:focus{ background: color-mix(in srgb, var(--brand-primary) 85%, #000 15%) !important; border-color: color-mix(in srgb, var(--brand-primary) 85%, #000 15%) !important; color: var(--on-primary) !important; }
+    .btn-outline-primary{ color: var(--brand-primary) !important; border-color: var(--brand-primary) !important; }
+    .btn-outline-primary:hover{ background: var(--brand-primary) !important; color: var(--on-primary) !important; }
+
+    /* Map utility colors to brand tokens */
+    .bg-primary, .text-bg-primary{ background-color: var(--brand-primary) !important; color: var(--on-primary) !important; }
+    .border-primary{ border-color: var(--brand-primary) !important; }
+    .link-primary{ color: var(--brand-primary) !important; }
+    .text-primary{ color: var(--brand-primary) !important; }
+    .badge.bg-primary, .badge.text-bg-primary{ background-color: var(--brand-primary) !important; color: var(--on-primary) !important; }
+    .alert-primary{ background-color: color-mix(in srgb, var(--brand-primary) 15%, var(--card) 85%) !important; border-color: color-mix(in srgb, var(--brand-primary) 40%, var(--border) 60%) !important; color: var(--text) !important; }
+    /* Soft brand badge used by section headings */
+    .badge-brand-soft{ background: color-mix(in srgb, var(--brand-primary) 12%, #fff 88%) !important; color: var(--brand-primary) !important; border: 1px solid color-mix(in srgb, var(--brand-primary) 30%, #fff 70%) !important; }
+    html.dark .badge-brand-soft{ background: color-mix(in srgb, var(--brand-primary) 16%, var(--bg) 84%) !important; color: color-mix(in srgb, var(--brand-primary) 85%, #fff 15%) !important; border-color: color-mix(in srgb, var(--brand-primary) 30%, var(--border) 70%) !important; }
+
+    /* Accent helpers (custom) */
+    .btn-accent{ background: var(--brand-accent) !important; border-color: var(--brand-accent) !important; color: var(--on-accent) !important; }
+    .btn-accent:hover, .btn-accent:focus{ background: color-mix(in srgb, var(--brand-accent) 85%, #000 15%) !important; border-color: color-mix(in srgb, var(--brand-accent) 85%, #000 15%) !important; color: var(--on-accent) !important; }
+    .bg-accent, .text-bg-accent{ background-color: var(--brand-accent) !important; color: var(--on-accent) !important; }
+    .border-accent{ border-color: var(--brand-accent) !important; }
+    .badge.bg-accent, .badge.text-bg-accent{ background-color: var(--brand-accent) !important; color: var(--on-accent) !important; }
+    /* Additional component mappings */
+    .nav-pills .nav-link.active, .nav-pills .show > .nav-link{ background: var(--brand-primary) !important; color: var(--on-primary) !important; }
+    .list-group-item.active{ background: var(--brand-primary) !important; border-color: var(--brand-primary) !important; color: var(--on-primary) !important; }
+    .progress-bar{ background-color: var(--brand-primary) !important; }
+    .form-check-input:checked{ background-color: var(--brand-primary) !important; border-color: var(--brand-primary) !important; }
+    .form-switch .form-check-input:checked{ background-color: var(--brand-primary) !important; border-color: var(--brand-primary) !important; }
+    .page-link:hover{ color: var(--on-primary) !important; background: color-mix(in srgb, var(--brand-primary) 15%, var(--card) 85%) !important; border-color: var(--brand-primary) !important; }
+    .btn-link{ color: var(--brand-primary) !important; }
+    .form-range::-webkit-slider-thumb{ background: var(--brand-primary); }
+    .form-range::-moz-range-thumb{ background: var(--brand-primary); }
     /* Navbar active underline */
     .navmenu a{position:relative}
     .navmenu a.active:after, .navmenu a:hover:after{content:""; position:absolute; left:0; right:0; bottom:-6px; height:3px; background: var(--brand-primary, #2563eb); border-radius:2px}
@@ -397,11 +479,29 @@
         var btn = document.getElementById('themeToggle');
         var ico = document.getElementById('themeIcon');
         function syncIcon(){ ico && (ico.className = document.documentElement.classList.contains('dark') ? 'bi bi-brightness-high' : 'bi bi-moon-stars'); }
+        function hexToRgb(hex){ hex = (hex||'').trim(); if (hex.startsWith('rgb')){ try{ return hex.match(/\d+/g).map(Number).slice(0,3); }catch(e){ return [37,99,235]; } } hex = hex.replace('#',''); if (hex.length===3){ hex = hex.split('').map(function(c){return c+c;}).join(''); } var int = parseInt(hex,16); if (isNaN(int)) return [37,99,235]; return [(int>>16)&255,(int>>8)&255,int&255]; }
+        function relLum(c){ var a=c.map(function(v){v/=255; return v<=0.03928? v/12.92: Math.pow((v+0.055)/1.055,2.4);}); return 0.2126*a[0]+0.7152*a[1]+0.0722*a[2]; }
+        function contrastRatio(bg, fg){ var L1 = relLum(bg), L2 = relLum(fg); var hi=Math.max(L1,L2), lo=Math.min(L1,L2); return (hi+0.05)/(lo+0.05); }
+        function pickOnColor(bgHex){ var bg = hexToRgb(bgHex); var white=[255,255,255], black=[0,0,0]; var cWhite = contrastRatio(bg, white); var cBlack = contrastRatio(bg, black); // prefer >=4.5, else higher
+          if (cWhite>=4.5 && cWhite>=cBlack) return '#ffffff';
+          if (cBlack>=4.5 && cBlack>cWhite) return '#000000';
+          return cWhite>=cBlack? '#ffffff':'#000000'; }
+        function setAutoContrast(){
+          try{
+            var cs = getComputedStyle(document.documentElement);
+            var bp = cs.getPropertyValue('--brand-primary').trim() || '#2563eb';
+            var ba = cs.getPropertyValue('--brand-accent').trim() || '#f59e0b';
+            document.documentElement.style.setProperty('--on-primary', pickOnColor(bp));
+            document.documentElement.style.setProperty('--on-accent', pickOnColor(ba));
+          }catch(e){}
+        }
         syncIcon();
+        setAutoContrast();
         if (btn) btn.addEventListener('click', function(){
           document.documentElement.classList.toggle('dark');
           localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
           syncIcon();
+          setAutoContrast();
         });
       }catch(e){}
 

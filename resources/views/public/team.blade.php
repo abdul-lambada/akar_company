@@ -7,14 +7,16 @@
   </div>
   <x-section-heading title="Tim" subtitle="Kenalan Dengan Tim" />
   <style>
-    /* Scoped styles for team cards */
-    .team-card{border:0; border-radius:1rem; transition:transform .18s ease, box-shadow .18s ease; box-shadow:0 6px 18px rgba(0,0,0,.06)}
+    /* Scoped styles for team cards (theme aware) */
+    .team-card{border:1px solid var(--border); background: var(--card); border-radius:1rem; transition:transform .18s ease, box-shadow .18s ease; box-shadow:0 6px 18px rgba(0,0,0,.06)}
+    html.dark .team-card{ box-shadow:0 10px 22px rgba(0,0,0,.35) }
     .team-card:hover{transform:translateY(-3px); box-shadow:0 12px 28px rgba(0,0,0,.10)}
-    .team-avatar{width:96px; height:96px; object-fit:cover; border-radius:999px; box-shadow:0 0 0 6px #fff, 0 8px 22px rgba(0,0,0,.10)}
+    html.dark .team-card:hover{ box-shadow:0 18px 36px rgba(0,0,0,.45) }
+    .team-avatar{width:96px; height:96px; object-fit:cover; border-radius:999px; box-shadow:0 0 0 6px var(--card), 0 8px 22px rgba(0,0,0,.10)}
     .team-title{font-weight:700}
-    .team-role{color:#64748b}
-    .icon-btn{display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:999px; background:#eff3ff; color:#2563eb; transition:.18s}
-    .icon-btn:hover{background:#2563eb; color:#fff}
+    .team-role{color: var(--muted)}
+    .icon-btn{display:inline-flex; align-items:center; justify-content:center; width:36px; height:36px; border-radius:999px; background: color-mix(in srgb, var(--brand-primary) 12%, var(--card) 88%); color: var(--brand-primary); border: 1px solid color-mix(in srgb, var(--brand-primary) 30%, var(--border) 70%); transition:.18s}
+    .icon-btn:hover{background: var(--brand-primary); color: var(--on-primary)}
     .bio{min-height: 42px}
   </style>
   <div class="container">

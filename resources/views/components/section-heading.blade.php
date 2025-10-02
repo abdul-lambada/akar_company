@@ -13,7 +13,7 @@
 @endphp
 <div class="container section-title {{ $alignClass }}" data-aos="fade-up">
   @if($badge)
-    <span class="badge rounded-pill text-bg-primary-soft" style="--bs-bg-opacity:.12; color: var(--brand-primary); border:1px solid color-mix(in srgb, var(--brand-primary) 30%, #fff);">{{ $badge }}</span>
+    <span class="badge rounded-pill badge-brand-soft">{{ $badge }}</span>
   @endif
   @if($title)
     <h2 class="mt-2">{{ $title }}</h2>

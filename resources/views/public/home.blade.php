@@ -71,6 +71,12 @@
         linear-gradient(135deg, #f8fbff 0%, color-mix(in srgb, var(--brand-primary) 18%, #ffffff) 40%, color-mix(in srgb, var(--brand-accent) 18%, #ffffff) 100%);
       overflow: hidden;
     }
+    html.dark .hero.hero-pro {
+      background:
+        radial-gradient(1200px 600px at 12% 0%, rgba(var(--bp-r), var(--bp-g), var(--bp-b), .22) 0%, rgba(var(--bp-r), var(--bp-g), var(--bp-b), .10) 30%, transparent 62%),
+        radial-gradient(950px 520px at 88% 12%, rgba(var(--ba-r), var(--ba-g), var(--ba-b), .22) 0%, rgba(var(--ba-r), var(--ba-g), var(--ba-b), .12) 34%, transparent 68%),
+        linear-gradient(135deg, color-mix(in srgb, var(--bg) 65%, #000 35%) 0%, color-mix(in srgb, var(--brand-primary) 22%, var(--bg)) 45%, color-mix(in srgb, var(--brand-accent) 22%, var(--bg)) 100%);
+    }
     .hero.hero-pro:before {
       content: ""; position: absolute; inset: 0;
       background-image:
@@ -84,6 +90,8 @@
     }
     .hero.hero-pro h1 { color: #0f172a; font-weight: 700; letter-spacing: .2px; }
     .hero.hero-pro p { color: #334155; font-size: 1.05rem; margin-bottom: 1rem; }
+    html.dark .hero.hero-pro h1 { color: var(--text); }
+    html.dark .hero.hero-pro p { color: color-mix(in srgb, var(--text) 78%, #fff 22%); }
     .hero.hero-pro .btn-get-started { background: var(--brand-primary); color: #fff; border-radius: .5rem; padding: .65rem 1.1rem; transition: .2s ease; }
     .hero.hero-pro .btn-get-started:hover { background: color-mix(in srgb, var(--brand-primary) 80%, #000 20%); color: #fff; transform: translateY(-1px); }
     @media (min-width: 992px) { .hero.hero-pro { padding: 110px 0 80px; } }
@@ -101,6 +109,13 @@
       position: relative;
       animation: blobFloat 6s ease-in-out infinite;
     }
+    html.dark .hero-blob{
+      background: linear-gradient(160deg,
+                  color-mix(in srgb, var(--brand-primary) 70%, #0b1220 30%) 0%,
+                  color-mix(in srgb, var(--brand-primary) 55%, #0b1220 45%) 55%,
+                  color-mix(in srgb, var(--brand-primary) 35%, var(--brand-accent) 65%) 100%);
+      box-shadow: 0 24px 50px rgba(0,0,0,.45), 0 10px 20px rgba(0,0,0,.35);
+    }
     .hero-blob-logo{
       position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
       /* roughly 48% of blob width, responsive */
@@ -110,6 +125,11 @@
       background: #fff; border: clamp(6px, 1vw, 10px) solid #fff;
       box-shadow: 0 14px 30px rgba(0,0,0,.22);
       animation: logoFloat 6s ease-in-out infinite, logoTilt 8s ease-in-out infinite;
+    }
+    html.dark .hero-blob-logo{
+      background: var(--card);
+      border-color: var(--card);
+      box-shadow: 0 18px 36px rgba(0,0,0,.6);
     }
     @media (max-width: 991.98px){
       .hero-blob{ width: clamp(240px, 60vw, 420px); }
