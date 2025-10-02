@@ -100,8 +100,8 @@ return [
         'hero_heading' => env('HERO_HEADING', 'Solusi Kreatif & Strategis untuk Bisnis Anda'),
         'hero_description' => env('HERO_DESCRIPTION', 'Kami membantu brand tumbuh melalui layanan desain, pengembangan, dan strategi pemasaran yang berdampak.'),
 
-        'services_heading' => env('SERVICES_HEADING', 'Services'),
-        'services_description' => env('SERVICES_DESCRIPTION', 'What We Offer'),
+        'services_heading' => env('SERVICES_HEADING', 'Produk'),
+        'services_description' => env('SERVICES_DESCRIPTION', 'Yang Kami Tawarkan'),
 
         'portfolio_heading' => env('PORTFOLIO_HEADING', 'Portfolio'),
         'portfolio_description' => env('PORTFOLIO_DESCRIPTION', 'Recent Projects'),

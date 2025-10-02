@@ -1,4 +1,4 @@
-<div class="service-item position-relative">
+<div class="service-item position-relative d-flex flex-column h-100">
   <div class="icon">
     @php
       $logo = config('app.logo');
@@ -33,7 +33,7 @@
     <div class="text-muted small">Mulai dari</div>
     <div class="h5 mb-2">{{ !is_null($service->price) ? 'Rp ' . number_format((float)$service->price, 0, ',', '.') : 'Hubungi Kami' }}</div>
   @endif
-  <div class="d-flex gap-2 mt-2">
+  <div class="mt-auto d-flex gap-2">
     <a href="{{ route('public.product-details', $service->slug) }}" class="btn btn-outline-primary btn-sm">Detail</a>
     <a href="{{ route('public.order.create', ['service_id' => $service->getKey(), 'package_name' => $service->service_name, 'budget' => $service->price]) }}" class="btn btn-primary btn-sm">Order Sekarang</a>
   </div>
