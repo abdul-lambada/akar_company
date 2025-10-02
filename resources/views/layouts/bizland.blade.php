@@ -44,10 +44,36 @@
       /* Bridge to Bootstrap vars */
       --bs-primary: var(--brand-primary);
       --bs-link-color: var(--brand-primary);
+      /* Bridge to BizLand vendor vars so vendor CSS follows our theme */
+      --background-color: var(--bg);
+      --default-color: var(--text);
+      --heading-color: var(--text);
+      --accent-color: var(--brand-primary);
+      --surface-color: var(--card);
+      --contrast-color: var(--on-primary);
+      --nav-color: var(--text);
+      --nav-hover-color: var(--brand-primary);
+      --nav-mobile-background-color: var(--card);
+      --nav-dropdown-background-color: var(--card);
+      --nav-dropdown-color: var(--text);
+      --nav-dropdown-hover-color: var(--brand-primary);
     }
     html.dark{
       --bg: #0b1220; --text: #e5eefc; --muted: #a5b4fc; --card: #0f172a; --border: #1f2937;
       --on-primary: #ffffff; --on-accent: #0b1220;
+      /* Update vendor bridges in dark mode */
+      --background-color: var(--bg);
+      --default-color: var(--text);
+      --heading-color: var(--text);
+      --accent-color: var(--brand-primary);
+      --surface-color: var(--card);
+      --contrast-color: var(--on-primary);
+      --nav-color: var(--text);
+      --nav-hover-color: var(--brand-primary);
+      --nav-mobile-background-color: var(--card);
+      --nav-dropdown-background-color: var(--card);
+      --nav-dropdown-color: var(--text);
+      --nav-dropdown-hover-color: var(--brand-primary);
     }
     body{ background: var(--bg); color: var(--text); }
     /* Global surfaces follow theme tokens */
