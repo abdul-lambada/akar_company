@@ -2,10 +2,10 @@
 @section('title','Tim Kami')
 @section('content')
 <section id="team" class="team section light-background">
-  <div class="container section-title" data-aos="fade-up">
+  <div class="container" data-aos="fade-up">
     <x-breadcrumbs :items="[[ 'label' => 'Home', 'url' => route('public.index') ], [ 'label' => 'Tim' ]]" title="Tim" />
-    <p><span>Kenalan</span> <span class="description-title">Dengan Tim</span></p>
   </div>
+  <x-section-heading title="Tim" subtitle="Kenalan Dengan Tim" />
   <style>
     /* Scoped styles for team cards */
     .team-card{border:0; border-radius:1rem; transition:transform .18s ease, box-shadow .18s ease; box-shadow:0 6px 18px rgba(0,0,0,.06)}

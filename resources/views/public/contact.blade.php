@@ -3,10 +3,10 @@
 @section('meta_description','Hubungi kami untuk konsultasi dan informasi layanan')
 @section('content')
 <section id="contact" class="contact section">
-  <div class="container section-title" data-aos="fade-up">
+  <div class="container" data-aos="fade-up">
     <x-breadcrumbs :items="[[ 'label' => 'Home', 'url' => route('public.index') ], [ 'label' => 'Kontak' ]]" title="Kontak" />
-    <p><span>Hubungi</span> <span class="description-title">Kami</span></p>
   </div>
+  <x-section-heading title="Kontak" subtitle="Hubungi Kami" />
   <div class="container">
     <div class="row gy-4">
       <div class="col-lg-6">

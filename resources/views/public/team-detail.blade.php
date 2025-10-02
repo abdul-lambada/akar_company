@@ -2,6 +2,10 @@
 @section('title', $member->full_name ?? 'Anggota Tim')
 @section('content')
 <section class="section py-5">
+  <div class="container" data-aos="fade-up">
+    <x-breadcrumbs :items="[[ 'label' => 'Home', 'url' => route('public.index') ], [ 'label' => 'Tim', 'url' => route('public.team') ], [ 'label' => ($member->full_name ?? $member->name) ]]" title="Tim" />
+  </div>
+  <x-section-heading :title="($member->full_name ?? $member->name)" :subtitle="($member->job_title ?? ($member->role ?? 'Anggota Tim'))" align="start" />
   <div class="container">
     <div class="row g-4">
       <div class="col-lg-4">

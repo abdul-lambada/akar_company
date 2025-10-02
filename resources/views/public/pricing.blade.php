@@ -3,10 +3,10 @@
 @section('meta_description','Pilihan paket produk/layanan dan harga yang transparan')
 @section('content')
 <section class="section">
-  <div class="container section-title" data-aos="fade-up">
+  <div class="container" data-aos="fade-up">
     <x-breadcrumbs :items="[[ 'label' => 'Home', 'url' => route('public.index') ], [ 'label' => 'Harga' ]]" title="Harga" />
-    <p><span>Paket</span> <span class="description-title">Produk</span></p>
   </div>
+  <x-section-heading title="Harga" subtitle="Paket Produk" />
   <div class="container">
     <div class="row gy-4">
       @forelse($services as $service)

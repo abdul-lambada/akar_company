@@ -3,10 +3,10 @@
 @section('meta_description','Order berhasil dikirim')
 @section('content')
 <section class="section">
-  <div class="container section-title" data-aos="fade-up">
+  <div class="container" data-aos="fade-up">
     <x-breadcrumbs :items="[[ 'label' => 'Home', 'url' => route('public.index') ], [ 'label' => 'Order' ]]" title="Order Berhasil" />
-    <p><span>Terima</span> <span class="description-title">Kasih</span></p>
   </div>
+  <x-section-heading title="Order Berhasil" subtitle="Terima Kasih" />
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-7">

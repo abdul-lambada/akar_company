@@ -162,24 +162,18 @@
   @endpush
 
   <section id="services" class="services section">
-    <div class="container section-title" data-aos="fade-up">
-      @php
-        $servicesHeading = (string) (config('app.services_heading') ?: 'Produk');
-        $servicesDesc    = (string) (config('app.services_description') ?: 'Jelajahi Produk Kami');
-        $parts = explode(' ', $servicesDesc, 2);
-        $firstWord = $parts[0] ?? '';
-        $restText  = $parts[1] ?? '';
-      @endphp
-      <h2>{{ $servicesHeading }}</h2>
-      <p><span>{{ $firstWord }}</span> <span class="description-title">{{ $restText }}</span></p>
-      <div class="mt-2">
+    @php
+      $servicesHeading = (string) (config('app.services_heading') ?: 'Produk');
+      $servicesDesc    = (string) (config('app.services_description') ?: 'Jelajahi Produk Kami');
+    @endphp
+    <x-section-heading :title="$servicesHeading" :subtitle="$servicesDesc" badge="Produk" />
+    <div class="container">
+      <div class="mb-3">
         <a href="{{ route('public.products') }}" class="btn btn-outline-primary btn-sm">Lihat semua produk</a>
       </div>
-    </div>
-    <div class="container">
       <div class="row gy-4">
         @forelse($services as $service)
-          <div class="col-lg-4 col-md-6" data-aos="fade-up">
+          <div class="col-lg-4 col-md-6 d-flex" data-aos="fade-up">
             @include('components.service-card', ['service' => $service, 'showPrice' => true])
           </div>
         @empty

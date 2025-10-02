@@ -14,20 +14,11 @@
   $waMessage = 'Halo, saya membaca artikel: "' . $post->title . '" (Topik: ' . $topic . ') di ' . $articleUrlWithUtm . '. Saya ingin konsultasi terkait ' . $topic . '.';
   $waLink = $waRaw ? ('https://wa.me/' . $waRaw . '?text=' . urlencode($waMessage)) : null;
 @endphp
-
-<section class="py-5 bg-light border-bottom">
-  <div class="container">
-    <div class="d-flex align-items-center justify-content-between">
-      <div>
-        <div class="text-uppercase small text-muted">Topik</div>
-        <h1 class="h3 m-0">{{ $catName }}</h1>
-      </div>
-      <span class="badge bg-primary">{{ $catSlug }}</span>
-    </div>
-  </div>
-</section>
-
 <section class="section">
+  <div class="container" data-aos="fade-up">
+    <x-breadcrumbs :items="[[ 'label' => 'Home', 'url' => route('public.index') ], [ 'label' => 'Blog', 'url' => route('public.blog') ], [ 'label' => $post->title ]]" title="Blog" />
+  </div>
+  <x-section-heading :title="$post->title" :subtitle="$catName" align="start" />
   <div class="container">
     <div class="row">
       <div class="col-lg-8">

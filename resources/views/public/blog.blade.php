@@ -2,10 +2,10 @@
 @section('title','Blog')
 @section('content')
 <section class="section">
-  <div class="container section-title" data-aos="fade-up">
+  <div class="container" data-aos="fade-up">
     <x-breadcrumbs :items="[[ 'label' => 'Home', 'url' => route('public.index') ], [ 'label' => 'Blog' ]]" title="Blog" />
-    <p><span>Tulisan</span> <span class="description-title">Terbaru</span></p>
   </div>
+  <x-section-heading title="Blog" subtitle="Tulisan Terbaru" />
   <div class="container">
     <div class="row gy-4">
       @forelse($posts as $post)

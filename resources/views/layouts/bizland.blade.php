@@ -34,6 +34,32 @@
 
   <link href="{{ asset('BizLand/assets/css/main.css') }}" rel="stylesheet">
   <style>
+    /* Theme tokens */
+    :root{
+      --brand-primary: {{ config('app.brand_primary', '#2563eb') }};
+      --brand-accent:  {{ config('app.brand_accent',  '#f59e0b') }};
+      --bg: #ffffff; --text: #0f172a; --muted: #475569; --card: #ffffff; --border: #e5e7eb;
+    }
+    html.dark{
+      --bg: #0b1220; --text: #e5eefc; --muted: #a5b4fc; --card: #0f172a; --border: #1f2937;
+    }
+    body{ background: var(--bg); color: var(--text); }
+    .card{ background: var(--card); border-color: var(--border); }
+    .text-muted{ color: var(--muted) !important; }
+    /* Badge adjustments for dark mode */
+    html.dark .badge.bg-secondary{ background-color: #334155 !important; color:#e5eefc; }
+    html.dark .badge.bg-light, html.dark .badge.text-bg-light{ background-color: #1f2937 !important; color:#e5eefc !important; border-color:#374151 !important; }
+    html.dark .badge.bg-info{ background-color:#0ea5e9 !important; color:#052c4e !important; }
+
+    /* Card hover subtle based on theme */
+    .card{ transition: box-shadow .18s ease, transform .18s ease; }
+    .card:hover{ transform: translateY(-2px); box-shadow: 0 1rem 2rem rgba(0,0,0,.12); }
+    html.dark .card:hover{ box-shadow: 0 1rem 2rem rgba(0,0,0,.5); }
+
+    /* Links contrast in dark mode */
+    html.dark a{ color: color-mix(in srgb, var(--brand-primary) 80%, #fff 20%); }
+    html.dark a:hover{ color: color-mix(in srgb, var(--brand-primary) 90%, #fff 10%); }
+
     /* Global button style aligned to brand */
     /* .btn-get-started{
       display:inline-flex; align-items:center; justify-content:center;
@@ -86,6 +112,11 @@
           <i class="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
       </div>
+    </div>
+    <div class="d-flex align-items-center gap-2">
+      <button id="themeToggle" class="btn btn-outline-secondary btn-sm" type="button" aria-label="Tema">
+        <i class="bi bi-moon-stars" id="themeIcon"></i>
+      </button>
     </div>
   </header>
 
@@ -266,6 +297,75 @@
   <script src="{{ asset('BizLand/assets/vendor/imagesloaded/imagesloaded.pkgd.min.js') }}"></script>
   <script src="{{ asset('BizLand/assets/vendor/isotope-layout/isotope.pkgd.min.js') }}"></script>
   <script src="{{ asset('BizLand/assets/js/main.js') }}"></script>
+  
+  <!-- Interactive polish: skeletons, smooth scroll, and AOS init -->
+  <style>
+    /* Skeleton shimmer for images/blocks */
+    .skeleton{ position: relative; background: #e9edf3; overflow: hidden; }
+    .skeleton::after{ content:""; position:absolute; inset:0; transform: translateX(-100%);
+      background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.55) 50%, rgba(255,255,255,0) 100%);
+      animation: skeletonShimmer 1.3s infinite; }
+    @keyframes skeletonShimmer{ 0%{ transform: translateX(-100%);} 100%{ transform: translateX(100%);} }
+    /* Subtle fade-in for media */
+    .img-fade{ opacity:0; transition: opacity .35s ease; }
+    .img-fade.is-loaded{ opacity:1; }
+  </style>
+  <script>
+    (function(){
+      // Respect reduced motion
+      var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+      // Init AOS once vendors are ready
+      if (typeof AOS !== 'undefined') {
+        AOS.init({
+          once: true,
+          duration: prefersReduced ? 0 : 600,
+          easing: 'ease-out-cubic',
+          offset: 80,
+          disable: prefersReduced
+        });
+      }
+
+      // Smooth anchor scrolling within page
+      document.addEventListener('click', function(e){
+        var a = e.target.closest('a[href^="#"]');
+        if (!a) return;
+        var href = a.getAttribute('href');
+        if (href.length <= 1) return;
+        var target = document.querySelector(href);
+        if (!target) return;
+        e.preventDefault();
+        try { target.scrollIntoView({ behavior: prefersReduced ? 'auto' : 'smooth', block: 'start' }); } catch(_) { location.hash = href; }
+      });
+
+      // Progressive image enhancement: lazy + skeleton + fade
+      var imgs = document.querySelectorAll('main img');
+      imgs.forEach(function(img){
+        if (!img.hasAttribute('loading')) img.setAttribute('loading', 'lazy');
+        if (!img.hasAttribute('decoding')) img.setAttribute('decoding', 'async');
+        if (!img.classList.contains('img-fade')) img.classList.add('img-fade');
+        // apply skeleton only if not already visible (no background/transparent PNG edge-cases ignored)
+        if (!img.classList.contains('no-skeleton')) {
+          var ph = document.createElement('span');
+          ph.className = 'skeleton';
+          // Wrap image with skeleton container
+          var wrap = document.createElement('span');
+          wrap.style.display = 'inline-block';
+          wrap.style.position = 'relative';
+          // Insert wrapper before image
+          img.parentNode.insertBefore(wrap, img);
+          wrap.appendChild(ph);
+          wrap.appendChild(img);
+          // Size placeholder to image when it loads
+          function onLoad(){
+            img.classList.add('is-loaded');
+            ph.remove();
+          }
+          if (img.complete) { onLoad(); } else { img.addEventListener('load', onLoad, { once: true }); img.addEventListener('error', onLoad, { once: true }); }
+        }
+      });
+    })();
+  </script>
   <style>
     /* Loader styles */
     .app-loader{position:fixed;inset:0;background:rgba(255,255,255,.95);z-index:2000;transition:opacity .3s ease, visibility .3s ease}
@@ -284,6 +384,23 @@
   </style>
   <script>
     (function(){
+      // Theme toggle with persistence
+      try{
+        var saved = localStorage.getItem('theme');
+        if (saved === 'dark' || (!saved && window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+          document.documentElement.classList.add('dark');
+        }
+        var btn = document.getElementById('themeToggle');
+        var ico = document.getElementById('themeIcon');
+        function syncIcon(){ ico && (ico.className = document.documentElement.classList.contains('dark') ? 'bi bi-brightness-high' : 'bi bi-moon-stars'); }
+        syncIcon();
+        if (btn) btn.addEventListener('click', function(){
+          document.documentElement.classList.toggle('dark');
+          localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+          syncIcon();
+        });
+      }catch(e){}
+
       // Hide loader after window load
       var appLoader = document.getElementById('appLoader');
       if (appLoader){

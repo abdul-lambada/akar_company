@@ -2,10 +2,7 @@
 @section('title', $title ?? 'Tautan Tidak Valid')
 @section('content')
 <section class="section">
-  <div class="container section-title" data-aos="fade-up">
-    <h2>{{ $title ?? 'Tautan Tidak Valid' }}</h2>
-    <p>{{ $message ?? 'Maaf, tautan ini tidak valid atau sudah kedaluwarsa.' }}</p>
-  </div>
+  <x-section-heading :title="($title ?? 'Tautan Tidak Valid')" :subtitle="($message ?? 'Maaf, tautan ini tidak valid atau sudah kedaluwarsa.')" />
   <div class="container">
     <div class="row justify-content-center">
       <div class="col-lg-7">

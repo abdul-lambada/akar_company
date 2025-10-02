@@ -6,13 +6,13 @@
 @php($plain = trim(strip_tags($post->content ?? '')))
 @php($words = str_word_count($plain))
 @php($readMinutes = max(1, (int) ceil($words / 200)))
-<div class="card h-100 border-0 shadow-sm post-card">
+<div class="card h-100 border-0 shadow-sm post-card d-flex flex-column">
   @if($thumb)
     <a href="{{ route('public.blog-detail', $post->slug) }}" class="d-block">
       <img src="{{ $thumb->url }}" class="card-img-top" alt="{{ $post->title }}" loading="lazy">
     </a>
   @endif
-  <div class="card-body">
+  <div class="card-body d-flex flex-column">
     @if($categories->count())
       <div class="mb-2 d-flex flex-wrap gap-2 align-items-center">
         @foreach($categories as $cat)
@@ -33,6 +33,9 @@
       <span>{{ $readMinutes }} menit baca</span>
     </div>
     <div class="small text-muted">{{ \Illuminate\Support\Str::limit($plain, 140) }}</div>
+    <div class="mt-auto pt-2">
+      <a href="{{ route('public.blog-detail', $post->slug) }}" class="btn btn-outline-primary btn-sm">Baca</a>
+    </div>
   </div>
 </div>
 <style>

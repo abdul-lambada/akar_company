@@ -3,10 +3,11 @@
 @section('meta_description', $project->project_title . ' untuk ' . ($project->client_name ?? 'Klien'))
 @section('content')
 <section class="section">
+  <div class="container" data-aos="fade-up">
+    <x-breadcrumbs :items="[[ 'label' => 'Home', 'url' => route('public.index') ], [ 'label' => 'Portfolio', 'url' => route('public.portfolio') ], [ 'label' => $project->project_title ]]" title="Detail Proyek" />
+  </div>
+  <x-section-heading title="Detail Proyek" :subtitle="$project->project_title" />
   <div class="container">
-    <div class="container section-title" data-aos="fade-up">
-      <x-breadcrumbs :items="[[ 'label' => 'Home', 'url' => route('public.index') ], [ 'label' => 'Portfolio', 'url' => route('public.portfolio') ], [ 'label' => $project->project_title ]]" title="Detail Proyek" />
-    </div>
     <div class="row gy-4">
       <div class="col-lg-7">
         @if($project->images->count())

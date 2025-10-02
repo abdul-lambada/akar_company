@@ -3,10 +3,10 @@
 @section('meta_description','Profil singkat perusahaan dan tim kami')
 @section('content')
 <section id="about" class="about section light-background">
-  <div class="container section-title" data-aos="fade-up">
+  <div class="container" data-aos="fade-up">
     <x-breadcrumbs :items="[[ 'label' => 'Home', 'url' => route('public.index') ], [ 'label' => 'Tentang' ]]" title="Tentang" />
-    <p><span>Kenali</span> <span class="description-title">Kami</span></p>
   </div>
+  <x-section-heading title="Tentang" subtitle="Kenali Kami" />
   <div class="container">
     <div class="row mb-5">
       <div class="col-md-4 mb-3 mb-md-0">

@@ -2,10 +2,10 @@
 @section('title','Portfolio')
 @section('content')
 <section class="portfolio section">
-  <div class="container section-title" data-aos="fade-up">
+  <div class="container" data-aos="fade-up">
     <x-breadcrumbs :items="[[ 'label' => 'Home', 'url' => route('public.index') ], [ 'label' => 'Portfolio' ]]" title="Portfolio" />
-    <p><span>Proyek</span> <span class="description-title">Kita</span></p>
   </div>
+  <x-section-heading title="Portfolio" subtitle="Proyek Kami" />
 
   <div class="container">
     <div class="card border-0 shadow-sm mb-4">

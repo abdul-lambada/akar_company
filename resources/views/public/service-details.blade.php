@@ -3,11 +3,11 @@
 @section('meta_description', 'Produk ' . $service->service_name)
 @section('content')
 <section class="section">
+  <div class="container" data-aos="fade-up">
+    <x-breadcrumbs :items="[[ 'label' => 'Home', 'url' => route('public.index') ], [ 'label' => 'Produk', 'url' => route('public.products') ], [ 'label' => $service->service_name ]]" title="Detail Produk" />
+  </div>
+  <x-section-heading title="Detail Produk" :subtitle="$service->service_name" />
   <div class="container">
-    <div class="container section-title" data-aos="fade-up">
-      <x-breadcrumbs :items="[[ 'label' => 'Home', 'url' => route('public.index') ], [ 'label' => 'Produk', 'url' => route('public.products') ], [ 'label' => $service->service_name ]]" title="Detail Produk" />
-    </div>
-    <h2 class="mb-3">{{ $service->service_name }}</h2>
     @if(!is_null($service->price))
       <p class="text-muted">Harga mulai: {{ number_format((float)$service->price, 0, ',', '.') }}</p>
     @endif
