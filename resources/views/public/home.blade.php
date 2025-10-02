@@ -164,7 +164,11 @@
   <section id="services" class="services section">
     @php
       $servicesHeading = (string) (config('app.services_heading') ?: 'Produk');
-      $servicesDesc    = (string) (config('app.services_description') ?: 'Jelajahi Produk Kami');
+      $servicesDescCfg = (string) (config('app.services_description') ?: 'Jelajahi Produk Kami');
+      // Pastikan subtitle diawali 'Produk' agar pill pertama menampilkan 'Produk'
+      $servicesDesc = preg_match('/^\s*produk\b/i', $servicesDescCfg)
+        ? $servicesDescCfg
+        : ('Produk ' . ltrim($servicesDescCfg));
     @endphp
     <x-section-heading :title="$servicesHeading" :subtitle="$servicesDesc" badge="Produk" />
     <div class="container">
